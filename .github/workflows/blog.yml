@@ -24,12 +24,11 @@ jobs:
 
       - name: Build
         run: hugo --minify
-        working-directory: BlogSource
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           external_repository: lierbushiwo/lierbushiwo.github.io
           publish_branch: main
-          publish_dir: BlogSource/public
+          publish_dir: ./public
           personal_token: ${{ secrets.blog }}
