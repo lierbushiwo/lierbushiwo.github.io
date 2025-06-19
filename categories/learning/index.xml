@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Learning on Only_ONE</title>
-    <link>http://localhost:1313/categories/learning/</link>
+    <link>https://www.lier.xin/categories/learning/</link>
     <description>Recent content from Only_ONE</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
@@ -15,7 +15,7 @@
     <lastBuildDate>Wed, 18 Jun 2025 12:00:00 +0800</lastBuildDate>
     
     
-    <atom:link href="http://localhost:1313/categories/learning/index.xml" rel="self" type="application/rss&#43;xml" />
+    <atom:link href="https://www.lier.xin/categories/learning/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
     
@@ -23,10 +23,10 @@
 
     <item>
       <title>PHP server源码泄露漏洞复现</title>
-      <link>http://localhost:1313/post/php_server/</link>
+      <link>https://www.lier.xin/post/php_server/</link>
       <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
       <author>3310338687@qq.com (Lier)</author>
-      <guid>http://localhost:1313/post/php_server/</guid>
+      <guid>https://www.lier.xin/post/php_server/</guid>
       <description>
         <![CDATA[<h1>PHP server源码泄露漏洞复现</h1><p>作者：Lier（3310338687@qq.com）</p>
         
@@ -38,7 +38,7 @@ PHP server源码泄露漏洞复现
 通过php -S开起的内置WEB服务器存在源码泄露漏洞
 poc</p>
         
-        <hr><p>本文2025-06-18首发于<a href='http://localhost:1313/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
+        <hr><p>本文2025-06-18首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
       </description>
       
         <category>Learning</category>
