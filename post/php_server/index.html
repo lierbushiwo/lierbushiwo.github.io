@@ -8,15 +8,13 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 /><title>
-  PHP server源码泄露漏洞复现 | Lier
+  PHP server源码泄露漏洞复现 | D-Sketon
 </title>
 <meta
   name="description"
   content="PHP微服务器漏洞"
 /><script>
   window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
-  
-  window.siteConfig.swPath = '\/sw.js';
   
 </script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,7 +37,7 @@
     crossorigin="anonymous"
   /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
 <meta property="og:type" content="website" />
-  <meta property="og:title" content="PHP server源码泄露漏洞复现 | Lier" />
+  <meta property="og:title" content="PHP server源码泄露漏洞复现 | D-Sketon" />
   <meta
     property="og:description"
     content="PHP微服务器漏洞"
@@ -53,11 +51,11 @@
     property="og:image"
     content="/images/10.png"
   />
-  <meta property="article:author" content="Lier" />
+  <meta property="article:author" content="D-Sketon" />
   <meta property="article:published_time" content="2025-06-18T12:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2025-06-18T12:00:00&#43;08:00" /><meta property="article:tag" content="PHP_server" /><meta name="twitter:card" content="summary" />
   <meta name="twitter:image" content="/images/10.png" />
-<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.6f0c9d73b0dd2b1285382e96d9093628d812f6d1bb8ee4ed8a1ced8269f43ffd.css" />
 <link
     rel="preload"
     as="style"
@@ -113,14 +111,7 @@
 </div>
 <div id="lang-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
 本文章没有找到对应的语言版本
-</div><div class="notification-wrapper">
-    <h1>发现新版本</h1>
-    <p>网站好像有新内容，是否更新(ﾟ⊿ﾟ)ﾂ？</p>
-    <div class="notification-btn">
-      <button id="notification-update-btn">更新</button>
-      <button id="notification-close-btn">取消</button>
-    </div>
-  </div><div id="container">
+</div><div id="container">
       <div id="wrap"><div id="header-nav">
   <nav id="main-nav"><span class="main-nav-link-wrap">
         <div class='main-nav-icon icon rotate'>&#xe62b;</div>
@@ -136,16 +127,16 @@
         <a class="main-nav-link" href="/friend">友链</a>
       </span><a id="main-nav-toggle" class="nav-icon"></a>
   </nav>
-  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+  <nav id="sub-nav"></nav></div>
 <header id="header"><picture></picture>
-    <img crossorigin="anonymous" fetchpriority="high" src="/images/10.png" alt="PHP server源码泄露漏洞复现"><div id="header-outer">
+    <img  fetchpriority="high" src="/images/10.png" alt="PHP server源码泄露漏洞复现"><div id="header-outer">
     <div id="header-title"><a href="/" id="logo">
             <h1 data-aos="slide-up">PHP server源码泄露漏洞复现</h1>
           </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
   </div>
 </header><div id="content"
-          class="sidebar-left"
-            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
+          
+          class="sidebar-right"  ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
     <div
       class="sidebar-wrap"
       data-aos="fade-up"
@@ -163,11 +154,11 @@
   <img
     data-src="/avatar/avatar.webp"
     data-sizes="auto"
-    alt="Lier"
+    alt="D-Sketon"
     class="lazyload"
   />
-  <div class="sidebar-author-name">Lier</div>
-  <div class="sidebar-description">溯本求源，大道至简</div>
+  <div class="sidebar-author-name">D-Sketon</div>
+  <div class="sidebar-description">少女祈祷中...</div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
@@ -184,23 +175,7 @@
     <div class="sidebar-state-number">5</div>
   </div>
 </div>
-<div class="sidebar-social"><div class="icon-email sidebar-social-icon">
-      <a
-        href="3310338687@qq.com"
-        itemprop="url"
-        target="_blank"
-        aria-label="email"
-        rel="noopener external nofollow noreferrer"
-      ></a>
-    </div><div class="icon-github sidebar-social-icon">
-      <a
-        href="https://github.com/lierbushiwo"
-        itemprop="url"
-        target="_blank"
-        aria-label="github"
-        rel="noopener external nofollow noreferrer"
-      ></a>
-    </div></div>
+<div class="sidebar-social"></div>
 <div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
       <a
         class="sidebar-menu-link-dummy"
@@ -290,29 +265,7 @@ poc</p>
 而第二个GET后的/请求的是目录而不是文件。此PHP版本提供的代码包括一个检查，以确定请求的文件是应被视为静态文件还是作为PHP文件执行。这是通过检查文件的扩展名来完成的。如果扩展不是.php或.PHP，或者如果扩展名的长度不等于3,则该文件被视为静态文件，因此如果我们把第二个GET请求的内容改为类似1.txt的文件时，php源码将会被以静态文件的方式泄露(即直接访问获取)</p>
 <p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250613152522738.png" alt="image-20250613152522628"></p>
 </div>
-    <footer class="article-footer"><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/php_server/&amp;text=PHP%20server%e6%ba%90%e7%a0%81%e6%b3%84%e9%9c%b2%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="PHP server源码泄露漏洞复现">
-      <div class="share-icon icon icon-twitter"></div>
-    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/php_server/&amp;title=PHP%20server%e6%ba%90%e7%a0%81%e6%b3%84%e9%9c%b2%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0&amp;desc=PHP%e5%be%ae%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%bc%8f%e6%b4%9e&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="PHP server源码泄露漏洞复现">
-      <div class="share-icon icon icon-qq"></div>
-    </a><a href="javascript:;"  title="PHP server源码泄露漏洞复现">
-      <div class="share-icon icon icon-weixin"><div id="share-weixin">
-            <div class="share-weixin-dom">
-              <div class="share-weixin-content">
-                <img id="share-weixin-banner"> 
-                <div id="share-weixin-title"></div>
-                <div id="share-weixin-desc"></div>
-              </div>
-              <div class="share-weixin-qrcode">
-                <div class="share-weixin-info">
-                  <div id="share-weixin-author"></div>
-                  <div id="share-weixin-theme">Powered By hugo-theme-reimu</div>
-                </div>
-                <img id="share-weixin-qr" >
-              </div>
-            </div>
-            <div class="share-weixin-canvas"></div>
-          </div></div>
-    </a></div><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
+    <footer class="article-footer"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
       <a
         class="article-tag-list-link"
         href="/tags/php_server"
@@ -340,27 +293,25 @@ poc</p>
           /><a href="/post/ciscn_unzip/"></a>
         <div class="article-nav-caption">后一篇</div>
         <h3 class="article-nav-title">CISCN-2023 Unzip</h3>
-      </div></nav></article><section id="comments" data-aos="fade-up">
-<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
-  <div class="comment-selector">
-    <div class="comment-selector-wrap"><div class="selector-item" data-selector="giscus">
-          <span>giscus</span>
-        </div></div>
-  </div>
-</div>
-
-<div class="comment-content"><div class="comment giscus-comment" data-aos="fade-up"
-     >
-    </div></div>
-</section></section>
+      </div></nav></article></section>
         </div><footer id="footer">
   <div style="width: 100%; overflow: hidden">
     <div class="footer-line"></div>
   </div>
   <div id="footer-info"><div>
-      <span class="icon-copyright"></span>2025<span class="footer-info-sep rotate"></span>
-      Lier
+      <span class="icon-copyright"></span>2020-2025<span class="footer-info-sep rotate"></span>
+      D-Sketon
     </div><div>
+        基于&nbsp;<a
+          href="https://gohugo.io/"
+          target="_blank"
+          >Hugo</a
+        >&nbsp; Theme.<a
+          href="https://github.com/D-Sketon/hugo-theme-reimu"
+          target="_blank"
+          >Reimu</a
+        >
+      </div><div>
         <span class="icon-brush"
           >&nbsp;5.3k</span
         >
@@ -401,11 +352,11 @@ poc</p>
   <img
     data-src="/avatar/avatar.webp"
     data-sizes="auto"
-    alt="Lier"
+    alt="D-Sketon"
     class="lazyload"
   />
-  <div class="sidebar-author-name">Lier</div>
-  <div class="sidebar-description">溯本求源，大道至简</div>
+  <div class="sidebar-author-name">D-Sketon</div>
+  <div class="sidebar-description">少女祈祷中...</div>
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
@@ -422,23 +373,7 @@ poc</p>
     <div class="sidebar-state-number">5</div>
   </div>
 </div>
-<div class="sidebar-social"><div class="icon-email sidebar-social-icon">
-      <a
-        href="3310338687@qq.com"
-        itemprop="url"
-        target="_blank"
-        aria-label="email"
-        rel="noopener external nofollow noreferrer"
-      ></a>
-    </div><div class="icon-github sidebar-social-icon">
-      <a
-        href="https://github.com/lierbushiwo"
-        itemprop="url"
-        target="_blank"
-        aria-label="github"
-        rel="noopener external nofollow noreferrer"
-      ></a>
-    </div></div>
+<div class="sidebar-social"></div>
 <div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
       <a
         class="sidebar-menu-link-dummy"
@@ -476,27 +411,11 @@ poc</p>
         <div class="sidebar-toc-btn current"></div>
         <div class="sidebar-common-btn"></div>
       </div></nav>
-</div><div class="site-search">
-        <div class="reimu-popup popup">
-          <div class="reimu-search">
-            <div class="reimu-search-input-icon"></div>
-            <div class="reimu-search-input" id="reimu-search-input"></div>
-            <div class="popup-btn-close"></div>
-          </div>
-          <div class="reimu-results">
-            <div id="reimu-stats"></div>
-            <div id="reimu-hits"></div>
-            <div id="reimu-pagination" class="reimu-pagination"></div>
-          </div>
-          <img class="reimu-bg" src="/images/reimu.png" />
-        </div>
-      </div><script
+</div><script
     src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
     integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"></script><script
     src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
-    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script
-    src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js"
-    integrity="sha384-vLev0II0HKFaxkcm&#43;/7kX5IGwVFBASkGchU311wmU/veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script><script src="/js/main.js" integrity="" crossorigin="anonymous" ></script><script src="/js/aos.js" integrity="" crossorigin="anonymous" ></script><script>
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script src="/js/main.js" integrity="" crossorigin="anonymous" ></script><script src="/js/aos.js" integrity="" crossorigin="anonymous" ></script><script>
     var aosInit = () => {
       AOS.init({
         duration: 1000,
@@ -510,33 +429,21 @@ poc</p>
     } else {
       aosInit();
     }
-  </script><script src="/js/pjax_main.js" integrity="" crossorigin="anonymous" data-pjax></script><script>
-    var ALGOLIA_CONFIG = {
-      logo: '\/images\/algolia_logo.svg',
-      algolia: {
-        applicationID: "J8X5DH5JF8",
-        apiKey: "230e85f1c0d5d9a9ad704efbc003442a",
-        indexName: "Blog",
-        hits: {
-          "per_page": parseInt("10")
-        },
-        labels: {
-          "input_placeholder": '搜索.....',
-          "hits_empty": '未发现与 「${query}」相关内容',
-          "hits_stats": '找到${hits}条结果（用时 ${time} ms）'
-        }
-      }
-    };
-  </script><script
-    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
-    deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
-    src="https://npm.webcache.cn/instantsearch.js@4.56.1/dist/instantsearch.production.min.js"
-    deferintegrity="sha384-hHJCflT4KBLQyHfKO9vpstIcFKn/Y&#43;KHTORelMMEn7mOp2AVPp&#43;7fr03dLgZiV3J" crossorigin="anonymous"></script><script src="/js/algolia_search.js" integrity="" crossorigin="anonymous" ></script>
+  </script><script src="/js/pjax_main.js" integrity="" crossorigin="anonymous" data-pjax></script><script
+    src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js"
+    integrity="sha384-8LyaidD9GPxQQgLJO/WRw/O2h3BoNq/ApI/ecpvM6RsrCz2qP2ppBXUKihP4V/2d" crossorigin="anonymous"></script><script>
+  if (window.firework) {
+    const options = JSON.parse("{\"excludeelements\":[\"a\",\"button\"],\"particles\":[{\"colors\":[\"var(--red-1)\",\"var(--red-2)\",\"var(--red-3)\",\"var(--red-4)\"],\"duration\":[1200,1800],\"easing\":\"easeOutExpo\",\"move\":[\"emit\"],\"number\":20,\"shape\":\"circle\",\"shapeOptions\":{\"alpha\":[0.3,0.5],\"radius\":[16,32]}},{\"colors\":[\"var(--red-0)\"],\"duration\":[1200,1800],\"easing\":\"easeOutExpo\",\"move\":[\"diffuse\"],\"number\":1,\"shape\":\"circle\",\"shapeOptions\":{\"alpha\":[0.2,0.5],\"lineWidth\":6,\"radius\":20}}]}");
+    options.excludeElements = options.excludeelements;
+    delete options.excludeelements;
+    window.firework(options);
+  }
+</script>
 
 <div id="lazy-script">
   <div><script data-pjax>
         window.REIMU_POST = {
-          author: "Lier",
+          author: "D-Sketon",
           title: "PHP server源码泄露漏洞复现",
           url: "https:\/\/www.lier.xin\/post\/php_server\/",
           description: "PHP微服务器漏洞",
@@ -561,332 +468,18 @@ poc</p>
         } else {
           window.addEventListener('lightbox:ready', pswp);
         }
-      </script><script data-pjax>
-  var loadScript = (src, integrity) => {
-    const script = document.createElement('script');
-    script.src = src;
-    if (integrity) script.integrity = integrity;
-    script.crossOrigin = 'anonymous';
-    return script;
-  };
-  var commentConfigKeys = ['valine', 'waline', 'twikoo', 'gitalk', 'giscus'];
-  var commentConfig = {
-    valine: {
-      enable: false,
-      load: () => {
-        const container = document.querySelector('.valine-comment');
-        if (!container) return;
-        container.style.display = 'block';
-
-        const script = loadScript(
-          'https:\/\/npm.webcache.cn\/valine@1.5.1\/dist\/Valine.min.js',
-          !'webcache|valine@1.5.1\/dist\/Valine.min.js'.startsWith('local') ? 'sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE\u002bs5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn' : undefined
-        );
-        script.onload = () => {
-          const GUEST_INFO = ['nick', 'mail', 'link'];
-          const guest_info = 'nick,mail,link'.split(',').filter((item) => {
-            return GUEST_INFO.indexOf(item) > -1
-          });
-          const recordIP = JSON.parse('true');
-          const highlight = JSON.parse('true');
-          const visitor = JSON.parse('false');
-          const serverURLs = undefined;
-
-          new Valine({
-            el: '.valine-comment',
-            appId: "",
-            appKey: "",
-            placeholder: "Just go go",
-            pageSize: '10',
-            avatar: 'mp',
-            lang: document.documentElement.lang || 'en',
-            recordIP: recordIP,
-            highlight: highlight,
-            visitor: visitor,
-            requiredFields: guest_info,
-            path: window.location.pathname,
-            serverURLs,
-          });
-        };
-        document.head.appendChild(script);
-      }
-    },
-    waline: {
-      enable: false,
-      load: async () => {
-        const container = document.querySelector('.waline-comment');
-        if (!container) return;
-        container.style.display = 'block';
-
-        let walineInit;
-        const walineCdn = 'https:\/\/npm.webcache.cn\/@waline\/client@2.15.8\/dist\/waline.mjs';
-        
-        if ('webcache|@waline\/client@2.15.8\/dist\/waline.mjs'.startsWith('local')) {
-          
-          const module = await safeImport(walineCdn);
-          walineInit = module.init;
-        } else {
-          
-          const module = await safeImport(
-            walineCdn, 
-            'sha384-9sbqJjrfGjbkI6\/PI4nU\/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH\/KinBEAZII\/5'
-          );
-          walineInit = module.init;
-        }
-        
-        window.walineInstance = walineInit({
-          el: '.waline-comment',
-          serverURL: '',
-          lang: document.documentElement.lang || 'en',
-          locale: JSON.parse("{}"),
-          emoji: JSON.parse("[\"https://unpkg.com/@waline/emojis@1.2.0/weibo\",\"https://unpkg.com/@waline/emojis@1.2.0/alus\",\"https://unpkg.com/@waline/emojis@1.2.0/bilibili\",\"https://unpkg.com/@waline/emojis@1.2.0/qq\",\"https://unpkg.com/@waline/emojis@1.2.0/tieba\",\"https://unpkg.com/@waline/emojis@1.2.0/tw-emoji\"]"),
-          meta: JSON.parse("[\"nick\",\"mail\",\"link\"]"),
-          requiredMeta: JSON.parse("[\"nick\",\"mail\"]"),
-          wordLimit:  0 ,
-          comment: true,
-          pageSize:  10 ,
-          dark: 'html[data-theme="dark"]',
-          pageview:  true ,
-        });
-      }
-    },
-    twikoo: {
-      enable: false,
-      load: () => {
-        const container = document.querySelector('.twikoo-comment');
-        if (!container) return;
-        container.style.display = 'block';
-
-        
-        const script = loadScript(
-          'https:\/\/npm.webcache.cn\/twikoo@1.6.44\/dist\/twikoo.all.min.js',
-          !'webcache|twikoo@1.6.44\/dist\/twikoo.all.min.js'.startsWith('local') ? 'sha384-kwWLC0HjeZZnVPqCJ1AncI8tsk\u002bkQqF9TbAmCclcc9Z0hGkfgHRzeQZxmdmZhE0K' : undefined
-        );
-        script.onload = () => {
-          twikoo.init({
-            envId: '',
-            el: '.twikoo-comment',
-            region: '',
-            lang: document.documentElement.lang || 'en',
-          });
-          twikoo.getCommentsCount({
-            envId: '',
-            region: '',
-            urls: [
-              'https\/\/www.lier.xin\/post\/php_server\/'
-            ],
-            includeReply: false
-          }).then((res) => {
-            document.querySelector('.twikoo-comment-count').innerText = res[0].count;
-          }).catch((err) => {
-            console.error(err);
-          });
-        };
-        document.head.appendChild(script);
-      }
-    },
-    gitalk: {
-      enable: false,
-      load: () => {
-        const container = document.querySelector('.gitalk-comment');
-        if (!container) return;
-        container.style.display = 'block';
-
-        const script = loadScript(
-          'https:\/\/npm.webcache.cn\/gitalk@1.8.0\/dist\/gitalk.min.js',
-          !'webcache|gitalk@1.8.0\/dist\/gitalk.min.js'.startsWith('local') ? 'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU\/lcEH5O8eVbSDhbPwsiVUTp\/aGX\/z\/5EuMA' : undefined
-        );
-        script.onload = () => {
-          if ( false ) {
-            
-            const md5Script = loadScript(
-              'https:\/\/npm.webcache.cn\/blueimp-md5@2.19.0\/js\/md5.min.js',
-              !'webcache|blueimp-md5@2.19.0\/js\/md5.min.js'.startsWith('local') ? 'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr\/gZlbkHkL6vTthxH' : undefined
-            );
-            md5Script.onload = initGitalk;
-            document.head.appendChild(md5Script);
-          } else {
-            
-            initGitalk();
-          }
-        };
-        document.head.appendChild(script);
-
-        function initGitalk() {
-          let gitalk = new Gitalk({
-            clientID: '',
-            clientSecret: '',
-            repo: '',
-            owner: '',
-            admin: JSON.parse("null"),
-            id: location.pathname,
-            distractionFreeMode: false,
-            language: document.documentElement.lang || 'en',
-          });
-          gitalk.render('gitalk-comment');
-        }
-      }
-    },
-    giscus: {
-      enable: true,
-      load: () => {
-        const container = document.querySelector('.giscus-comment');
-        if (!container) return;
-        container.style.display = 'block';
-
-        
-        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
-        if (existingScript) existingScript.remove();
-        const existingFrame = document.querySelector('iframe.giscus-frame');
-        if (existingFrame) existingFrame.remove();
-
-        
-        const giscusScript = document.createElement('script');
-        const domMode = document.documentElement.getAttribute("data-theme");
-        giscusScript.src = 'https://giscus.app/client.js';
-        giscusScript.setAttribute('data-repo', 'lierbushiwo\/lierbushiwo.github.io');
-        giscusScript.setAttribute('data-repo-id', 'R_kgDOO-UzrQ');
-        giscusScript.setAttribute('data-category', 'Announcements');
-        giscusScript.setAttribute('data-category-id', 'DIC_kwDOO-Uzrc4CrsyH');
-        giscusScript.setAttribute('data-mapping', '0');
-        giscusScript.setAttribute('data-strict', '0');
-        giscusScript.setAttribute('data-reactions-enabled', '1');
-        giscusScript.setAttribute('data-emit-metadata', '0');
-        giscusScript.setAttribute('data-input-position', 'bottom');
-        giscusScript.setAttribute('data-theme', domMode === 'dark' ? 'dark' : 'light');
-        giscusScript.setAttribute('data-lang', document.documentElement.lang || 'en');
-        giscusScript.setAttribute('crossorigin', 'anonymous');
-        giscusScript.async = true;
-        container.appendChild(giscusScript);
-        document.body.addEventListener('light-theme-set', () => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'light' } } }, 'https://giscus.app');
-        });
-        document.body.addEventListener('dark-theme-set', () => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'dark' } } }, 'https://giscus.app');
-        });
-      }
-    }
-  };
-  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
-
-  var defaultComment = '';
-  if (commentConfig.enable) {
-    
-    var savedCommentType = localStorage.getItem('commentType');
-    
-    
-    if (savedCommentType) {
-      if (commentConfig[savedCommentType]?.enable) {
-        defaultComment = savedCommentType;
-      }
-    }
-    
-    
-    if (!defaultComment) {
-      var configDefault = 'waline';
-      if (commentConfig[configDefault]?.enable) {
-        defaultComment = configDefault;
-      }
-    }
-    
-    
-    if (!defaultComment) {
-      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
-    }
-  }
-
-  function loadComments() {
-    if (!commentConfig.enable) return;
-    
-    const loadedComments = {
-      valine: false,
-      waline: false,
-      twikoo: false,
-      gitalk: false,
-      giscus: false
-    };
-
-    
-    const hideAllComments = () => {
-      const commentContainers = document.querySelectorAll('.comment');
-      commentContainers.forEach(container => {
-        container.style.display = 'none';
-      });
-    };
-
-    
-    const loadCommentSystem = (type) => {
-      if (loadedComments[type]) {
-        
-        document.querySelector(`.${type}-comment`).style.display = 'block';
-        return;
-      }
-
-      
-      commentConfig[type]?.load();
-      loadedComments[type] = true;
-    };
-
-    
-    const changeActiveCommentItems = (item) => {
-      const commentItems = document.querySelectorAll('.selector-item');
-      for (let i = 0; i < commentItems.length; i++) {
-        commentItems[i].classList.remove('active');
-      }
-      item.classList.add('active');
-
-      
-      const commentType = item.getAttribute('data-selector');
-
-      
-      hideAllComments();
-
-      
-      loadCommentSystem(commentType);
-    };
-
-    const commentInit = () => {
-      
-      const commentItems = document.querySelectorAll('.selector-item');
-      for (let item of commentItems) {
-        item.addEventListener('click', () => {
-          
-          const commentType = item.getAttribute('data-selector');
-          window.localStorage.setItem('commentType', commentType);
-          
-          changeActiveCommentItems(item);
-        });
-      }
-
-      
-      if (defaultComment) {
-        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
-        if (!defaultSelectorItem) return;
-        defaultSelectorItem.style.display = 'block';
-        defaultSelectorItem.classList.add('active');
-        loadCommentSystem(defaultComment);
-      }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', commentInit);
-    } else {
-      commentInit();
-    }
-  };
-  loadComments();
-</script><script
-    src="https://npm.webcache.cn/qrcode@1.4.4/build/qrcode.min.js"
-    deferdata-pjaxintegrity="sha384-0RsG1yo/crf/1Qc14sho26SXXOTngNCjgJw7fuvXBt9W/OChF/Ijx&#43;aUuBDqQwEk" crossorigin="anonymous"></script><script
-    src="https://npm.webcache.cn/html-to-image@1.11.11/dist/html-to-image.js"
-    deferdata-pjaxintegrity="sha384-UbfRVKN3/elS1r7JcK2FhmPP&#43;KlJ4CvYwbyYD7tH&#43;uTkbT9bNJr9eJeQ0FoFbAgz" crossorigin="anonymous"></script></div>
+      </script></div>
 </div><script
     src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
-    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script src="/js/service_worker.js" integrity="" crossorigin="anonymous" ></script><script>
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  </script><script>
   const reimuCopyright = String.raw`
    ______     ______     __     __    __     __  __    
   /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
