@@ -3,7 +3,7 @@
   lang="zh-CN" 
   data-theme-mode="auto"
   >
-  <head><meta charset="utf-8" />
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8" />
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -14,7 +14,7 @@
   name="description"
   content="LitCTF比赛记录，包含web、nest.js爆破、星愿信箱SSTI、多重宇宙日记等题目解析"
 /><script>
-  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"http://localhost:1313/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
   
   window.siteConfig.swPath = '\/sw.js';
   
@@ -37,14 +37,14 @@
     as="font"
     type="font/woff2"
     crossorigin="anonymous"
-  /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
+  /><link rel="stylesheet" href="/css/loader.css" />
 <meta property="og:type" content="website" />
   <meta property="og:title" content="LitCTF-2025 | Lier" />
   <meta
     property="og:description"
     content="LitCTF比赛记录，包含web、nest.js爆破、星愿信箱SSTI、多重宇宙日记等题目解析"
   />
-  <meta property="og:url" content="https://www.lier.xin/post/litctf/" />
+  <meta property="og:url" content="http://localhost:1313/post/litctf/" />
   <meta
     property="og:site_name"
     content="Only_ONE"
@@ -57,7 +57,7 @@
   <meta property="article:published_time" content="2025-05-25T00:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2025-05-25T00:00:00&#43;08:00" /><meta property="article:tag" content="爆破时间戳原型链污染" /><meta name="twitter:card" content="summary" />
   <meta name="twitter:image" content="/images/12.png" />
-<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" />
 <link
     rel="preload"
     as="style"
@@ -1170,9 +1170,9 @@ pickle
 </span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
 </span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </span></span></code></pre></div></div>
-    <footer class="article-footer"><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/litctf/&amp;text=LitCTF-2025&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="LitCTF-2025">
+    <footer class="article-footer"><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=http://localhost:1313/post/litctf/&amp;text=LitCTF-2025&amp;via=http://localhost:1313/" target="_blank" rel="noopener noreferrer" title="LitCTF-2025">
       <div class="share-icon icon icon-twitter"></div>
-    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/litctf/&amp;title=LitCTF-2025&amp;desc=LitCTF%e6%af%94%e8%b5%9b%e8%ae%b0%e5%bd%95%ef%bc%8c%e5%8c%85%e5%90%abweb%e3%80%81nest.js%e7%88%86%e7%a0%b4%e3%80%81%e6%98%9f%e6%84%bf%e4%bf%a1%e7%ae%b1SSTI%e3%80%81%e5%a4%9a%e9%87%8d%e5%ae%87%e5%ae%99%e6%97%a5%e8%ae%b0%e7%ad%89%e9%a2%98%e7%9b%ae%e8%a7%a3%e6%9e%90&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="LitCTF-2025">
+    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=http://localhost:1313/post/litctf/&amp;title=LitCTF-2025&amp;desc=LitCTF%e6%af%94%e8%b5%9b%e8%ae%b0%e5%bd%95%ef%bc%8c%e5%8c%85%e5%90%abweb%e3%80%81nest.js%e7%88%86%e7%a0%b4%e3%80%81%e6%98%9f%e6%84%bf%e4%bf%a1%e7%ae%b1SSTI%e3%80%81%e5%a4%9a%e9%87%8d%e5%ae%87%e5%ae%99%e6%97%a5%e8%ae%b0%e7%ad%89%e9%a2%98%e7%9b%ae%e8%a7%a3%e6%9e%90&amp;source=http://localhost:1313/" target="_blank" rel="noopener noreferrer" title="LitCTF-2025">
       <div class="share-icon icon icon-qq"></div>
     </a><a href="javascript:;"  title="LitCTF-2025">
       <div class="share-icon icon icon-weixin"><div id="share-weixin">
@@ -1414,7 +1414,7 @@ pickle
     src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
     integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script
     src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js"
-    integrity="sha384-vLev0II0HKFaxkcm&#43;/7kX5IGwVFBASkGchU311wmU/veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script><script src="/js/main.js" integrity="" crossorigin="anonymous" ></script><script src="/js/aos.js" integrity="" crossorigin="anonymous" ></script><script>
+    integrity="sha384-vLev0II0HKFaxkcm&#43;/7kX5IGwVFBASkGchU311wmU/veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script><script src="/js/main.js" ></script><script src="/js/aos.js" ></script><script>
     var aosInit = () => {
       AOS.init({
         duration: 1000,
@@ -1428,7 +1428,7 @@ pickle
     } else {
       aosInit();
     }
-  </script><script src="/js/pjax_main.js" integrity="" crossorigin="anonymous" data-pjax></script><script>
+  </script><script src="/js/pjax_main.js" data-pjax></script><script>
     var ALGOLIA_CONFIG = {
       logo: '\/images\/algolia_logo.svg',
       algolia: {
@@ -1449,18 +1449,18 @@ pickle
     src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
     deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
     src="https://npm.webcache.cn/instantsearch.js@4.56.1/dist/instantsearch.production.min.js"
-    deferintegrity="sha384-hHJCflT4KBLQyHfKO9vpstIcFKn/Y&#43;KHTORelMMEn7mOp2AVPp&#43;7fr03dLgZiV3J" crossorigin="anonymous"></script><script src="/js/algolia_search.js" integrity="" crossorigin="anonymous" ></script>
+    deferintegrity="sha384-hHJCflT4KBLQyHfKO9vpstIcFKn/Y&#43;KHTORelMMEn7mOp2AVPp&#43;7fr03dLgZiV3J" crossorigin="anonymous"></script><script src="/js/algolia_search.js" ></script>
 
 <div id="lazy-script">
   <div><script data-pjax>
         window.REIMU_POST = {
           author: "Lier",
           title: "LitCTF-2025",
-          url: "https:\/\/www.lier.xin\/post\/litctf\/",
+          url: "http:\/\/localhost:1313\/post\/litctf\/",
           description: "LitCTF比赛记录，包含web、nest.js爆破、星愿信箱SSTI、多重宇宙日记等题目解析",
-          cover: "https:\/\/www.lier.xin\/images\/12.png",
+          cover: "http:\/\/localhost:1313\/images\/12.png",
         };
-      </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
+      </script><script src="/js/insert_highlight.js" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
           if (_$$('.article-entry a.article-gallery-item').length > 0) {
             new PhotoSwipeLightbox({
               gallery: '.article-entry',
@@ -1591,7 +1591,7 @@ pickle
             envId: '',
             region: '',
             urls: [
-              'https\/\/www.lier.xin\/post\/litctf\/'
+              'http\/\/localhost1313\/post\/litctf\/'
             ],
             includeReply: false
           }).then((res) => {
@@ -1804,7 +1804,7 @@ pickle
     deferdata-pjaxintegrity="sha384-UbfRVKN3/elS1r7JcK2FhmPP&#43;KlJ4CvYwbyYD7tH&#43;uTkbT9bNJr9eJeQ0FoFbAgz" crossorigin="anonymous"></script></div>
 </div><script
     src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
-    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script src="/js/service_worker.js" integrity="" crossorigin="anonymous" ></script><script>
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script src="/js/service_worker.js" ></script><script>
   const reimuCopyright = String.raw`
    ______     ______     __     __    __     __  __    
   /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
