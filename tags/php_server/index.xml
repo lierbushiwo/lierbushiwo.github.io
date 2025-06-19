@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PHP_server on Only_ONE</title>
+    <link>http://localhost:1313/tags/php_server/</link>
+    <description>Recent content from Only_ONE</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    
+    <managingEditor>3310338687@qq.com (Lier)</managingEditor>
+    <webMaster>3310338687@qq.com (Lier)</webMaster>
+    
+    <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
+    
+    <lastBuildDate>Wed, 18 Jun 2025 12:00:00 +0800</lastBuildDate>
+    
+    
+    <atom:link href="http://localhost:1313/tags/php_server/index.xml" rel="self" type="application/rss&#43;xml" />
+    
+
+    
+    
+
+    <item>
+      <title>PHP server源码泄露漏洞复现</title>
+      <link>http://localhost:1313/post/php_server/</link>
+      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>http://localhost:1313/post/php_server/</guid>
+      <description>
+        <![CDATA[<h1>PHP server源码泄露漏洞复现</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="php-server源码泄露漏洞复现">
+<a class="header-anchor" href="#php-server%e6%ba%90%e7%a0%81%e6%b3%84%e9%9c%b2%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0"></a>
+PHP server源码泄露漏洞复现
+</h2><p><a href="https://www.cnblogs.com/Kawakaze777/p/17799235.html">php＜= 7 . 4 . 21 development server源码泄露漏洞复现 - 凪白Kw - 博客园</a></p>
+<p>php＜= 7 . 4 . 21
+通过php -S开起的内置WEB服务器存在源码泄露漏洞
+poc</p>
+        
+        <hr><p>本文2025-06-18首发于<a href='http://localhost:1313/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
+      </description>
+      
+        <category>Learning</category>
+      
+    </item>
+    
+  </channel>
+</rss>

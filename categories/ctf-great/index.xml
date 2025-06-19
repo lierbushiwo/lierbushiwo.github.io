@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CTF-Great on Only_ONE</title>
+    <link>http://localhost:1313/categories/ctf-great/</link>
+    <description>Recent content from Only_ONE</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    
+    <managingEditor>3310338687@qq.com (Lier)</managingEditor>
+    <webMaster>3310338687@qq.com (Lier)</webMaster>
+    
+    <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
+    
+    <lastBuildDate>Wed, 18 Jun 2025 12:00:00 +0800</lastBuildDate>
+    
+    
+    <atom:link href="http://localhost:1313/categories/ctf-great/index.xml" rel="self" type="application/rss&#43;xml" />
+    
+
+    
+    
+
+    <item>
+      <title>CISCN-2023 Unzip</title>
+      <link>http://localhost:1313/post/ciscn_unzip/</link>
+      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>http://localhost:1313/post/ciscn_unzip/</guid>
+      <description>
+        <![CDATA[<h1>CISCN-2023 Unzip</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="unzip">
+<a class="header-anchor" href="#unzip"></a>
+unzip
+</h2><p>题目源码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$finfo</span> <span class="o">=</span> <span class="nx">finfo_open</span><span class="p">(</span><span class="nx">FILEINFO_MIME_TYPE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">finfo_file</span><span class="p">(</span><span class="nv">$finfo</span><span class="p">,</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">])</span> <span class="o">===</span> <span class="s1">&#39;application/zip&#39;</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;cd /tmp &amp;&amp; unzip -o &#39;</span> <span class="o">.</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//only this!
+</span></span></span></code></pre></div><h3 id="分析">
+<a class="header-anchor" href="#%e5%88%86%e6%9e%90"></a>
+分析
+</h3><p>关键代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;cd /tmp &amp;&amp; unzip -o &#39;</span> <span class="o">.</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"> <span class="c1">// -o参数：如有同名的文件直接覆盖
+</span></span></span></code></pre></div><p>上传<code>.zip</code>文件后
+1、验证MIME值、是否为<code>.zip</code>文件
+2、先<code>cd /tmp</code>目录，之后解压文件</p>
+        
+        <hr><p>本文2025-06-18首发于<a href='http://localhost:1313/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
+      </description>
+      
+        <category>CTF-Great</category>
+      
+    </item>
+    
+  </channel>
+</rss>

