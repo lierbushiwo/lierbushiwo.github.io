@@ -8,11 +8,11 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 /><title>
-  爆破时间戳 | Lier
+  SUCTF 2019_EasySQL | Lier
 </title>
 <meta
   name="description"
-  content="溯本求源，大道至简"
+  content="一道独特的SQL注入"
 /><script>
   window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
   
@@ -39,24 +39,24 @@
     crossorigin="anonymous"
   /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
 <meta property="og:type" content="website" />
-  <meta property="og:title" content="爆破时间戳 | Lier" />
+  <meta property="og:title" content="SUCTF 2019_EasySQL | Lier" />
   <meta
     property="og:description"
-    content="溯本求源，大道至简"
+    content="一道独特的SQL注入"
   />
-  <meta property="og:url" content="https://www.lier.xin/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/" />
+  <meta property="og:url" content="https://www.lier.xin/post/suctf-2019_easysql/" />
   <meta
     property="og:site_name"
     content="Only_ONE"
   />
   <meta
     property="og:image"
-    content="/"
+    content="/images/buuctf.png"
   />
   <meta property="article:author" content="Lier" />
-  <meta property="article:published_time" content="2025-05-25T00:00:00&#43;08:00" />
-  <meta property="article:modified_time" content="2025-05-25T00:00:00&#43;08:00" /><meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content="/" /><link rel="alternate" type="application/rss+xml" href="https://www.lier.xin/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/index.xml" title="Only_ONE">
+  <meta property="article:published_time" content="2025-06-20T23:37:00&#43;08:00" />
+  <meta property="article:modified_time" content="2025-06-20T23:37:00&#43;08:00" /><meta property="article:tag" content="SQL注入" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/images/buuctf.png" />
 <link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
 <link
     rel="preload"
@@ -136,19 +136,35 @@
         <a class="main-nav-link" href="/friend">友链</a>
       </span><a id="main-nav-toggle" class="nav-icon"></a>
   </nav>
-  <nav id="sub-nav"><a id="nav-rss-link" class="nav-icon" href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/index.xml" title="RSS 订阅" target="_blank"></a><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
-<header id="header"><picture></picture><img crossorigin="anonymous" fetchpriority="high" src="/images/1.png" alt="爆破时间戳"><div id="header-outer">
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="/images/buuctf.png" alt="SUCTF 2019_EasySQL"><div id="header-outer">
     <div id="header-title"><a href="/" id="logo">
-            <h1 data-aos="slide-up">标签</h1>
-          </a><h2 id="subtitle-wrap" data-aos="slide-down"><a href="/" id="subtitle">爆破时间戳</a></h2></div>
+            <h1 data-aos="slide-up">SUCTF 2019_EasySQL</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
   </div>
 </header><div id="content"
           class="sidebar-left"
-            ><aside id="sidebar"><div class="sidebar-wrapper ">
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
     <div
       class="sidebar-wrap"
       data-aos="fade-up"
-    ><div class="sidebar-author">
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#思路">思路</a>
+      <ul>
+        <li><a href="#解法一">解法一</a></li>
+        <li><a href="#解法二">解法二</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
     data-src="/avatar/avatar.webp"
     data-sizes="auto"
@@ -223,315 +239,132 @@
       <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
       <div class="sidebar-menu-link">友链</div>
     </div></div>
-</div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
   </div>
 
-  <div class="sidebar-widget"><div class="widget-wrapper">
-    <div
-      class="widget-wrap"
-      data-aos="fade-up"
-    >
-      <div style="display: flex; justify-content: space-between;">
-        <h3 class="widget-title">分类</h3></div>
-      <div class="widget">
-        <ul class="category-list"><li class="category-list-item">
-                <a class="category-list-link" href="/categories/ctf-great/"
-                  >ctf-great</a
-                >
-              </li><li class="category-list-item">
-                <a class="category-list-link" href="/categories/learning/"
-                  >Learning</a
-                >
-              </li><li class="category-list-item">
-                <a class="category-list-link" href="/categories/writeup/"
-                  >writeup</a
-                >
-              </li></ul>
-      </div>
-    </div>
-  </div><div class="widget-wrapper">
-    <div
-      class="widget-wrap"
-      data-aos="fade-up"
-    >
-      <div style="display: flex; justify-content: space-between;">
-        <h3 class="widget-title">标签</h3></div>
-      <div class="widget">
-        <ul class="tag-list" itemprop="keywords"><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/buuctf/"
-                  aria-label="标签: BUUCTF"
-                >
-                  BUUCTF
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/php_server/"
-                  aria-label="标签: PHP_server"
-                >
-                  PHP_server
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/"
-                  aria-label="标签: PHP解析特性"
-                >
-                  PHP解析特性
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/sql-%E4%BA%8C%E5%88%86%E6%B3%95/"
-                  aria-label="标签: SQL-二分法"
-                >
-                  SQL-二分法
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/sql%E6%B3%A8%E5%85%A5/"
-                  aria-label="标签: SQL注入"
-                >
-                  SQL注入
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"
-                  aria-label="标签: 代码执行"
-                >
-                  代码执行
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"
-                  aria-label="标签: 原型链污染"
-                >
-                  原型链污染
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
-                  aria-label="标签: 文件上传"
-                >
-                  文件上传
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/"
-                  aria-label="标签: 爆破时间戳"
-                >
-                  爆破时间戳
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E8%BD%AF%E8%BF%9E%E6%8E%A5/"
-                  aria-label="标签: 软连接"
-                >
-                  软连接
-                </a>
-              </li></ul>
-      </div>
-    </div>
-  </div><div class="widget-wrapper">
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
   <div
-    class="widget-wrap"
+    class="article-inner"
     data-aos="fade-up"
   >
-    <h3 class="widget-title">标签云</h3><div class="widget tagcloud"><a
-            style="font-size:10px"
-            href="/tags/buuctf/"
-            aria-label="标签: BUUCTF"
-            >BUUCTF</a
-          ><a
-            style="font-size:10px"
-            href="/tags/php_server/"
-            aria-label="标签: PHP_server"
-            >PHP_server</a
-          ><a
-            style="font-size:10px"
-            href="/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/"
-            aria-label="标签: PHP解析特性"
-            >PHP解析特性</a
-          ><a
-            style="font-size:10px"
-            href="/tags/sql-%E4%BA%8C%E5%88%86%E6%B3%95/"
-            aria-label="标签: SQL-二分法"
-            >SQL-二分法</a
-          ><a
-            style="font-size:10px"
-            href="/tags/sql%E6%B3%A8%E5%85%A5/"
-            aria-label="标签: SQL注入"
-            >SQL注入</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"
-            aria-label="标签: 代码执行"
-            >代码执行</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"
-            aria-label="标签: 原型链污染"
-            >原型链污染</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
-            aria-label="标签: 文件上传"
-            >文件上传</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/"
-            aria-label="标签: 爆破时间戳"
-            >爆破时间戳</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E8%BD%AF%E8%BF%9E%E6%8E%A5/"
-            aria-label="标签: 软连接"
-            >软连接</a
-          ></div>
-  </div>
-</div><div class="widget-wrapper">
-    <div
-      class="widget-wrap"
-      data-aos="fade-up"
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-06-20 23:37:00 &#43;0800 &#43;08" itemprop="datePublished"
+      >2025-06-20</time
     >
-      <h3 class="widget-title">最新文章</h3>
-      <div class="widget">
-        <ul><li>
-              <a href="/post/suctf-2019_easysql/">SUCTF 2019_EasySQL</a>
-            </li><li>
-              <a href="/post/roarctf-2019_easycalc/">RoarCTF 2019_EasyCalc</a>
-            </li><li>
-              <a href="/post/%E6%9C%AC%E7%AB%99%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/">本站食用指南</a>
-            </li><li>
-              <a href="/post/ciscn_unzip/">CISCN-2023 Unzip</a>
-            </li><li>
-              <a href="/post/php_server/">PHP server源码泄露漏洞复现</a>
-            </li></ul>
-      </div>
-    </div>
-  </div></div></aside>
-<section id="main"><div
-    class="archives-outer-wrap"
-    data-aos="fade-up"
-  ><div class="tag-wrap"><div
-      class="archives-tag-list-item"
+    <time style="display: none;" id="post-update-time"
+      >2025-06-20</time
+    >
+  </span>
+</div>
+<div class="article-category"><a
+      class="article-category-link"
+      href="/categories/ctf-great"
       data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/buuctf/"
-        >BUUCTF</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/php_server/"
-        >PHP_server</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/"
-        >PHP解析特性</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/sql-%E4%BA%8C%E5%88%86%E6%B3%95/"
-        >SQL-二分法</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/sql%E6%B3%A8%E5%85%A5/"
+      >CTF-GREAT</a
+    ></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="思路">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
+思路
+</h2><p>1、ban了很多东西-关键是<code>and or &amp;&amp; ||</code>等连接词、<code>^</code>可以用
+2、<code>or</code>误伤了<code>information_schema</code>,经过多次尝试发现限制了长度，意味着报错和盲注都无法进行，应该意识到是堆叠注入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1;show tables;
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250617211036687.png" alt="image-20250617211036575"></p>
+<p>3、ban了<code>Flag</code>,无法用<code>handler</code>语句；ban了<code>from</code>,无法用预处理</p>
+<p>4、题目突破点在于<code>Give me your flag, I will tell you if the flag is right.</code>
+猜测后端源码为</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">select</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span> <span class="o">||</span> <span class="nx">flog</span> <span class="nx">from</span> <span class="nx">Flag</span><span class="p">;</span>
+</span></span></code></pre></div><h3 id="解法一">
+<a class="header-anchor" href="#%e8%a7%a3%e6%b3%95%e4%b8%80"></a>
+解法一
+</h3><p>pyaload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">query= *,1
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250617211832868.png" alt="image-20250617211832821"></p>
+<h3 id="解法二">
+<a class="header-anchor" href="#%e8%a7%a3%e6%b3%95%e4%ba%8c"></a>
+解法二
+</h3><p>tips
+<code>mysql</code>的全局变量<code>sql_mode</code>，为<code>PIPES_AS_CONCAT</code>
+会将<code>||</code>认为字符串的连接符，而不是或运算符，这时<code>||</code>符号就像<code>concat</code>函数一样。
+则payload为</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1;set sql_mode=PIPES_AS_CONCAT;select 1
+</span></span></code></pre></div></div>
+    <footer class="article-footer"><div class="sponsor-wrapper">
+  <div class="sponsor-button-wrapper">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">赞助</div>
+    <div class="sponsor-icon rotate"></div>
+  </div><div class="sponsor-tip">文章内容有收获?打赏一元</div><div class="sponsor-qr"><div class="sponsor-qr-image-wrapper">
+          <img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250618163116936.jpg" alt="支付宝" width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div></div></div><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/suctf-2019_easysql/&amp;text=SUCTF%202019_EasySQL&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="SUCTF 2019_EasySQL">
+      <div class="share-icon icon icon-twitter"></div>
+    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/suctf-2019_easysql/&amp;title=SUCTF%202019_EasySQL&amp;desc=%e4%b8%80%e9%81%93%e7%8b%ac%e7%89%b9%e7%9a%84SQL%e6%b3%a8%e5%85%a5&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="SUCTF 2019_EasySQL">
+      <div class="share-icon icon icon-qq"></div>
+    </a><a href="javascript:;"  title="SUCTF 2019_EasySQL">
+      <div class="share-icon icon icon-weixin"><div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hugo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div></div>
+    </a></div><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/sql%e6%b3%a8%e5%85%a5"
+        rel="tag"
         >SQL注入</a
       >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"
-        >代码执行</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"
-        >原型链污染</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
-        >文件上传</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/"
-        >爆破时间戳</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E8%BD%AF%E8%BF%9E%E6%8E%A5/"
-        >软连接</a
-      >
+    </li></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+            data-src="/images/buuctf"
+            data-sizes="auto"
+            alt="RoarCTF 2019_EasyCalc"
+            class="lazyload"
+          /><a href="/post/roarctf-2019_easycalc/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">RoarCTF 2019_EasyCalc</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="giscus">
+          <span>giscus</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment giscus-comment" data-aos="fade-up"
+     >
     </div></div>
-<div class="category-wrap"><div
-      class="archives-category-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-category-list-link" href="/categories/ctf-great/"
-        >ctf-great</a
-      >
-    </div><div
-      class="archives-category-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-category-list-link" href="/categories/learning/"
-        >Learning</a
-      >
-    </div><div
-      class="archives-category-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-category-list-link" href="/categories/writeup/"
-        >writeup</a
-      >
-    </div></div><section class="archives-wrap" data-aos="fade-up">
-    <div class="archive-year-wrap">
-      <a href="" class="archive-year">2025</a>
-    </div>
-    <ul><li class="archive-article">
-          <div class="archive-article-date-wrap">
-            <span>
-              <time
-                class="dt-published"
-                datetime="2025-05-25 00:00:00 &#43;0800 &#43;08"
-                itemprop="datePublished"
-                >2025-05</time
-              >
-            </span>
-          </div><a class="archive-article-title" href="/post/litctf/"
-              >LitCTF-2025</a
-            ></li></ul>
-  </section></div><nav id="page-nav" data-aos="fade-up"><span class="page-number current">1</span></nav>
-</section>
+</section></section>
         </div><footer id="footer">
   <div style="width: 100%; overflow: hidden">
     <div class="footer-line"></div>
@@ -566,7 +399,22 @@
             <div class="arrow-up"></div>
           </div><div id="mask" class="hide"></div>
       </div><nav id="mobile-nav">
-  <div class="sidebar-wrap"><div class="sidebar-author">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#思路">思路</a>
+      <ul>
+        <li><a href="#解法一">解法一</a></li>
+        <li><a href="#解法二">解法二</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
     data-src="/avatar/avatar.webp"
     data-sizes="auto"
@@ -641,7 +489,10 @@
       <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
       <div class="sidebar-menu-link">友链</div>
     </div></div>
-</div></nav>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
 </div><div class="site-search">
         <div class="reimu-popup popup">
           <div class="reimu-search">
@@ -703,10 +554,10 @@
   <div><script data-pjax>
         window.REIMU_POST = {
           author: "Lier",
-          title: "爆破时间戳",
-          url: "https:\/\/www.lier.xin\/tags\/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3\/",
-          description: "",
-          cover: "https:\/\/www.lier.xin\/images\/1.png",
+          title: "SUCTF 2019_EasySQL",
+          url: "https:\/\/www.lier.xin\/post\/suctf-2019_easysql\/",
+          description: "一道独特的SQL注入",
+          cover: "https:\/\/www.lier.xin\/images\/buuctf.png",
         };
       </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
           if (_$$('.article-entry a.article-gallery-item').length > 0) {
@@ -839,7 +690,7 @@
             envId: '',
             region: '',
             urls: [
-              'https\/\/www.lier.xin\/tags\/%e7%88%86%e7%a0%b4%e6%97%b6%e9%97%b4%e6%88%b3\/'
+              'https\/\/www.lier.xin\/post\/suctf-2019_easysql\/'
             ],
             includeReply: false
           }).then((res) => {

