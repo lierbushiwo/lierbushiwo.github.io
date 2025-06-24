@@ -1,5 +1,11 @@
 [
   {
+    "objectID": "1750763277",
+    "permalink": "/post/iscc-2025_%E5%9F%BA%E6%9C%AC%E5%8A%9F/",
+    "title": "Iscc 2025_基本功","content": "\rIscc 2025_基本功\r打开题目\n告诉我们关键点是输入正确的“用户代理”身份标识与英雄名称，很容易联想到是不是修改User-Agent。\n我们直接在当前页面修改一下试试，发现直接跳转到Process.php页面，并且显示黑客入侵无处不在！！！在这里输入信息是没用的！！！\n回到首页面随便输入点东西，发现也是跳转到这个页面。并且通过尝试发现题目给的EBaLeiKeDun，EBaLeiKeDun，ShengLingShiZheLeiKeDun都用不了。又想起关键点是身份标识和英雄名称，这里的身份标识有可能是后面的堡垒卫士、超频战士之类的\n那尝试在UA处写上BaoLeiWeiShiLeiKeDunbao（堡垒卫士雷克顿）\n但是发现还是没用\n再仔细查看题目信息，注意到一个小细节，心想这位是“计算机行业”的专家，给出的英雄里只有高级工程师跟计算机有点关系。\n那尝试在UA写入GaoJiGongChengShiFoYeGe\n得到一个新的php文件，访问它，发现得到了一段源码\n\u0026amp;lt;?php show_source(__FILE__); include(\u0026amp;#39;E8sP4g7UvT.php\u0026amp;#39;); $a=$_GET[\u0026amp;#39;huigui_jibengong.1\u0026amp;#39;]; $b=$_GET[\u0026amp;#39;huigui_jibengong.2\u0026amp;#39;]; $c=$_GET[\u0026amp;#39;huigui_jibengong.3\u0026amp;#39;]; $jiben = is_numeric($a) and preg_match(\u0026amp;#39;/^[a-z0-9]+$/\u0026amp;#39;,$b); if($jiben==1) { if(intval($b) == \u0026amp;#39;jibengong\u0026amp;#39;) { if(strpos($b, \u0026amp;#34;0\u0026amp;#34;)==0) { echo \u0026amp;#39;基本功不够扎实啊！\u0026amp;#39;; echo \u0026amp;#39;\u0026amp;lt;br\u0026amp;gt;\u0026amp;#39;; echo \u0026amp;#39;还得再练！\u0026amp;#39;; } else { $$c = $a; parse_str($b,$huiguiflag); if($huiguiflag[$jibengong]==md5($c)) { echo $flag; } else{ echo \u0026amp;#39;基本功不够扎实啊！\u0026amp;#39;; echo …","date": "2025-06-24 19:07:57",
+    "updated": "2025-06-24 19:07:57"
+  }, 
+  {
     "objectID": "1750433820",
     "permalink": "/post/suctf-2019_easysql/",
     "title": "SUCTF 2019_EasySQL","content": "\r思路\r1、ban了很多东西-关键是and or \u0026amp;\u0026amp; ||等连接词、^可以用 2、or误伤了information_schema,经过多次尝试发现限制了长度，意味着报错和盲注都无法进行，应该意识到是堆叠注入\n1;show tables; 3、ban了Flag,无法用handler语句；ban了from,无法用预处理\n4、题目突破点在于Give me your flag, I will tell you if the flag is right. 猜测后端源码为\nselect $_POST[\u0026#39;query\u0026#39;] || flog from Flag; 解法一\rpyaload\nquery= *,1 解法二\rtips mysql的全局变量sql_mode，为PIPES_AS_CONCAT 会将||认为字符串的连接符，而不是或运算符，这时||符号就像concat函数一样。 则payload为\n1;set sql_mode=PIPES_AS_CONCAT;select 1 ","date": "2025-06-20 23:37:00",
