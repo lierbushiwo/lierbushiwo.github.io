@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>网鼎杯 on Only_ONE</title>
+    <link>https://www.lier.xin/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/</link>
+    <description>Recent content from Only_ONE</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    
+    <managingEditor>3310338687@qq.com (Lier)</managingEditor>
+    <webMaster>3310338687@qq.com (Lier)</webMaster>
+    
+    <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
+    
+    <lastBuildDate>Sun, 29 Jun 2025 22:54:30 +0800</lastBuildDate>
+    
+    
+    <atom:link href="https://www.lier.xin/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/index.xml" rel="self" type="application/rss&#43;xml" />
+    
+
+    
+    
+
+    <item>
+      <title>网鼎杯 2020 朱雀组 Phpweb</title>
+      <link>https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-%E6%9C%B1%E9%9B%80%E7%BB%84-phpweb/</link>
+      <pubDate>Sun, 29 Jun 2025 22:54:30 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-%E6%9C%B1%E9%9B%80%E7%BB%84-phpweb/</guid>
+      <description>
+        <![CDATA[<h1>网鼎杯 2020 朱雀组 Phpweb</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="思路">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
+思路
+</h2><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250629223227176.png" alt="image-20250629223227071"></p>
+<h3 id="1抓包参数一个为date一个为y-m-d-his-a">
+<a class="header-anchor" href="#1%e6%8a%93%e5%8c%85%e5%8f%82%e6%95%b0%e4%b8%80%e4%b8%aa%e4%b8%badate%e4%b8%80%e4%b8%aa%e4%b8%bay-m-d-his-a"></a>
+1、抓包参数一个为<code>date</code>一个为<code>Y-m-d h:i:s a</code>
+</h3><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250629223531336.png" alt="image-20250629223531311"></p>
+<p>注意到第一个参数为函数名，第二个参数为函数的参数</p>
+<h3 id="2这里很多函数被ban尝试不同函数读取indexphp">
+<a class="header-anchor" href="#2%e8%bf%99%e9%87%8c%e5%be%88%e5%a4%9a%e5%87%bd%e6%95%b0%e8%a2%abban%e5%b0%9d%e8%af%95%e4%b8%8d%e5%90%8c%e5%87%bd%e6%95%b0%e8%af%bb%e5%8f%96indexphp"></a>
+2、这里很多函数被ban，尝试不同函数读取<code>index.php</code>
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">include()+伪协议
+</span></span><span class="line"><span class="cl">file_get_contents()
+</span></span><span class="line"><span class="cl">readfile()
+</span></span><span class="line"><span class="cl">readgzfile()
+</span></span></code></pre></div><p>这里尝试读取没有在常见位置读到flag</p>
+        
+        <hr><p>本文2025-06-29首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-29</p>]]>
+      </description>
+      
+        <category>CTF-Great</category>
+      
+    </item>
+    
+  </channel>
+</rss>
