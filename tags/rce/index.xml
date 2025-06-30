@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Learning on Only_ONE</title>
-    <link>https://www.lier.xin/categories/learning/</link>
+    <title>Rce on Only_ONE</title>
+    <link>https://www.lier.xin/tags/rce/</link>
     <description>Recent content from Only_ONE</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
@@ -15,7 +15,7 @@
     <lastBuildDate>Mon, 30 Jun 2025 21:00:01 +0800</lastBuildDate>
     
     
-    <atom:link href="https://www.lier.xin/categories/learning/index.xml" rel="self" type="application/rss&#43;xml" />
+    <atom:link href="https://www.lier.xin/tags/rce/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
     
@@ -54,32 +54,6 @@ php可变变量
 </h3><p>这里补充一下php可变变量这个知识点</p>
         
         <hr><p>本文2025-06-30首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-30</p>]]>
-      </description>
-      
-        <category>Learning</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>PHP server源码泄露漏洞复现</title>
-      <link>https://www.lier.xin/post/php_server/</link>
-      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/php_server/</guid>
-      <description>
-        <![CDATA[<h1>PHP server源码泄露漏洞复现</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="php-server源码泄露漏洞复现">
-<a class="header-anchor" href="#php-server%e6%ba%90%e7%a0%81%e6%b3%84%e9%9c%b2%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0"></a>
-PHP server源码泄露漏洞复现
-</h2><p><a href="https://www.cnblogs.com/Kawakaze777/p/17799235.html">php＜= 7 . 4 . 21 development server源码泄露漏洞复现 - 凪白Kw - 博客园</a></p>
-<p>php＜= 7 . 4 . 21
-通过php -S开起的内置WEB服务器存在源码泄露漏洞
-poc</p>
-        
-        <hr><p>本文2025-06-18首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
       </description>
       
         <category>Learning</category>

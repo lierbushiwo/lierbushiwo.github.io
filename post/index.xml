@@ -12,12 +12,53 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Sun, 29 Jun 2025 22:54:30 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 30 Jun 2025 21:00:01 +0800</lastBuildDate>
     
     
     <atom:link href="https://www.lier.xin/post/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
+    
+    
+
+    <item>
+      <title>Preg_replace E Rce</title>
+      <link>https://www.lier.xin/post/preg_replace-e-rce/</link>
+      <pubDate>Mon, 30 Jun 2025 21:00:01 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/preg_replace-e-rce/</guid>
+      <description>
+        <![CDATA[<h1>Preg_replace E Rce</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="preg_replace-e漏洞分析">
+<a class="header-anchor" href="#preg_replace-e%e6%bc%8f%e6%b4%9e%e5%88%86%e6%9e%90"></a>
+<code>preg_replace /e</code>漏洞分析
+</h2><p>tips</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/e 可执行模式，此为PHP专有参数，例如preg_replace函数。
+</span></span><span class="line"><span class="cl">preg_replace(
+</span></span><span class="line"><span class="cl">    string|array $pattern,
+</span></span><span class="line"><span class="cl">    string|array $replacement,
+</span></span><span class="line"><span class="cl">    string|array $subject,
+</span></span><span class="line"><span class="cl">)
+</span></span><span class="line"><span class="cl">/e模式下
+</span></span><span class="line"><span class="cl">在subject字符中正则匹配pattern，匹配成功则执行$replacement
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span> 
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">&#34;/test/e&#34;</span><span class="p">,</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&#34;h&#34;</span><span class="p">],</span><span class="s2">&#34;jutst test&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err"> 
+</span></span></span><span class="line"><span class="cl"><span class="err">高版本中不支持preg_replace函数
+</span></span></span><span class="line"><span class="cl"><span class="err">payload中;不加也行
+</span></span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630183402441.png" alt="image-20250630183402395"></p>
+<h3 id="php可变变量">
+<a class="header-anchor" href="#php%e5%8f%af%e5%8f%98%e5%8f%98%e9%87%8f"></a>
+php可变变量
+</h3><p>这里补充一下php可变变量这个知识点</p>
+        
+        <hr><p>本文2025-06-30首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-30</p>]]>
+      </description>
+      
+        <category>Learning</category>
+      
+    </item>
     
     
 

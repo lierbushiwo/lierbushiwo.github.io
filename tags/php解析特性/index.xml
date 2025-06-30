@@ -12,12 +12,38 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Fri, 20 Jun 2025 23:28:36 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Jun 2025 19:07:57 +0800</lastBuildDate>
     
     
     <atom:link href="https://www.lier.xin/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
+    
+    
+
+    <item>
+      <title>Iscc 2025_基本功</title>
+      <link>https://www.lier.xin/post/iscc-2025_%E5%9F%BA%E6%9C%AC%E5%8A%9F/</link>
+      <pubDate>Tue, 24 Jun 2025 19:07:57 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/iscc-2025_%E5%9F%BA%E6%9C%AC%E5%8A%9F/</guid>
+      <description>
+        <![CDATA[<h1>Iscc 2025_基本功</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="iscc-2025_基本功">
+<a class="header-anchor" href="#iscc-2025_%e5%9f%ba%e6%9c%ac%e5%8a%9f"></a>
+Iscc 2025_基本功
+</h2><p>打开题目</p>
+<p><img src="https://li20050725.oss-cn-beijing.aliyuncs.com/img/image-20250511125253702.png" alt="image-20250511125253702"></p>
+<p>告诉我们关键点是输入正确的“用户代理”身份标识与英雄名称，很容易联想到是不是修改User-Agent。</p>
+<p>我们直接在当前页面修改一下试试，发现直接跳转到Process.php页面，并且显示黑客入侵无处不在！！！在这里输入信息是没用的！！！</p>
+        
+        <hr><p>本文2025-06-24首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-24</p>]]>
+      </description>
+      
+        <category>CTF-Great</category>
+      
+    </item>
     
     
 
