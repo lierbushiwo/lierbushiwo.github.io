@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>BUUCTF on Only_ONE</title>
-    <link>https://www.lier.xin/tags/buuctf/</link>
+    <title>CISCN on Only_ONE</title>
+    <link>https://www.lier.xin/tags/ciscn/</link>
     <description>Recent content from Only_ONE</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
@@ -15,7 +15,7 @@
     <lastBuildDate>Tue, 01 Jul 2025 14:25:19 +0800</lastBuildDate>
     
     
-    <atom:link href="https://www.lier.xin/tags/buuctf/index.xml" rel="self" type="application/rss&#43;xml" />
+    <atom:link href="https://www.lier.xin/tags/ciscn/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
     
@@ -126,134 +126,39 @@ exp
     
 
     <item>
-      <title>网鼎杯 2018 Fakebook</title>
-      <link>https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/</link>
-      <pubDate>Tue, 01 Jul 2025 14:19:27 &#43;0800</pubDate>
+      <title>CISCN-2023 Unzip</title>
+      <link>https://www.lier.xin/post/ciscn_unzip/</link>
+      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
       <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/</guid>
+      <guid>https://www.lier.xin/post/ciscn_unzip/</guid>
       <description>
-        <![CDATA[<h1>网鼎杯 2018 Fakebook</h1><p>作者：Lier（3310338687@qq.com）</p>
+        <![CDATA[<h1>CISCN-2023 Unzip</h1><p>作者：Lier（3310338687@qq.com）</p>
         
-          <h2 id="思路">
-<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
-思路
-</h2><p><code>robots.txt</code>给出题目源码，访问下载，后缀去掉<code>.bak</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630173513577.png" alt="image-20250630173513482"></p>
-<h3 id="题目源码">
-<a class="header-anchor" href="#%e9%a2%98%e7%9b%ae%e6%ba%90%e7%a0%81"></a>
-题目源码
-</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserInfo</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$age</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$blog</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">,</span> <span class="nv">$blog</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span><span class="nv">$age</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">blog</span> <span class="o">=</span> <span class="nv">$blog</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$url</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$ch</span> <span class="o">=</span> <span class="nx">curl_init</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$output</span> <span class="o">=</span> <span class="nx">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$httpCode</span> <span class="o">=</span> <span class="nx">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nv">$httpCode</span> <span class="o">==</span> <span class="mi">404</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="mi">404</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$output</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getBlogContents</span> <span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">blog</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">isValidBlog</span> <span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$blog</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">blog</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/i&#34;</span><span class="p">,</span> <span class="nv">$blog</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>给的这部分源码给到一个类，三个属性，还有一个对<code>blog</code>的正则匹配</p>
-        
-        <hr><p>本文2025-07-01首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-01</p>]]>
-      </description>
-      
-        <category>CTF-Great</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>SUCTF 2019_EasySQL</title>
-      <link>https://www.lier.xin/post/suctf-2019_easysql/</link>
-      <pubDate>Fri, 20 Jun 2025 23:37:00 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/suctf-2019_easysql/</guid>
-      <description>
-        <![CDATA[<h1>SUCTF 2019_EasySQL</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="思路">
-<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
-思路
-</h2><p>1、ban了很多东西-关键是<code>and or &amp;&amp; ||</code>等连接词、<code>^</code>可以用
-2、<code>or</code>误伤了<code>information_schema</code>,经过多次尝试发现限制了长度，意味着报错和盲注都无法进行，应该意识到是堆叠注入</p>
-        
-        <hr><p>本文2025-06-20首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-20</p>]]>
-      </description>
-      
-        <category>CTF-Great</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>RoarCTF 2019_EasyCalc</title>
-      <link>https://www.lier.xin/post/roarctf-2019_easycalc/</link>
-      <pubDate>Fri, 20 Jun 2025 23:28:36 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/roarctf-2019_easycalc/</guid>
-      <description>
-        <![CDATA[<h1>RoarCTF 2019_EasyCalc</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="思路">
-<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
-思路
-</h2><p>1、前端源码提示<code>WAF</code>和<code>calc.php</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250620220634925.png" alt="1">
-2、访问<code>calc.php</code>,题目代码</p>
+          <h2 id="unzip">
+<a class="header-anchor" href="#unzip"></a>
+unzip
+</h2><p>题目源码</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
 </span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">])){</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">show_source</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$str</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$blacklist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;\t&#39;</span><span class="p">,</span> <span class="s1">&#39;\r&#39;</span><span class="p">,</span> <span class="s1">&#39;\n&#39;</span><span class="p">,</span><span class="s1">&#39;\&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#34;&#39;</span><span class="p">,</span> <span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;\[&#39;</span><span class="p">,</span> <span class="s1">&#39;\]&#39;</span><span class="p">,</span><span class="s1">&#39;\$&#39;</span><span class="p">,</span><span class="s1">&#39;\\&#39;</span><span class="p">,</span><span class="s1">&#39;\^&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$blacklist</span> <span class="k">as</span> <span class="nv">$blackitem</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/&#39;</span> <span class="o">.</span> <span class="nv">$blackitem</span> <span class="o">.</span> <span class="s1">&#39;/m&#39;</span><span class="p">,</span> <span class="nv">$str</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                        <span class="k">die</span><span class="p">(</span><span class="s2">&#34;what are you want to do?&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">eval</span><span class="p">(</span><span class="s1">&#39;echo &#39;</span><span class="o">.</span><span class="nv">$str</span><span class="o">.</span><span class="s1">&#39;;&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span></code></pre></div><p>题目代码很简单，但是存在<code>WAF</code></p>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$finfo</span> <span class="o">=</span> <span class="nx">finfo_open</span><span class="p">(</span><span class="nx">FILEINFO_MIME_TYPE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">finfo_file</span><span class="p">(</span><span class="nv">$finfo</span><span class="p">,</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">])</span> <span class="o">===</span> <span class="s1">&#39;application/zip&#39;</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;cd /tmp &amp;&amp; unzip -o &#39;</span> <span class="o">.</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//only this!
+</span></span></span></code></pre></div><h3 id="分析">
+<a class="header-anchor" href="#%e5%88%86%e6%9e%90"></a>
+分析
+</h3><p>关键代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;cd /tmp &amp;&amp; unzip -o &#39;</span> <span class="o">.</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"> <span class="c1">// -o参数：如有同名的文件直接覆盖
+</span></span></span></code></pre></div><p>上传<code>.zip</code>文件后
+1、验证MIME值、是否为<code>.zip</code>文件
+2、先<code>cd /tmp</code>目录，之后解压文件</p>
         
-        <hr><p>本文2025-06-20首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-20</p>]]>
+        <hr><p>本文2025-06-18首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
       </description>
       
         <category>CTF-Great</category>

