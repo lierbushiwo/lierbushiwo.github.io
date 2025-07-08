@@ -12,12 +12,122 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Tue, 01 Jul 2025 14:25:19 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 Jul 2025 15:01:28 +0800</lastBuildDate>
     
     
     <atom:link href="https://www.lier.xin/post/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
+    
+    
+
+    <item>
+      <title>Serialize_01</title>
+      <link>https://www.lier.xin/post/serialize_01/</link>
+      <pubDate>Tue, 08 Jul 2025 15:01:28 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/serialize_01/</guid>
+      <description>
+        <![CDATA[<h1>Serialize_01</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <p><a href="https://chenxi9981.github.io/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">php反序列化 | 晨曦的个人小站</a></p>
+<p><a href="https://blog.csdn.net/m0_73512445/article/details/132513838">反序列化中_wakeup的绕过_wakeup绕过-CSDN博客</a></p>
+<p><a href="https://ethe448.github.io/2022/02/25/%E4%BB%8E%E4%B8%80%E9%81%93ctf%E9%A2%98%E7%9C%8Bphp%E5%8E%9F%E7%94%9F%E7%B1%BB/">从一道ctf题看php原生类 | Ethe&rsquo;s blog</a></p>
+<h2 id="__wakeup绕过">
+<a class="header-anchor" href="#__wakeup%e7%bb%95%e8%bf%87"></a>
+<code>__wakeup</code>绕过
+</h2><h3 id="cve-2016-7124">
+<a class="header-anchor" href="#cve-2016-7124"></a>
+<code>cve-2016-7124</code>
+</h3><p>影响范围：</p>
+<ul>
+<li>PHP5 &lt; 5.6.25</li>
+<li>PHP7 &lt; 7.0.10</li>
+</ul>
+<p>正常来说在反序列化过程中，会先调用 <code>__wakeup()</code> 方法再进行 <code>unserilize</code> 的操作，但如果序列化字符串中表示对象属性个数的值大于真实的属性个数时，<code>__wakeup()</code>的执行会被跳过。</p>
+        
+        <hr><p>本文2025-07-08首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-08</p>]]>
+      </description>
+      
+        <category>Learning</category>
+      
+    </item>
+    
+    
+
+    <item>
+      <title>Litctf2025-君の名は</title>
+      <link>https://www.lier.xin/post/litctf2025-%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF/</link>
+      <pubDate>Tue, 08 Jul 2025 14:49:15 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/litctf2025-%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF/</guid>
+      <description>
+        <![CDATA[<h1>Litctf2025-君の名は</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="思路">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
+思路
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">create_function</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s1">&#39;die(`/readflag`);&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Taki</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$musubi</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$magic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">__unserialize</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">musubi</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;musubi&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">magic</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;magic&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">musubi</span><span class="p">)();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__call</span><span class="p">(</span><span class="nv">$func</span><span class="p">,</span><span class="nv">$args</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">new</span> <span class="nv">$args</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="nv">$args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">magic</span><span class="p">}();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Mitsuha</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$memory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$thread</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__invoke</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">memory</span><span class="o">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">thread</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">KatawareDoki</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$soul</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$kuchikamizake</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__toString</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">soul</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">flag</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">kuchikamizake</span><span class="p">,</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;call error!no flag!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$Litctf2025</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;Litctf2025&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/^[Oa]:[\d]+/i&#34;</span><span class="p">,</span> <span class="nv">$Litctf2025</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">unserialize</span><span class="p">(</span><span class="nv">$Litctf2025</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;把O改成C不就行了吗,笨蛋!～(∠・ω&lt; )⌒☆&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>首先分析攻击点</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">create_function</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s1">&#39;die(`/readflag`);&#39;</span><span class="p">);</span>
+</span></span></code></pre></div><p>这里<code>create_function</code>构造了一个匿名函数，执行该函数即可拿到flag
+思路就清晰了
+1、拿到匿名函数的函数名
+2、执行该函数</p>
+        
+        <hr><p>本文2025-07-08首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-08</p>]]>
+      </description>
+      
+        <category>CTF-Great</category>
+      
+    </item>
     
     
 
@@ -401,74 +511,6 @@ Iscc 2025_基本功
         
         <hr><p>本文2025-06-19首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-19</p>]]>
       </description>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>PHP server源码泄露漏洞复现</title>
-      <link>https://www.lier.xin/post/php_server/</link>
-      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/php_server/</guid>
-      <description>
-        <![CDATA[<h1>PHP server源码泄露漏洞复现</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="php-server源码泄露漏洞复现">
-<a class="header-anchor" href="#php-server%e6%ba%90%e7%a0%81%e6%b3%84%e9%9c%b2%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0"></a>
-PHP server源码泄露漏洞复现
-</h2><p><a href="https://www.cnblogs.com/Kawakaze777/p/17799235.html">php＜= 7 . 4 . 21 development server源码泄露漏洞复现 - 凪白Kw - 博客园</a></p>
-<p>php＜= 7 . 4 . 21
-通过php -S开起的内置WEB服务器存在源码泄露漏洞
-poc</p>
-        
-        <hr><p>本文2025-06-18首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
-      </description>
-      
-        <category>Learning</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>CISCN-2023 Unzip</title>
-      <link>https://www.lier.xin/post/ciscn_unzip/</link>
-      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/ciscn_unzip/</guid>
-      <description>
-        <![CDATA[<h1>CISCN-2023 Unzip</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="unzip">
-<a class="header-anchor" href="#unzip"></a>
-unzip
-</h2><p>题目源码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
-</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$finfo</span> <span class="o">=</span> <span class="nx">finfo_open</span><span class="p">(</span><span class="nx">FILEINFO_MIME_TYPE</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">finfo_file</span><span class="p">(</span><span class="nv">$finfo</span><span class="p">,</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">])</span> <span class="o">===</span> <span class="s1">&#39;application/zip&#39;</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;cd /tmp &amp;&amp; unzip -o &#39;</span> <span class="o">.</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">//only this!
-</span></span></span></code></pre></div><h3 id="分析">
-<a class="header-anchor" href="#%e5%88%86%e6%9e%90"></a>
-分析
-</h3><p>关键代码</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;cd /tmp &amp;&amp; unzip -o &#39;</span> <span class="o">.</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&#34;file&#34;</span><span class="p">][</span><span class="s2">&#34;tmp_name&#34;</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl"> <span class="c1">// -o参数：如有同名的文件直接覆盖
-</span></span></span></code></pre></div><p>上传<code>.zip</code>文件后
-1、验证MIME值、是否为<code>.zip</code>文件
-2、先<code>cd /tmp</code>目录，之后解压文件</p>
-        
-        <hr><p>本文2025-06-18首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
-      </description>
-      
-        <category>CTF-Great</category>
       
     </item>
     
