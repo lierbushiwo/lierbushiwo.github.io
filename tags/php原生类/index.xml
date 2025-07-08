@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Learning on Only_ONE</title>
-    <link>https://www.lier.xin/categories/learning/</link>
+    <title>Php原生类 on Only_ONE</title>
+    <link>https://www.lier.xin/tags/php%E5%8E%9F%E7%94%9F%E7%B1%BB/</link>
     <description>Recent content from Only_ONE</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
@@ -15,7 +15,7 @@
     <lastBuildDate>Tue, 08 Jul 2025 17:42:03 +0800</lastBuildDate>
     
     
-    <atom:link href="https://www.lier.xin/categories/learning/index.xml" rel="self" type="application/rss&#43;xml" />
+    <atom:link href="https://www.lier.xin/tags/php%E5%8E%9F%E7%94%9F%E7%B1%BB/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
     
@@ -90,107 +90,6 @@ ctf.php
 </span></span></span></code></pre></div><p>小计<code>trick</code></p>
         
         <hr><p>本文2025-07-08首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-08</p>]]>
-      </description>
-      
-        <category>Learning</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>Serialize_01</title>
-      <link>https://www.lier.xin/post/serialize_01/</link>
-      <pubDate>Tue, 08 Jul 2025 15:01:28 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/serialize_01/</guid>
-      <description>
-        <![CDATA[<h1>Serialize_01</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <p><a href="https://chenxi9981.github.io/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">php反序列化 | 晨曦的个人小站</a></p>
-<p><a href="https://blog.csdn.net/m0_73512445/article/details/132513838">反序列化中_wakeup的绕过_wakeup绕过-CSDN博客</a></p>
-<p><a href="https://ethe448.github.io/2022/02/25/%E4%BB%8E%E4%B8%80%E9%81%93ctf%E9%A2%98%E7%9C%8Bphp%E5%8E%9F%E7%94%9F%E7%B1%BB/">从一道ctf题看php原生类 | Ethe&rsquo;s blog</a></p>
-<h2 id="__wakeup绕过">
-<a class="header-anchor" href="#__wakeup%e7%bb%95%e8%bf%87"></a>
-<code>__wakeup</code>绕过
-</h2><h3 id="cve-2016-7124">
-<a class="header-anchor" href="#cve-2016-7124"></a>
-<code>cve-2016-7124</code>
-</h3><p>影响范围：</p>
-<ul>
-<li>PHP5 &lt; 5.6.25</li>
-<li>PHP7 &lt; 7.0.10</li>
-</ul>
-<p>正常来说在反序列化过程中，会先调用 <code>__wakeup()</code> 方法再进行 <code>unserilize</code> 的操作，但如果序列化字符串中表示对象属性个数的值大于真实的属性个数时，<code>__wakeup()</code>的执行会被跳过。</p>
-        
-        <hr><p>本文2025-07-08首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-08</p>]]>
-      </description>
-      
-        <category>Learning</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>Preg_replace E Rce</title>
-      <link>https://www.lier.xin/post/preg_replace-e-rce/</link>
-      <pubDate>Mon, 30 Jun 2025 21:00:01 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/preg_replace-e-rce/</guid>
-      <description>
-        <![CDATA[<h1>Preg_replace E Rce</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="preg_replace-e漏洞分析">
-<a class="header-anchor" href="#preg_replace-e%e6%bc%8f%e6%b4%9e%e5%88%86%e6%9e%90"></a>
-<code>preg_replace /e</code>漏洞分析
-</h2><p>tips</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/e 可执行模式，此为PHP专有参数，例如preg_replace函数。
-</span></span><span class="line"><span class="cl">preg_replace(
-</span></span><span class="line"><span class="cl">    string|array $pattern,
-</span></span><span class="line"><span class="cl">    string|array $replacement,
-</span></span><span class="line"><span class="cl">    string|array $subject,
-</span></span><span class="line"><span class="cl">)
-</span></span><span class="line"><span class="cl">/e模式下
-</span></span><span class="line"><span class="cl">在subject字符中正则匹配pattern，匹配成功则执行$replacement
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span> 
-</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">&#34;/test/e&#34;</span><span class="p">,</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&#34;h&#34;</span><span class="p">],</span><span class="s2">&#34;jutst test&#34;</span><span class="p">);</span> 
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err"> 
-</span></span></span><span class="line"><span class="cl"><span class="err">高版本中不支持preg_replace函数
-</span></span></span><span class="line"><span class="cl"><span class="err">payload中;不加也行
-</span></span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250630183402441.png" alt="image-20250630183402395"></p>
-<h3 id="php可变变量">
-<a class="header-anchor" href="#php%e5%8f%af%e5%8f%98%e5%8f%98%e9%87%8f"></a>
-php可变变量
-</h3><p>这里补充一下php可变变量这个知识点</p>
-        
-        <hr><p>本文2025-06-30首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-30</p>]]>
-      </description>
-      
-        <category>Learning</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>PHP server源码泄露漏洞复现</title>
-      <link>https://www.lier.xin/post/php_server/</link>
-      <pubDate>Wed, 18 Jun 2025 12:00:00 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/php_server/</guid>
-      <description>
-        <![CDATA[<h1>PHP server源码泄露漏洞复现</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="php-server源码泄露漏洞复现">
-<a class="header-anchor" href="#php-server%e6%ba%90%e7%a0%81%e6%b3%84%e9%9c%b2%e6%bc%8f%e6%b4%9e%e5%a4%8d%e7%8e%b0"></a>
-PHP server源码泄露漏洞复现
-</h2><p><a href="https://www.cnblogs.com/Kawakaze777/p/17799235.html">php＜= 7 . 4 . 21 development server源码泄露漏洞复现 - 凪白Kw - 博客园</a></p>
-<p>php＜= 7 . 4 . 21
-通过php -S开起的内置WEB服务器存在源码泄露漏洞
-poc</p>
-        
-        <hr><p>本文2025-06-18首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-18</p>]]>
       </description>
       
         <category>Learning</category>
