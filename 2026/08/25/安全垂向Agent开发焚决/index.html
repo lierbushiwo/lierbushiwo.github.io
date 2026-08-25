@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="安全垂向Agent开发焚决写在前面博客自从搭了基本闲置了 接下来打算持续写一段时间 养成发博客的习惯，主要督促自己学习总结、记录，很多文章可能是随笔的形式，更多的是我的碎碎念，暂时保证一周一篇，也会把之前的笔记、文章发出来丰富博客 一些名词的介绍https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1WTRzBWEsz?vd_source&#x3D;faafa0ed111fdc5065ec6be">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全垂向Agent开发焚决">
+<meta property="og:url" content="http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="安全垂向Agent开发焚决写在前面博客自从搭了基本闲置了 接下来打算持续写一段时间 养成发博客的习惯，主要督促自己学习总结、记录，很多文章可能是随笔的形式，更多的是我的碎碎念，暂时保证一周一篇，也会把之前的笔记、文章发出来丰富博客 一些名词的介绍https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1WTRzBWEsz?vd_source&#x3D;faafa0ed111fdc5065ec6be">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-08-25T04:29:28.000Z">
+<meta property="article:modified_time" content="2026-08-25T04:34:17.443Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="AI安全">
+<meta property="article:tag" content="agent开发">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>安全垂向Agent开发焚决</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Hexo" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2026/01/28/RCE%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&text=安全垂向Agent开发焚决"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&is_video=false&description=安全垂向Agent开发焚决"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安全垂向Agent开发焚决&body=Check out this article: http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&name=安全垂向Agent开发焚决&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&t=安全垂向Agent开发焚决"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3"><span class="toc-number">1.</span> <span class="toc-text">安全垂向Agent开发焚决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%90%8D%E8%AF%8D%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.</span> <span class="toc-text">一些名词的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A5%E9%97%A8%E6%95%99%E6%9D%90"><span class="toc-number">1.3.</span> <span class="toc-text">入门教材</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#agent-demo"><span class="toc-number">1.4.</span> <span class="toc-text">agent-demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B%E3%80%81%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B%E3%80%81"><span class="toc-number">1.5.</span> <span class="toc-text">提示词工程、上下文工程、</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Harnss%E5%B7%A5%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">Harnss工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.7.</span> <span class="toc-text">记忆系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skill"><span class="toc-number">1.8.</span> <span class="toc-text">skill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mcp"><span class="toc-number">1.9.</span> <span class="toc-text">mcp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9Bagent%E7%90%86%E8%A7%A3"><span class="toc-number">1.10.</span> <span class="toc-text">一些agent理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pi-%E4%BA%8C%E5%BC%80"><span class="toc-number">1.11.</span> <span class="toc-text">pi 二开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%82%E5%90%91agent%E9%A1%B9%E7%9B%AE%E6%8E%A8%E8%8D%90"><span class="toc-number">1.12.</span> <span class="toc-text">垂向agent项目推荐</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        安全垂向Agent开发焚决
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-08-25T04:29:28.000Z" class="dt-published" itemprop="datePublished">2026-08-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/AI%E5%AE%89%E5%85%A8/" rel="tag">AI安全</a>, <a class="p-category" href="/tags/agent%E5%BC%80%E5%8F%91/" rel="tag">agent开发</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="安全垂向Agent开发焚决"><a href="#安全垂向Agent开发焚决" class="headerlink" title="安全垂向Agent开发焚决"></a>安全垂向Agent开发焚决</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>博客自从搭了基本闲置了 接下来打算持续写一段时间 养成发博客的习惯，主要督促自己学习总结、记录，很多文章可能是随笔的形式，更多的是我的碎碎念，暂时保证一周一篇，也会把之前的笔记、文章发出来丰富博客</p>
+<h2 id="一些名词的介绍"><a href="#一些名词的介绍" class="headerlink" title="一些名词的介绍"></a>一些名词的介绍</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1WTRzBWEsz?vd_source=faafa0ed111fdc5065ec6be7892f04e9">https://www.bilibili.com/video/BV1WTRzBWEsz?vd_source=faafa0ed111fdc5065ec6be7892f04e9</a></p>
+<h2 id="入门教材"><a href="#入门教材" class="headerlink" title="入门教材"></a>入门教材</h2><p><a target="_blank" rel="noopener" href="https://hello-agents.datawhale.cc/">https://hello-agents.datawhale.cc/</a></p>
+<p>介绍了agent开发、llm开发理论知识和代码实现，非常干货<br>理解agent的开发范式、agent的框架demo、<br>工具系统、记忆系统、上下文工程、智能体通信协议（MCP…）<br>每一块内容结合理论知识和b站视频一起理解，理解概念的基础上再去写代码会舒服很多</p>
+<h2 id="agent-demo"><a href="#agent-demo" class="headerlink" title="agent-demo"></a>agent-demo</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1UMVKzEESL?vd_source=faafa0ed111fdc5065ec6be7892f04e9">https://www.bilibili.com/video/BV1UMVKzEESL?vd_source=faafa0ed111fdc5065ec6be7892f04e9</a></p>
+<h2 id="提示词工程、上下文工程、"><a href="#提示词工程、上下文工程、" class="headerlink" title="提示词工程、上下文工程、"></a>提示词工程、上下文工程、</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iweMzXEm2?vd_source=faafa0ed111fdc5065ec6be7892f04e9">https://www.bilibili.com/video/BV1iweMzXEm2?vd_source=faafa0ed111fdc5065ec6be7892f04e9</a></p>
+<h2 id="Harnss工程"><a href="#Harnss工程" class="headerlink" title="Harnss工程"></a>Harnss工程</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1B6DiBbEf8?vd_source=faafa0ed111fdc5065ec6be7892f04e9">https://www.bilibili.com/video/BV1B6DiBbEf8?vd_source=faafa0ed111fdc5065ec6be7892f04e9</a></p>
+<h2 id="记忆系统"><a href="#记忆系统" class="headerlink" title="记忆系统"></a>记忆系统</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uiEM6xE9s?vd_source=faafa0ed111fdc5065ec6be7892f04e9">https://www.bilibili.com/video/BV1uiEM6xE9s?vd_source=faafa0ed111fdc5065ec6be7892f04e9</a></p>
+<h2 id="skill"><a href="#skill" class="headerlink" title="skill"></a>skill</h2><p>怎么是一个好的skill<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yTQrBnEoj/?share_source=copy_web&vd_source=4b59b7952acd90b154bddabab8cfb111">https://www.bilibili.com/video/BV1yTQrBnEoj/?share_source=copy_web&amp;vd_source=4b59b7952acd90b154bddabab8cfb111</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">https://github.com/nextlevelbuilder/ui-ux-pro-max-skill</a></p>
+<h2 id="mcp"><a href="#mcp" class="headerlink" title="mcp"></a>mcp</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1nyVDzaE1x?vd_source=faafa0ed111fdc5065ec6be7892f04e9">https://www.bilibili.com/video/BV1nyVDzaE1x?vd_source=faafa0ed111fdc5065ec6be7892f04e9</a></p>
+<h2 id="一些agent理解"><a href="#一些agent理解" class="headerlink" title="一些agent理解"></a>一些agent理解</h2><p>上文是一些agent开发基础，然后是安全垂向的agent的开发<br>我认为垂向的agent 还是很有必要的<br>下边打算学下ts，研究一些安全agent的源码，之后结合pi进行二开。</p>
+<p>pi的设计理念比较符合大模型的发展 现在大模型 隔几个月就有不小的进步，繁重的agent设计其实意义不大，个人倾向于比较轻的pi，跟不少师傅交流了一些思路，后边打算结合pi进行二开 然后进行日常使用 ，再实践一下看看效果再补，这里再鸽一下</p>
+<p>恩师zsm，出了问题找我恩师（斜眼笑）<br><a target="_blank" rel="noopener" href="https://www.zhuangsanmeng.xyz/posts/agentkj/">https://www.zhuangsanmeng.xyz/posts/agentkj/</a></p>
+<h2 id="pi-二开"><a href="#pi-二开" class="headerlink" title="pi 二开"></a>pi 二开</h2><p><a target="_blank" rel="noopener" href="https://pi-doc.com/docs/latest/quickstart">https://pi-doc.com/docs/latest/quickstart</a><br><a target="_blank" rel="noopener" href="https://pi-doc.com/docs/latest/quickstart">https://pi-doc.com/docs/latest/quickstart</a></p>
+<p>继续鸽</p>
+<h2 id="垂向agent项目推荐"><a href="#垂向agent项目推荐" class="headerlink" title="垂向agent项目推荐"></a>垂向agent项目推荐</h2><p>一些agent、skill和mcp的项目 重点看看tch、百度智能渗透的项目，很多nb的开发思路可以学习<br>还有很多skill和mcp吧 大家按需要找就可以，这里就不多放了，实际ctf题目中 我认为skill作用并不大</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Yeti-791/Tsec-Hackathon">https://github.com/Yeti-791/Tsec-Hackathon</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/vpfehhu1PAg__Muexog_NQ">https://mp.weixin.qq.com/s/vpfehhu1PAg__Muexog_NQ</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wgpsec/context1337">https://github.com/wgpsec/context1337</a><br><a target="_blank" rel="noopener" href="https://github.com/wgpsec/AboutSecurity">https://github.com/wgpsec/AboutSecurity</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3"><span class="toc-number">1.</span> <span class="toc-text">安全垂向Agent开发焚决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%90%8D%E8%AF%8D%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.</span> <span class="toc-text">一些名词的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A5%E9%97%A8%E6%95%99%E6%9D%90"><span class="toc-number">1.3.</span> <span class="toc-text">入门教材</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#agent-demo"><span class="toc-number">1.4.</span> <span class="toc-text">agent-demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B%E3%80%81%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B%E3%80%81"><span class="toc-number">1.5.</span> <span class="toc-text">提示词工程、上下文工程、</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Harnss%E5%B7%A5%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">Harnss工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.7.</span> <span class="toc-text">记忆系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skill"><span class="toc-number">1.8.</span> <span class="toc-text">skill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mcp"><span class="toc-number">1.9.</span> <span class="toc-text">mcp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9Bagent%E7%90%86%E8%A7%A3"><span class="toc-number">1.10.</span> <span class="toc-text">一些agent理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pi-%E4%BA%8C%E5%BC%80"><span class="toc-number">1.11.</span> <span class="toc-text">pi 二开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%82%E5%90%91agent%E9%A1%B9%E7%9B%AE%E6%8E%A8%E8%8D%90"><span class="toc-number">1.12.</span> <span class="toc-text">垂向agent项目推荐</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&text=安全垂向Agent开发焚决"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&is_video=false&description=安全垂向Agent开发焚决"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安全垂向Agent开发焚决&body=Check out this article: http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&title=安全垂向Agent开发焚决"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&name=安全垂向Agent开发焚决&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/08/25/%E5%AE%89%E5%85%A8%E5%9E%82%E5%90%91Agent%E5%BC%80%E5%8F%91%E7%84%9A%E5%86%B3/&t=安全垂向Agent开发焚决"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/lierbushiwo">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
